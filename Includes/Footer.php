@@ -1,3 +1,20 @@
+<?php
+if (isset($_SESSION['user_id'])) {
+//   include('conn.php');
+//   $user_id = $_SESSION['user_id'];
+//   $query = "SELECT user_id, f_name, role, l_name FROM erp_login WHERE user_id = '$user_id'";
+//   $result = mysqli_query($conn, $query);
+
+//   if ($result) {
+//     $row = mysqli_fetch_assoc($result);
+//     $f_fname = $row['f_name'];
+//     $f_lname = $row['l_name'];
+//     $f_role = $row['role'];
+//   }
+
+
+?>
+
 <style>
     .footer {
   position: fixed;
@@ -352,3 +369,8 @@
 </body>
 
 </html>
+<?php 
+    } else {
+        header("Location: ../index.php");
+  }
+    ?>

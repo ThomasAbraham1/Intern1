@@ -97,10 +97,29 @@ mysqli_close($conn);
                                                 <a href="./Student/sign-in.php">Student Login</a>
                                             </li>
                                             <li class="list-group-item border-0 pb-0">
-                                                <a href="">Admin Login</a>
+                                                <a href="./admin/sign-in.php">Admin Login</a>
                                             </li>
                                             <li class="list-group-item border-0 pb-0">
                                                 <a href="./Faculty/sign-in.php">Faculty Login</a>
+                                            </li>
+                                            <!-- <li class="list-group-item border-0 pb-0">
+                                       <a href="#"><img src="assets/images/brands/im.svg" alt="im"></a>
+                                    </li>
+                                    <li class="list-group-item border-0 pb-0">
+                                       <a href="#"><img src="assets/images/brands/li.svg" alt="li"></a>
+                                    </li> -->
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <ul class="list-group list-group-horizontal list-group-flush">
+                                            <li class="list-group-item border-0 pb-0">
+                                                <a href="./Student/sign-up.php">Student Sign Up</a>
+                                            </li>
+                                            <li class="list-group-item border-0 pb-0">
+                                                <a href="./admin/sign-up.php">Admin Sign Up</a>
+                                            </li>
+                                            <li class="list-group-item border-0 pb-0">
+                                                <a href="./Faculty/sign-up.php">Faculty Sign Up</a>
                                             </li>
                                             <!-- <li class="list-group-item border-0 pb-0">
                                        <a href="#"><img src="assets/images/brands/im.svg" alt="im"></a>

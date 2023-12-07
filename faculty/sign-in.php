@@ -116,7 +116,7 @@
                                        <a href="../Student/sign-in.php">Student Login</a>
                                     </li>
                                     <li class="list-group-item border-0 pb-0">
-                                       <a href="">Admin Login</a>
+                                       <a href="../admin/sign-in.php">Admin Login</a>
                                     </li>
                                     <!-- <li class="list-group-item border-0 pb-0">
                                        <a href="#"><img src="../assets/images/brands/im.svg" alt="im"></a>
@@ -127,7 +127,7 @@
                                  </ul>
                               </div>
                               <p class="mt-3 text-center">
-                                 Don’t have an account? <a href="sign-up.html" class="text-underline">Click here to sign up.</a>
+                                 Don’t have an account? <a href="/intern1/faculty/sign-up.php" class="text-underline">Click here to sign up.</a>
                               </p>
                            </form>
                            <div id="Result"></div>
@@ -175,7 +175,7 @@
             // console.log(formData);
             // AJAX CALL FOR INSERTING 
             $.ajax({
-               url: './faculty/functions.php',
+               url: 'functions.php',
                type: 'POST',
                // data: formData,
                // processData: false,
@@ -194,7 +194,7 @@
                   console.log(response);
                   if (response == "OK") {
                      $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully logged in! </div>`);
-                     window.location.href = "./faculty/home.php";
+                     window.location.href = "home.php";
                   } else {
                      $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
                   }

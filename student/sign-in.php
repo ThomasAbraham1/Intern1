@@ -127,7 +127,7 @@
                                  </ul>
                               </div>
                               <p class="mt-3 text-center">
-                                 Don’t have an account? <a href="sign-up.html" class="text-underline">Click here to sign up.</a>
+                                 Don’t have an account? <a href="/intern1/student/sign-up.php" class="text-underline">Click here to sign up.</a>
                               </p>
                            </form>
                            <div id="Result"></div>
@@ -175,7 +175,7 @@
             // console.log(formData);
             // AJAX CALL FOR INSERTING 
             $.ajax({
-               url: './faculty/functions.php',
+               url: 'functions.php',
                type: 'POST',
                // data: formData,
                // processData: false,
@@ -194,7 +194,7 @@
                   console.log(response);
                   if (response == "OK") {
                      $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully logged in! </div>`);
-                     window.location.href = "./faculty/home.php";
+                     window.location.href = "home.php";
                   } else {
                      $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
                   }

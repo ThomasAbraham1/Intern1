@@ -3,15 +3,14 @@ session_start();
 if (isset($_SESSION['user_id'])) {
   include('conn.php');
   $user_id = $_SESSION['user_id'];
-  $query = "SELECT f_id, f_fname, f_lname, f_role FROM erp_faculty WHERE f_id = '$user_id'";
+  $query = "SELECT user_id, f_name, role, l_name FROM erp_login WHERE user_id = '$user_id'";
   $result = mysqli_query($conn, $query);
 
   if ($result) {
     $row = mysqli_fetch_assoc($result);
-    $f_id = $row['f_id'];
-    $f_fname = $row['f_fname'];
-    $f_lname = $row['f_lname'];
-    $f_role = $row['f_role'];
+    $f_fname = $row['f_name'];
+    $f_lname = $row['l_name'];
+    $f_role = $row['role'];
   }
 
 
@@ -99,7 +98,7 @@ if (isset($_SESSION['user_id'])) {
 
 
 
-              <h4 class="logo-title">Hope UI</h4>
+              <h4 class="logo-title">Hope UI <?php echo "$user_id" ?></h4>
             </a>
             <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
               <i class="icon">
@@ -314,8 +313,8 @@ if (isset($_SESSION['user_id'])) {
                     <img src="../assets/images/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
                     <div class="caption ms-3 d-none d-md-block ">
 
-                      <h6 class="mb-0 caption-title"><?php echo $f_fname . " " . $f_lname ?></h6>
-                      <p class="mb-0 caption-sub-title"><?php echo $f_role ?></p>
+                      <h6 class="mb-0 caption-title"><?php echo ucfirst($f_fname . " " . $f_lname) ?></h6>
+                      <p class="mb-0 caption-sub-title"><?php echo ucfirst($f_role) ?></p>
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -325,7 +324,7 @@ if (isset($_SESSION['user_id'])) {
                     <li>
                       <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="dashboard/auth/sign-in.html">Logout</a></li>
+                    <li><a class="dropdown-item" href="/intern1/includes/logout.php">Logout</a></li>
                   </ul>
                 </li>
               </ul>
@@ -338,9 +337,8 @@ if (isset($_SESSION['user_id'])) {
               <div class="col-md-12">
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                   <div>
-                    <h1>Hello Devs!</h1>
-                    <p>We are on a mission to help developers like you build successful projects for
-                      FREE.</p>
+                    <h1>Welcome to Tom CMS!</h1>
+                    <p>This a college management system for simplifying the process.</p>
                   </div>
                   <div>
                     <a href="" class="btn btn-link btn-soft-light">
@@ -926,7 +924,8 @@ if (isset($_SESSION['user_id'])) {
           </div>
         </div>
       </div>
+      <div><h1>Hello</h1></div>
     <?php } else {
-    header("index.php");
+    header("Location: ../index.php");
   }
     ?>
