@@ -3,10 +3,12 @@ session_start();
 if (isset($_SESSION['user_id'])) {
   include('conn.php');
   $user_id = $_SESSION['user_id'];
+
+  // Query for user name and role
   $query = "SELECT user_id, f_name, role, l_name FROM erp_login WHERE user_id = '$user_id'";
   $result = mysqli_query($conn, $query);
 
-  if ($result) {
+  if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $f_fname = $row['f_name'];
     $f_lname = $row['l_name'];
@@ -24,43 +26,44 @@ if (isset($_SESSION['user_id'])) {
     <title>Grace College Leave App</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="/intern1/assets/images/favicon.ico" />
 
     <!-- Library / Plugin Css Build -->
-    <link rel="stylesheet" href="../assets/css/core/libs.min.css" />
+    <link rel="stylesheet" href="/intern1/assets/css/core/libs.min.css" />
 
     <!-- Aos Animation Css -->
-    <link rel="stylesheet" href="../assets/vendor/aos/dist/aos.css" />
+    <link rel="stylesheet" href="/intern1/assets/vendor/aos/dist/aos.css" />
 
     <!-- Hope Ui Design System Css -->
-    <link rel="stylesheet" href="../assets/css/hope-ui.min.css?v=2.0.0" />
+    <link rel="stylesheet" href="/intern1/assets/css/hope-ui.min.css?v=2.0.0" />
 
     <!-- Custom Css -->
-    <link rel="stylesheet" href="../assets/css/custom.min.css?v=2.0.0" />
+    <link rel="stylesheet" href="/intern1/assets/css/custom.min.css?v=2.0.0" />
 
     <!-- Dark Css -->
-    <link rel="stylesheet" href="../assets/css/dark.min.css" />
+    <link rel="stylesheet" href="/intern1/assets/css/dark.min.css" />
 
     <!-- Customizer Css -->
-    <link rel="stylesheet" href="../assets/css/customizer.min.css" />
+    <link rel="stylesheet" href="/intern1/assets/css/customizer.min.css" />
 
     <!-- RTL Css -->
-    <link rel="stylesheet" href="../assets/css/rtl.min.css" />
+    <link rel="stylesheet" href="/intern1/assets/css/rtl.min.css" />
     <!-- Jquery-3 -->
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <!-- font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
 
 
   </head>
 
   <body class="  ">
     <!-- loader Start -->
-    <div id="loading">
+    <!-- <div id="loading">
       <div class="loader simple-loader">
         <div class="loader-body"></div>
       </div>
-    </div>
+    </div> -->
     <!-- loader END -->
 
     <?php include("Menu.php") ?>
@@ -114,7 +117,7 @@ if (isset($_SESSION['user_id'])) {
                   <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
               </span>
-              <input type="search" class="form-control" placeholder="Search...">
+              <input type="search" class="form-control" placeholder="">
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon">
@@ -136,22 +139,22 @@ if (isset($_SESSION['user_id'])) {
                 </li>
                 <li class="nav-item dropdown">
                   <a href="#" class="search-toggle nav-link" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="../assets/images/Flag/flag001.png" class="img-fluid rounded-circle" alt="user" style="height: 30px; min-width: 30px; width: 30px;">
+                    <img src="/intern1/assets/images/Flag/flag001.png" class="img-fluid rounded-circle" alt="user" style="height: 30px; min-width: 30px; width: 30px;">
                     <span class="bg-primary"></span>
                   </a>
                   <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
                     <div class="m-0 border-0 shadow-none card">
                       <div class="p-0 ">
                         <ul class="p-0 list-group list-group-flush">
-                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-03.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Spanish</a>
+                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="/intern1/assets/images/Flag/flag-03.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Spanish</a>
                           </li>
-                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-04.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Italian</a>
+                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="/intern1/assets/images/Flag/flag-04.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Italian</a>
                           </li>
-                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-02.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />French</a>
+                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="/intern1/assets/images/Flag/flag-02.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />French</a>
                           </li>
-                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-05.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />German</a>
+                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="/intern1/assets/images/Flag/flag-05.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />German</a>
                           </li>
-                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-06.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Japanese</a>
+                          <li class="iq-sub-card list-group-item"><a class="p-0" href="#"><img src="/intern1/assets/images/Flag/flag-06.png" alt="img-flaf" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;" />Japanese</a>
                           </li>
                         </ul>
                       </div>
@@ -176,7 +179,7 @@ if (isset($_SESSION['user_id'])) {
                       <div class="p-0 card-body">
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
-                            <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/01.png" alt="">
+                            <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/01.png" alt="">
                             <div class="ms-3 w-100">
                               <h6 class="mb-0 ">Emma Watson Bni</h6>
                               <div class="d-flex justify-content-between align-items-center">
@@ -189,7 +192,7 @@ if (isset($_SESSION['user_id'])) {
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
                             <div class="">
-                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/02.png" alt="">
+                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/02.png" alt="">
                             </div>
                             <div class="ms-3 w-100">
                               <h6 class="mb-0 ">New customer is join</h6>
@@ -202,7 +205,7 @@ if (isset($_SESSION['user_id'])) {
                         </a>
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
-                            <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/03.png" alt="">
+                            <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/03.png" alt="">
                             <div class="ms-3 w-100">
                               <h6 class="mb-0 ">Two customer is left</h6>
                               <div class="d-flex justify-content-between align-items-center">
@@ -214,7 +217,7 @@ if (isset($_SESSION['user_id'])) {
                         </a>
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
-                            <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/04.png" alt="">
+                            <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/04.png" alt="">
                             <div class="w-100 ms-3">
                               <h6 class="mb-0 ">New Mail from Fenny</h6>
                               <div class="d-flex justify-content-between align-items-center">
@@ -247,7 +250,7 @@ if (isset($_SESSION['user_id'])) {
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
                             <div class="">
-                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/01.png" alt="">
+                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/01.png" alt="">
                             </div>
                             <div class="ms-3">
                               <h6 class="mb-0 ">Bni Emma Watson</h6>
@@ -258,7 +261,7 @@ if (isset($_SESSION['user_id'])) {
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
                             <div class="">
-                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/02.png" alt="">
+                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/02.png" alt="">
                             </div>
                             <div class="ms-3">
                               <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
@@ -269,7 +272,7 @@ if (isset($_SESSION['user_id'])) {
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
                             <div class="">
-                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/03.png" alt="">
+                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/03.png" alt="">
                             </div>
                             <div class="ms-3">
                               <h6 class="mb-0 ">Why do we use it?</h6>
@@ -280,7 +283,7 @@ if (isset($_SESSION['user_id'])) {
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
                             <div class="">
-                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/04.png" alt="">
+                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/04.png" alt="">
                             </div>
                             <div class="ms-3">
                               <h6 class="mb-0 ">Variations Passages</h6>
@@ -291,7 +294,7 @@ if (isset($_SESSION['user_id'])) {
                         <a href="#" class="iq-sub-card">
                           <div class="d-flex align-items-center">
                             <div class="">
-                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="../assets/images/shapes/05.png" alt="">
+                              <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="/intern1/assets/images/shapes/05.png" alt="">
                             </div>
                             <div class="ms-3">
                               <h6 class="mb-0 ">Lorem Ipsum generators</h6>
@@ -305,12 +308,12 @@ if (isset($_SESSION['user_id'])) {
                 </li>
                 <li class="nav-item dropdown">
                   <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../assets/images/avatars/01.png" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
-                    <img src="../assets/images/avatars/avtar_1.png" alt="User-Profile" class="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded">
-                    <img src="../assets/images/avatars/avtar_2.png" alt="User-Profile" class="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded">
-                    <img src="../assets/images/avatars/avtar_4.png" alt="User-Profile" class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
-                    <img src="../assets/images/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
-                    <img src="../assets/images/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
+                    <img src="/intern1/assets/images/avatars/01.png" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
+                    <img src="/intern1/assets/images/avatars/avtar_1.png" alt="User-Profile" class="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded">
+                    <img src="/intern1/assets/images/avatars/avtar_2.png" alt="User-Profile" class="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded">
+                    <img src="/intern1/assets/images/avatars/avtar_4.png" alt="User-Profile" class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
+                    <img src="/intern1/assets/images/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
+                    <img src="/intern1/assets/images/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
                     <div class="caption ms-3 d-none d-md-block ">
 
                       <h6 class="mb-0 caption-title"><?php echo ucfirst($f_fname . " " . $f_lname) ?></h6>
@@ -318,9 +321,9 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="dashboard/app/user-profile.html">Profile</a>
+                    <li><a class="dropdown-item" href="/dashboard/app/user-profile.html">Profile</a>
                     </li>
-                    <li><a class="dropdown-item" href="dashboard/app/user-privacy-setting.html">Privacy Setting</a></li>
+                    <li><a class="dropdown-item" href="/dashboard/app/user-privacy-setting.html">Privacy Setting</a></li>
                     <li>
                       <hr class="dropdown-divider">
                     </li>
@@ -331,7 +334,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
           </div>
         </nav> <!-- Nav Header Component Start -->
-        <div class="iq-navbar-header" style="height: 215px;">
+        <!-- <div class="iq-navbar-header" style="height: 215px;">
           <div class="container-fluid iq-container">
             <div class="row">
               <div class="col-md-12">
@@ -354,17 +357,17 @@ if (isset($_SESSION['user_id'])) {
             </div>
           </div>
           <div class="iq-header-img">
-            <img src="../assets/images/dashboard/top-header.png" alt="header" class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX">
-            <img src="../assets/images/dashboard/top-header1.png" alt="header" class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX">
-            <img src="../assets/images/dashboard/top-header2.png" alt="header" class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX">
-            <img src="../assets/images/dashboard/top-header3.png" alt="header" class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX">
-            <img src="../assets/images/dashboard/top-header4.png" alt="header" class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX">
-            <img src="../assets/images/dashboard/top-header5.png" alt="header" class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX">
+            <img src="/intern1/assets/images/dashboard/top-header.png" alt="header" class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX">
+            <img src="/intern1/assets/images/dashboard/top-header1.png" alt="header" class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX">
+            <img src="/intern1/assets/images/dashboard/top-header2.png" alt="header" class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX">
+            <img src="/intern1/assets/images/dashboard/top-header3.png" alt="header" class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX">
+            <img src="/intern1/assets/images/dashboard/top-header4.png" alt="header" class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX">
+            <img src="/intern1/assets/images/dashboard/top-header5.png" alt="header" class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX">
           </div>
-        </div> <!-- Nav Header Component End -->
+        </div> Nav Header Component End -->
         <!--Nav End-->
       </div>
-      <div class="conatiner-fluid content-inner mt-n5 py-0">
+      <!-- <div class="conatiner-fluid content-inner mt-n5 py-0">
         <div class="row">
           <div class="col-md-12 col-lg-12">
             <div class="row row-cols-1">
@@ -626,7 +629,7 @@ if (isset($_SESSION['user_id'])) {
                           <tr>
                             <td>
                               <div class="d-flex align-items-center">
-                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="../assets/images/shapes/01.png" alt="profile">
+                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="/intern1/assets/images/shapes/01.png" alt="profile">
                                 <h6>Addidis Sportwear</h6>
                               </div>
                             </td>
@@ -656,7 +659,7 @@ if (isset($_SESSION['user_id'])) {
                           <tr>
                             <td>
                               <div class="d-flex align-items-center">
-                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="../assets/images/shapes/05.png" alt="profile">
+                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="/intern1/assets/images/shapes/05.png" alt="profile">
                                 <h6>Netflixer Platforms</h6>
                               </div>
                             </td>
@@ -683,7 +686,7 @@ if (isset($_SESSION['user_id'])) {
                           <tr>
                             <td>
                               <div class="d-flex align-items-center">
-                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="../assets/images/shapes/02.png" alt="profile">
+                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="/intern1/assets/images/shapes/02.png" alt="profile">
                                 <h6>Shopifi Stores</h6>
                               </div>
                             </td>
@@ -710,7 +713,7 @@ if (isset($_SESSION['user_id'])) {
                           <tr>
                             <td>
                               <div class="d-flex align-items-center">
-                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="../assets/images/shapes/03.png" alt="profile">
+                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="/intern1/assets/images/shapes/03.png" alt="profile">
                                 <h6>Bootstrap Technologies</h6>
                               </div>
                             </td>
@@ -743,7 +746,7 @@ if (isset($_SESSION['user_id'])) {
                           <tr>
                             <td>
                               <div class="d-flex align-items-center">
-                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="../assets/images/shapes/04.png" alt="profile">
+                                <img class="rounded bg-soft-primary img-fluid avatar-40 me-3" src="/intern1/assets/images/shapes/04.png" alt="profile">
                                 <h6>Community First</h6>
                               </div>
                             </td>
@@ -923,9 +926,8 @@ if (isset($_SESSION['user_id'])) {
             </div>
           </div>
         </div>
-      </div>
-      <div><h1>Hello</h1></div>
+      </div> -->
     <?php } else {
-    header("Location: ../index.php");
+    header("Location: /intern1/index.php");
   }
     ?>

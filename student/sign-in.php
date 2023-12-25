@@ -113,10 +113,10 @@
                               <div class="d-flex justify-content-center">
                                  <ul class="list-group list-group-horizontal list-group-flush">
                                     <li class="list-group-item border-0 pb-0">
-                                       <a href="">Faculty Login</a>
+                                       <a href="/intern1/faculty/sign-in.php">Faculty Login</a>
                                     </li>
                                     <li class="list-group-item border-0 pb-0">
-                                       <a href="">Admin Login</a>
+                                       <a href="/intern1/admin/sign-in.php">Admin Login</a>
                                     </li>
                                     <!-- <li class="list-group-item border-0 pb-0">
                                        <a href="#"><img src="../assets/images/brands/im.svg" alt="im"></a>
