@@ -1,8 +1,10 @@
 <?php
 include('/xampp/htdocs/Intern1/Includes/Header.php');
+include('../includes/Menu.php');
+
 
 // Query to get all available roles
-$query = "SELECT DISTINCT roleId,roleName FROM `erp_role`";
+$query = "SELECT DISTINCT roleId,roleName,access FROM `erp_role`";
 $result = mysqli_query($conn, $query);
 if ($result) {
     $roleRecords = array();
@@ -20,6 +22,7 @@ if ($result) {
         $permissionRecords[] = $row;
     }
 }
+// Query to get checked permissions for roles
 
 
 
@@ -61,7 +64,8 @@ if ($result) {
             <div class="card">
                 <div class="card-header d-flex justify-content-between flex-wrap">
                     <div class="header-title">
-                        <h4 class="card-title mb-0">Role & Permission</h4>
+                        <h4 class="card-title mb-0">Role & Permission <?php $hello = ['h', 'i'];
+                                                                        echo (implode(',', $hello)); ?></h4>
                     </div>
                     <div class="">
                         <a href="#" class=" text-center btn btn-primary btn-icon mt-lg-0 mt-md-0 mt-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -146,9 +150,10 @@ if ($result) {
                                 <tr>
                                     <th></th>
                                     <?php foreach ($roleRecords as $roleRecord) {  ?>
-                                        <th class="text-center"><?php echo $roleRecord['roleName'] ?>
+                                        <!-- Roles Header -->
+                                        <th class="text-center"><label><?php echo $roleRecord['roleName'] ?></label>
                                             <div style="float:right;">
-                                                <!-- <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" title="Edit User" href="#">
+                                                <a class="btn btn-sm btn-icon text-primary flex-end roleEditBtn" roleId="<?php echo $roleRecord['roleId']  ?>" data-bs-toggle="modal" data-bs-target="#editModal" title="Edit Role" href="#">
                                                     <span class="btn-inner">
                                                         <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -159,7 +164,7 @@ if ($result) {
                                                             </path>
                                                         </svg>
                                                     </span>
-                                                </a> -->
+                                                </a>
                                                 <a class="btn btn-sm btn-icon text-danger roleDeleteBtn" roleId="<?php echo $roleRecord['roleId']  ?>" data-bs-toggle="modal" data-bs-target="#deleteModal" title="Delete User" href="#">
                                                     <span class="btn-inner">
                                                         <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
@@ -216,22 +221,25 @@ if ($result) {
                                         <input class="form-check-input" type="checkbox">
                                     </td>
                                 </tr> -->
+
+                                <!-- Permission Vertical column -->
+
                                 <?php foreach ($permissionRecords as $permissionRecord) {  ?>
                                     <tr class="">
-                                        <td class=""><?php echo $permissionRecord['permissionName'] ?>
+                                        <td class="permissionNameRecord"><label><?php echo $permissionRecord['permissionName'] ?></label>
                                             <div style="float:right;">
-                                                <!-- <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" title="Edit User" href="#">
-                                                <span class="btn-inner">
-                                                    <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        </path>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        </path>
-                                                        <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        </path>
-                                                    </svg>
-                                                </span>
-                                            </a> -->
+                                                <a class="btn btn-sm btn-icon text-primary flex-end editPermissionBtn" permissionId="<?php echo $permissionRecord['permissionId'] ?>" data-bs-toggle="modal" data-bs-target="#editModal" title="Edit Permission" href="#">
+                                                    <span class="btn-inner">
+                                                        <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                            </path>
+                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                            </path>
+                                                            <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                            </path>
+                                                        </svg>
+                                                    </span>
+                                                </a>
                                                 <a class="btn btn-sm btn-icon text-danger permissionDeleteBtn" permissionId="<?php echo $permissionRecord['permissionId'] ?>" data-bs-toggle="modal" data-bs-target="#deleteModal" title="Delete User" href="#">
                                                     <span class="btn-inner">
                                                         <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
@@ -245,9 +253,13 @@ if ($result) {
                                                 </a>
                                             </div>
                                         </td>
-                                        <?php foreach ($roleRecords as $roleRecord) {  ?>
+                                        <?php
+                                        foreach ($roleRecords as $roleRecord) {
+                                            // Exploding access values into array
+                                            $accessArray = explode(',', $roleRecord['access']);
+                                        ?>
                                             <td class="text-center">
-                                                <input class="form-check-input" type="checkbox">
+                                                <input class="form-check-input AssignPermissionBtn" roleId="<?php echo $roleRecord["roleId"] ?>" permissionId="<?php echo $permissionRecord["permissionId"] ?>" type="checkbox" data-bs-toggle='modal' data-bs-target='#exampleModal2' <?php echo array_search($permissionRecord['permissionName'], $accessArray) == '' ? '' : 'checked'; ?>>
                                             </td>
                                         <?php } ?>
                                         <!-- <td class="text-center">
@@ -441,6 +453,62 @@ if ($result) {
     </div>
 </div>
 
+<!-- Modals for edit -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Edit Permission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editedRolesModalName" class="form-label">Permission Name</label>
+                        <input type="text" class="form-control" name="editedRolesModalName" id="editedRolesModalName" aria-describedby="text" value="" placeholder="Permission Title" required>
+                    </div>
+                    <div class="text-start">
+                        <button id="rolesModalSaveBtn" type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+                <div id="editResult"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alert 1-->
+<div id='generalAlert' style="position: fixed;bottom: 6%;right: 0px;" class="alert alert-left alert-success alert-dismissible fade hide mb-3" role="alert">
+    <span> This is a success alert—check it out!</span>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<!-- Alert 2 -->
+<div id='generalAlert2' style="position: fixed;bottom: 6%;right: 0px;" class="alert alert-left alert-danger alert-dismissible fade hide mb-3" role="alert">
+    <span> This is a Danger alert—check it out!</span>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<!-- Modal for permission assignment to a role-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModal2Label">Caution!</h5>
+                <button type="button" class="btn-close permAssignCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to do that?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">No</button>
+                <button type="button" id="assignOrNotBtn" class="btn btn-primary">Yes</button>
+            </div>
+            <div id="DelResult"></div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         // New Permission Save Button
@@ -467,7 +535,7 @@ if ($result) {
                     setTimeout(function() {
                         $("#result").html('');
                         window.location.reload();
-                    }, 2000);
+                    }, 1000);
 
                 }
             });
@@ -499,7 +567,7 @@ if ($result) {
                     setTimeout(function() {
                         $("#result").html('');
                         window.location.reload();
-                    }, 2000);
+                    }, 1000);
 
                 }
             });
@@ -533,7 +601,7 @@ if ($result) {
                         setTimeout(function() {
                             $("#result").html('');
                             window.location.reload();
-                        }, 2000);
+                        }, 1000);
 
                     }
                 });
@@ -572,6 +640,162 @@ if ($result) {
                     }
                 });
             });
+        });
+
+        // Delete Permissions
+        $('.permissionDeleteBtn').click(function(e) {
+            e.preventDefault();
+
+            var permissionId = $(this).attr('permissionId');
+
+            $('#deleteModalSaveBtn').unbind().click(function(e) {
+                console.log(permissionId);
+                // AJAX CALL FOR INSERTING 
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        permissionId: permissionId,
+                        Function: "deletePermission"
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#result3").html(`<div class="alert alert-success fade show" role="alert"> Successfully Deleted! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#result3").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#result3").html('');
+                            window.location.reload();
+                        }, 500);
+
+                    }
+                });
+            });
+        });
+
+        // Edit Permissions
+        $('.editPermissionBtn').click(function(e) {
+            e.preventDefault();
+
+            var permissionId = $(this).attr('permissionId');
+            var permissionName = $(this).parent().parent().children(':eq(0)').text();
+            $('#editedRolesModalName').val(permissionName);
+
+            $('#rolesModalSaveBtn').unbind().click(function(e) {
+                permissionName = $('#editedRolesModalName').val();
+                console.log(permissionName);
+                // AJAX CALL FOR INSERTING 
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        permissionId: permissionId,
+                        permissionName: permissionName,
+                        Function: "editPermission"
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#editResult").html(`<div class="alert alert-success fade show" role="alert"> Successfully Edited! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#editResult").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#editResult").html('');
+                            window.location.reload();
+                        }, 500);
+
+                    }
+                });
+            });
+        });
+
+        // edit Roles
+        $('.roleEditBtn').click(function(e) {
+            e.preventDefault();
+
+            var roleId = $(this).attr('roleId');
+            var roleName = $(this).parent().parent().children(':eq(0)').text();
+            console.log(roleName);
+            $('#editedRolesModalName').val(roleName);
+
+            $('#rolesModalSaveBtn').unbind().click(function(e) {
+                roleName = $('#editedRolesModalName').val();
+                console.log(roleName);
+                // AJAX CALL FOR INSERTING 
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        roleId: roleId,
+                        roleName: roleName,
+                        Function: "editRole"
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#editResult").html(`<div class="alert alert-success fade show" role="alert"> Successfully Edited! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#editResult").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#editResult").html('');
+                            window.location.reload();
+                        }, 500);
+
+                    }
+                });
+            });
+        });
+
+        // Check box input for adding permission to roles
+        $('.AssignPermissionBtn').click(function(e) {
+            e.preventDefault();
+            var roleId = $(this).attr('roleId');
+            var permissionId = $(this).attr('permissionId');
+            var functionName = $(this).is(':checked') ? 'assignPermission' : 'unAssignPermission' ;
+            console.log('Role ID: ' + roleId + ' and Permission ID: ' + permissionId);
+            console.log(functionName);
+            $('#assignOrNotBtn').unbind().click(function(e) {
+                $('.permAssignCloseBtn').click();
+                // AJAX CALL FOR Assigning permission to role 
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        roleId: roleId,
+                        permissionId: permissionId,
+                        Function: functionName
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#generalAlert").removeClass('hide');
+                            $("#generalAlert").addClass('show');
+                            $("#generalAlert").children(0).html(response);
+                        } else {
+                            $("#generalAlert2").addClass('show');
+                            $("#generalAlert2").removeClass('hide');
+                            $("#generalAlert2").html(response);
+                        }
+                        setTimeout(function() {
+                            $("#generalAlert").removeClass('show');
+                            $("#generalAlert").addClass('hide');
+                            $("#generalAlert2").removeClass('show');
+                            $("#generalAlert2").addClass('hide');
+                            window.location.reload();
+                        }, 500);
+
+                    }
+                });
+            });
+
+
         });
     });
 </script>

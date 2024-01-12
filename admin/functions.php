@@ -141,3 +141,123 @@ if (isset($_POST["Function"])) {
 }
 
 // Edit roles and permissions
+
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "editPermission") {
+        $permissionId = $_POST["permissionId"];
+        $permissionName = $_POST["permissionName"];
+        function editPermission($permissionId, $permissionName)
+        {
+            global $conn;
+            $sql = "UPDATE `erp_permission` SET `permissionName` = '$permissionName' WHERE `erp_permission`.`permissionId` = $permissionId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+
+        echo editPermission($permissionId, $permissionName);
+    }
+}
+
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "editRole") {
+        $roleId = $_POST["roleId"];
+        $roleName = $_POST["roleName"];
+        function editPermission($roleId, $roleName)
+        {
+            global $conn;
+            $sql = "UPDATE `erp_role` SET `roleName` = '$roleName' WHERE `erp_role`.`roleId` = $roleId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+
+        echo editPermission($roleId, $roleName);
+    }
+}
+
+//  Assign permission to roles
+
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "assignPermission" || $_POST["Function"] == "unAssignPermission") {
+        $roleId = $_POST["roleId"];
+        $permissionId = $_POST["permissionId"];
+        $functionName = $_POST["Function"];
+        if ($functionName == 'assignPermission') {
+            function assignPermission($roleId, $permissionId)
+            {
+                global $conn;
+                // Getting permission name
+                $query = "SELECT permissionName FROM `erp_permission` WHERE permissionId=$permissionId";
+                $result = mysqli_query($conn, $query);
+                if (!$result) return "Error: " . $query . "<br>" . $conn->error;
+                $row = mysqli_fetch_assoc($result);
+                $permissionName = $row['permissionName'];
+                // Getting role access field
+                $sql = "SELECT `access` FROM `erp_role` WHERE `erp_role`.`roleId` = $roleId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                $row = mysqli_fetch_assoc($result);
+                $access = $row['access'];
+
+                if ((empty($access)) != 1) {
+                    $access .= ',' . $permissionName;
+                    $permissionName = $access;
+                    $sql = "UPDATE `erp_role` SET `access` = '$permissionName' WHERE `erp_role`.`roleId` = $roleId";
+                    $result = mysqli_query($conn, $sql);
+                    if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                    // close database connection
+                    mysqli_close($conn);
+                    return "OK";
+                }
+                $sql = "UPDATE `erp_role` SET `access` = '$permissionName' WHERE `erp_role`.`roleId` = $roleId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo assignPermission($roleId, $permissionId);
+        }
+        // If the function is to unassign permission from a role
+        if ($functionName == 'unAssignPermission') {
+            function unAssignPermission($roleId, $permissionId)
+            {
+                global $conn;
+                // Getting permission name
+                $query = "SELECT permissionName FROM `erp_permission` WHERE permissionId=$permissionId";
+                $result = mysqli_query($conn, $query);
+                if (!$result) return "Error: " . $query . "<br>" . $conn->error;
+                $row = mysqli_fetch_assoc($result);
+                $permissionName = $row['permissionName'];
+                // Getting role access field
+                $sql = "SELECT `access` FROM `erp_role` WHERE `erp_role`.`roleId` = $roleId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                $row = mysqli_fetch_assoc($result);
+                $access = $row['access'];
+                // Converting CSV into array
+                $accessArray = explode(',', $access);
+                $searchResultIndex = array_search($permissionName, $accessArray); // Finding index of the permission to be unassigned
+                unset($accessArray[$searchResultIndex]);
+                // Putting the array back into it's original form which is CSV
+                $access = implode(',', $accessArray);
+
+                // Updating the role with permissions after unassigning one
+                $sql = "UPDATE `erp_role` SET `access` = '$access' WHERE `erp_role`.`roleId` = $roleId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo unAssignPermission($roleId, $permissionId);
+        }
+    }
+}
