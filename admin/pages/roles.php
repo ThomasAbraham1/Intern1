@@ -459,12 +459,12 @@ if ($result) {
         <div class="modal-content">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Edit Permission</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Edit Role / Permission</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="editedRolesModalName" class="form-label">Permission Name</label>
+                        <label for="editedRolesModalName" class="form-label">Role / Permission Name</label>
                         <input type="text" class="form-control" name="editedRolesModalName" id="editedRolesModalName" aria-describedby="text" value="" placeholder="Permission Title" required>
                     </div>
                     <div class="text-start">

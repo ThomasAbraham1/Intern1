@@ -260,4 +260,43 @@ if (isset($_POST["Function"])) {
             echo unAssignPermission($roleId, $permissionId);
         }
     }
+
+    //  Create course
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "createCourse") {
+            $courseName = $_POST["courseName"];
+            function createCourse($courseName)
+            {
+                global $conn;
+                $sql = "INSERT INTO `erp_course` (`courseId`, `courseName`) VALUES ('', '$courseName')";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo createCourse($courseName);
+        }
+    }
+
+    //  Create Subject
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "createSubject") {
+            $subjectName = $_POST["subjectName"];
+            $subjectCode = $_POST["subjectCode"];
+            function createSubject($subjectCode, $subjectName)
+            {
+                global $conn;
+                $sql = "INSERT INTO `erp_subject` (`subjectId`, `subjectCode`, `subjectName`, `semester`) VALUES (NULL, '$subjectCode', '$subjectName', '1')";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo createSubject($subjectCode, $subjectName);
+        }
+    }
 }

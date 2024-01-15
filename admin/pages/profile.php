@@ -154,7 +154,7 @@ if ($result) {
                                     </div> -->
                                     <div class="form-group col-md-6">
                                         <label class="form-label" for="email">Email:</label>
-                                        <input type="email" class="form-control" id="email" placeholder="Email">
+                                        <input type="email" value="<?php echo $userName ?>" class="form-control" id="email" placeholder="Email">
                                     </div>
                                     <div class="form-group col-sm-12">
                                         <label class="form-label">Course:</label>
@@ -228,9 +228,9 @@ if ($result) {
 <script>
     $(document).ready(function() {
         var disabled = false;
-        $('#editBtn').click(function(e){
+        $('#editBtn').click(function(e) {
             // console.log('Inside listener');
-            if(disabled){
+            if (disabled) {
                 // console.log('Inside if');
                 $("#profileForm :input").prop("disabled", false);
                 disabled = false;
