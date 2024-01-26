@@ -41,11 +41,12 @@ if (isset($_POST["Function"])) {
             $lastName = $_POST['lastName'];
             $email = $_POST['email'];
             $phone = $_POST['phone'];
+            $department = $_POST['department'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hasing the password
             $confirmPassword = $_POST['confirmPassword'];
             global $conn;
-            $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, log_status)
-            VALUES ('$firstName', '$lastName', '$email', '$phone', '$roleName', '$password', 0);
+            $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, active, department)
+            VALUES ('$firstName', '$lastName', '$email', '$phone', '$roleName', '$password', 0, '$department');
             ";
             $result = mysqli_query($conn, $sql);
             if (!$result) echo "Error: " . $sql . "<br>" . $conn->error;
@@ -258,6 +259,67 @@ if (isset($_POST["Function"])) {
             }
 
             echo unAssignPermission($roleId, $permissionId);
+        }
+    }
+    //  Profile update
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "updateProfile") {
+            $fname = $_POST["fname"];
+            $lname = $_POST["lname"];
+            $email = $_POST["email"];
+            $mobno = $_POST["mobno"];
+            $userId = $_POST["userId"];
+            function updateProfile($fname, $lname, $email, $userId, $mobno)
+            {
+                global $conn;
+                $sql = "UPDATE `erp_login` SET `userName` = '$email', `phone` = '$mobno', `l_name` = '$lname', `f_name` = '$fname' WHERE `erp_login`.`user_id` = $userId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo updateProfile($fname, $lname, $email, $userId, $mobno);
+        }
+    }
+
+    //  Mark attendance
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "markAttendance") {
+            $subjectCode = $_POST["subjectCode"];
+            $studentId = $_POST["studentId"];
+            $staffId = $_POST["staffId"];
+            $day = $_POST["day"];
+            $period = $_POST["period"];
+            $classId = $_POST["classId"];
+            $isPresent = $_POST["isPresent"];
+            function markAttendance($isPresent, $classId, $day, $staffId, $studentId, $subjectCode, $period)
+            {
+                global $conn;
+                $date = date('Y-m-d');
+                // Check if record already exists for a subject's specific period
+                $sql = "SELECT * FROM erp_attendance WHERE date='$date' AND studentId =$studentId AND classId=$classId AND subjectCode='$subjectCode' AND period=$period";
+                $result = mysqli_query($conn, $sql);
+                $doesRowExist = mysqli_num_rows($result);
+                if (!$doesRowExist) {
+                    $sql = "INSERT INTO `erp_attendance` (`attendanceId`, `classId`, `subjectCode`, `period`, `studentId`, `staffId`, `date`, `day`, `status`) VALUES (NULL, '$classId', '$subjectCode','$period', '$studentId', '$staffId', '$date', '$day', '$isPresent')";
+                    $result = mysqli_query($conn, $sql);
+                    if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                    // close database connection
+                    mysqli_close($conn);
+                    return "OK";
+                }
+                $attendanceId = $result->fetch_assoc()['attendanceId'];
+                $sql = "UPDATE `erp_attendance` SET `subjectCode` = '$subjectCode', `period` = '$period', `studentId` = '$studentId', `staffId` = '$staffId', `date` = '$date', `day` = '$day', `status` = '$isPresent' WHERE `erp_attendance`.`attendanceId` = $attendanceId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo markAttendance($isPresent, $classId, $day, $staffId, $studentId, $subjectCode, $period);
         }
     }
 }

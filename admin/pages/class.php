@@ -2,26 +2,14 @@
 include('/xampp/htdocs/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
-$sql = "SELECT * FROM `erp_login` WHERE role='faculty' and department='CSE'";
+$sql = 'SELECT * FROM erp_course';
 $result = mysqli_query($conn, $sql);
 if ($result) {
-    $faculties = array();
+    $courses = array();
     while ($row = $result->fetch_assoc()) {
-        $faculties[] = $row;
+        $courses[] = $row;
     }
 }
-
-// Options of classes to which subject would belongs to
-$sql = "SELECT * FROM `erp_class`";
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    $classes = array();
-    while ($row = $result->fetch_assoc()) {
-        $classes[] = $row;
-    }
-}
-
-
 ?>
 
 <div class="iq-navbar-header" style="height: 215px;">
@@ -30,8 +18,8 @@ if ($result) {
             <div class="col-md-12">
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                     <div>
-                        <h1>Create Subjects</h1>
-                        <p>New subjects can be created here. Consult with management before creating new subjects.</p>
+                        <h1>Create Classes</h1>
+                        <p>New Classes can be created here. Consult with management before creating new Classes.</p>
                     </div>
                     <!-- Button on the header -->
                     <!-- <div>
@@ -57,65 +45,67 @@ if ($result) {
     </div>
 </div>
 
-<!-- Create a Subject form -->
+<!-- Create a class form -->
 <div class="d-flex justify-content-center mb-4">
     <div class="card m-3 w-50 text ">
         <div class="card-header">
-            Subject Creation
+            Class Creation
         </div>
         <div class="card-body">
             <!-- <h5 class="card-title">Special title treatment</h5>
     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
     <a href="#" class="btn btn-primary">Go somewhere</a> -->
 
+
             <div class="form-group">
-                <label class="form-label" for="fname">Subject Code:</label>
-                <input type="text" value="" class="form-control" id="subjectCode" placeholder="Subject Code">
+                <label class="form-label" for="startingYear">Starting Year:</label>
+                <input type="number" value="" class="form-control" id="startingYear" placeholder="YYYY">
             </div>
             <div class="form-group">
-                <label class="form-label" for="fname">Subject Name:</label>
-                <input type="text" value="" class="form-control" id="subjectName" placeholder="Subject Name">
+                <label class="form-label" for="endingYear">Ending Year:</label>
+                <input type="number" value="" class="form-control" id="endingYear" placeholder="YYYY">
             </div>
             <div class="form-group">
-                <label class="form-label" for="staffId">Faculty:</label>
-                <select id="staffId" name="type" class="selectpicker form-control" data-style="py-0">
-                    <option hidden disabled selected value>Choose a faculty</option>
-                    <?php foreach ($faculties as $faculty) { ?>
-                        <option value="<?php echo $faculty['user_id'] ?>"><?php echo $faculty['f_name'] . ' '. $faculty['l_name'] ?></option>
+                <label class="form-label" for="course"> Course:</label>
+                <select id="course" name="type" class="selectpicker form-control" data-style="py-0">
+                    <option hidden disabled selected value>Choose a course</option>
+                    <?php foreach ($courses as $course) { ?>
+                        <option value="<?php echo $course['courseName'] ?>"><?php echo $course['courseName'] ?></option>
                     <?php } ?>
                 </select>
             </div>
             <div class="form-group">
-                <label class="form-label" for="class">Class:</label>
-                <select id="classId" name="type" class="selectpicker form-control" data-style="py-0">
-                    <option hidden disabled selected value>Choose a class</option>
-                    <?php foreach ($classes as $class) { ?>
-                        <option value="<?php echo $class['classId'] ?>"><?php echo  $className = $class['department'] . ' - Sem ' . $class['semester'] . ' - ' . $class['startingYear'] . ' batch'; ?></option>
-                    <?php } ?>
+                <label class="form-label" for="department"> Department:</label>
+                <select id="department" name="type" class="selectpicker form-control" data-style="py-0">
+                    <option hidden disabled selected value>Choose a department</option>
+                    <option>CSE</option>
+                    <option>ECE</option>
+                    <option>EEE</option>
+                    <option>MECH</option>
                 </select>
             </div>
-            <button id="createSubjectBtn" type="button" class="btn btn-primary">Create</button>
+            <button id="createClassBtn" type="button" class="btn btn-primary">Create</button>
             <div id="Result" class="m-3"></div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function() {
-        $("#createSubjectBtn").click(function(e) {
-            var subjectName = $('#subjectName').val();
-            var subjectCode = $('#subjectCode').val();
-            var classId = $('#classId').val();
-            var staffId = $('#staffId').val();
-            console.log(subjectName + ' ' + subjectCode);
+        $("#createClassBtn").click(function(e) {
+            var startingYear = $('#startingYear').val();
+            var endingYear = $('#endingYear').val();
+            var department = $('#department').val();
+            var course = $('#course').val();
+            console.log(startingYear + " " + endingYear);
             $.ajax({
                 url: '../functions.php',
                 type: 'POST',
                 data: {
-                    subjectCode: subjectCode,
-                    subjectName: subjectName,
-                    classId: classId,
-                    staffId: staffId,
-                    Function: "createSubject",
+                    startingYear: startingYear,
+                    endingYear: endingYear,
+                    department: department,
+                    course: course,
+                    Function: "createClass",
                 },
                 success: function(response) {
                     console.log(response);

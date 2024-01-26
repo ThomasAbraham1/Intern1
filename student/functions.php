@@ -43,7 +43,7 @@ if (isset($_POST["Function"])) {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hasing the password
             $confirmPassword = $_POST['confirmPassword'];
             global $conn;
-            $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, log_status)
+            $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, active)
             VALUES ('$firstName', '$lastName', '$email', '$phone', '$roleName', '$password', 0);
             ";
             $result = mysqli_query($conn, $sql);
@@ -257,6 +257,93 @@ if (isset($_POST["Function"])) {
             }
 
             echo unAssignPermission($roleId, $permissionId);
+        }
+    }
+
+    //  Create admission form
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "createAdmissionForm") {
+            $fname = $_POST["fname"];
+            $lname = $_POST["lname"];
+            $email = $_POST["email"];
+            $DOB = $_POST["DOB"];
+            $mobno = $_POST["mobno"];
+            $address = $_POST["address"];
+            $userId = $_POST["userId"];
+            function createClass($fname, $lname, $userId, $email, $DOB, $mobno, $address)
+            {
+                global $conn;
+                $sql = "INSERT INTO `erp_admission` (`admissionId`,`name`,`userId`, `email`, `dob`, `phone`, `address`) VALUES (NULL, '$fname $lname', '$userId', '$email', '$DOB','$mobno', '$address');";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo createClass($fname, $lname, $userId, $email, $DOB, $mobno, $address);
+        }
+    }
+    //  Register Course - Student
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "registerCourse") {
+            $userId = $_POST["userId"];
+            $classId = $_POST["classId"];
+            $course = $_POST["course"];
+            $department = $_POST["department"];
+            function createClass($userId, $classId, $course, $department)
+            {
+                global $conn;
+                $sql = "UPDATE `erp_login` SET `course` = '$course', `department` = '$department', `classId` = '$classId' WHERE `erp_login`.`user_id` = $userId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo createClass($userId, $classId, $course, $department);
+        }
+    }
+    //  Payment success - Fees
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "paymentSuccess") {
+            $userId = $_POST["userId"];
+            function paymentSuccess($userId)
+            {
+                global $conn;
+                $sql = "UPDATE `erp_login` SET `paymentStatus` = '1' WHERE `erp_login`.`user_id` = $userId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo paymentSuccess($userId);
+        }
+    }
+
+    //  Profile update
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "updateProfile") {
+            $fname = $_POST["fname"];
+            $lname = $_POST["lname"];
+            $email = $_POST["email"];
+            $mobno = $_POST["mobno"];
+            $userId = $_POST["userId"];
+            function updateProfile($fname,$lname,$email,$userId,$mobno)
+            {
+                global $conn;
+                $sql = "UPDATE `erp_login` SET `userName` = '$email', `phone` = '$mobno', `l_name` = '$lname', `f_name` = '$fname' WHERE `erp_login`.`user_id` = $userId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo updateProfile($fname,$lname,$email,$userId,$mobno);
         }
     }
 }

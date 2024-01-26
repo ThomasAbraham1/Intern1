@@ -285,10 +285,12 @@ if (isset($_POST["Function"])) {
         if ($_POST["Function"] == "createSubject") {
             $subjectName = $_POST["subjectName"];
             $subjectCode = $_POST["subjectCode"];
-            function createSubject($subjectCode, $subjectName)
+            $classId = $_POST["classId"];
+            $staffId = $_POST["staffId"];
+            function createSubject($subjectCode, $subjectName, $classId, $staffId)
             {
                 global $conn;
-                $sql = "INSERT INTO `erp_subject` (`subjectId`, `subjectCode`, `subjectName`, `semester`) VALUES (NULL, '$subjectCode', '$subjectName', '1')";
+                $sql = "INSERT INTO `erp_subject` (`subjectId`, `subjectCode`, `subjectName`,`classId`,`staffId`) VALUES (NULL, '$subjectCode', '$subjectName','$classId', '$staffId')";
                 $result = mysqli_query($conn, $sql);
                 if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
                 // close database connection
@@ -296,7 +298,247 @@ if (isset($_POST["Function"])) {
                 return "OK";
             }
 
-            echo createSubject($subjectCode, $subjectName);
+            echo createSubject($subjectCode, $subjectName, $classId, $staffId);
+        }
+    }
+
+    //  Create Class
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "createClass") {
+            $startingYear = $_POST["startingYear"];
+            $endingYear = $_POST["endingYear"];
+            $department = $_POST["department"];
+            $course = $_POST["course"];
+            function createClass($startingYear, $endingYear, $department, $course)
+            {
+                global $conn;
+                $sql = "INSERT INTO `erp_class` (`classId`, `startingYear`, `endingYear`, `semester`, `department`, `course`) VALUES (NULL, '$startingYear', '$endingYear', '1', '$department','$course')";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo createClass($startingYear, $endingYear, $department, $course);
+        }
+    }
+
+    //  Create Timetable
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "createTimetable") {
+            $timeTable = json_decode($_POST["timeTable"]);
+            $classId = $_POST["classId"];
+            $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+            function createTimetable($timeTable, $classId, $days)
+            {
+                global $conn;
+                // Outer loop - for each day
+                for ($i = 0; $i < count($timeTable); $i++) {
+                    $day = $days[$i];
+                    $period = 0;
+                    // Inner loop - inserting periods for each day
+                    foreach ($timeTable[$i] as $subject) {
+                        $period = $period + 1;
+                        $sql = "INSERT INTO `erp_timetable` (`timeTableId`, `classId`, `day`, `period`, `subjectCode`) VALUES (NULL, '$classId', '$day', '$period','$subject')";
+                        $result = mysqli_query($conn, $sql);
+                        if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                    }
+                }
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo createTimetable($timeTable, $classId, $days);
+            // echo count($timeTable);
+        }
+    }
+
+    // Edit admission Form
+
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "updateAdmissionForm") {
+            $name = $_POST["name"];
+            $email = $_POST["email"];
+            $dob = $_POST["dob"];
+            $phone = $_POST["phone"];
+            $address = $_POST["address"];
+            $userId = $_POST["userId"];
+            function updateAdmissionForm($name, $email, $dob, $phone, $address, $userId)
+            {
+                global $conn;
+                $sql = "UPDATE `erp_admission` SET `name` = '$name',`dob`='$dob', `email` = '$email', `phone` = '$phone', `address` = '$address' WHERE `erp_admission`.`userId` = $userId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo updateAdmissionForm($name, $email, $dob, $phone, $address, $userId);
+        }
+    }
+
+    // Accept or reject admission form
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "admissionOrNot") {
+            $statusChangeBtnValue = $_POST["statusChangeBtnValue"];
+            $userId = $_POST["userId"];
+            function updateAdmissionForm($userId, $statusChangeBtnValue)
+            {
+                global $conn;
+                if ($statusChangeBtnValue == 'Accept') {
+                    $sql = "UPDATE `erp_login` SET `active` = '1' WHERE `erp_login`.`user_id` = $userId";
+                    $sql2 = "DELETE FROM erp_admission WHERE `erp_admission`.`userId` = $userId";
+                    $result = mysqli_query($conn, $sql);
+                    $result2 = mysqli_query($conn, $sql2);
+                    if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                    if (!$result2) return "Error: " . $sql2 . "<br>" . $conn->error;
+                    // close database connection
+                    mysqli_close($conn);
+                    return "OK";
+                }
+                $sql = "DELETE FROM erp_admission WHERE `erp_admission`.`userId` = $userId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo updateAdmissionForm($userId, $statusChangeBtnValue);
+        }
+    }
+
+    //  Create Fees
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "createFees") {
+            $classId = $_POST["classId"];
+            $feeName = $_POST["feeName"];
+            $amount = $_POST["amount"];
+            function createCourse($classId, $feeName, $amount)
+            {
+                global $conn;
+                $sql = "INSERT INTO `erp_fees` (`feesId`, `feeName`, `classId`, `amount`) VALUES (NULL, '$feeName', '$classId', '$amount')";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo createCourse($classId, $feeName, $amount);
+        }
+    }
+
+    // Edit Fees
+
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "updateFees") {
+            $classId = $_POST["classId"];
+            $feeName = $_POST["feeName"];
+            $amount = $_POST["amount"];
+            $feeId = $_POST["feeId"];
+            function updateFees($classId, $feeName, $amount, $feeId)
+            {
+                global $conn;
+                $sql = "UPDATE `erp_fees` SET `feeName` = '$feeName', `classId` = '$classId', `amount` = '$amount' WHERE `erp_fees`.`feesId` = $feeId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo updateFees($classId, $feeName, $amount, $feeId);
+        }
+    }
+
+    // Delete Fees
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "deleteFees") {
+            $feeId = $_POST["feeId"];
+            function deleteFees($feeId)
+            {
+                global $conn;
+                $sql = "DELETE FROM erp_fees WHERE `erp_fees`.`feesId` = $feeId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo deleteFees($feeId);
+        }
+    }
+
+    // Promote class
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "promoteClass") {
+            $classId = $_POST["classId"];
+            function promoteClass($classId)
+            {
+                global $conn;
+                // promote class
+                $sql = "UPDATE `erp_class` SET `semester` = semester+1 WHERE `erp_class`.`classId` = $classId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // renew payment for next semester / reset payment status for students
+                $sql = "UPDATE `erp_login` SET `paymentStatus` = '0' WHERE `erp_login`.`classId` = $classId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo promoteClass($classId);
+        }
+    }
+
+    // Update class
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "updateClass") {
+            $classId = $_POST["classId"];
+            $course = $_POST["course"];
+            $department = $_POST["department"];
+            $semester = $_POST["semester"];
+            $endingYear = $_POST["endingYear"];
+            $startingYear = $_POST["startingYear"];
+            function updateClass($classId,$course,$department,$semester,$endingYear,$startingYear)
+            {
+                global $conn;
+                // update class
+                $sql = "UPDATE `erp_class` SET `startingYear` = '$startingYear', `endingYear` = '$endingYear', `semester` = '$semester', `department` = '$department', `course` = '$course' WHERE `erp_class`.`classId` = $classId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo updateClass($classId,$course,$department,$semester,$endingYear,$startingYear);
+        }
+    }
+
+     // Delete class
+     if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "deleteClass") {
+            $classId = $_POST["classId"];
+            function deleteClass($classId)
+            {
+                global $conn;
+                $sql = "DELETE FROM erp_class WHERE `erp_class`.`classId` = $classId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // close database connection
+                mysqli_close($conn);
+                return "OK";
+            }
+
+            echo deleteClass($classId);
         }
     }
 }

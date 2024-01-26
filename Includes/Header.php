@@ -8,6 +8,7 @@ if (isset($_SESSION['user_id'])) {
   $query = "SELECT * FROM erp_login WHERE user_id = '$user_id'";
   $result = mysqli_query($conn, $query);
 
+
   if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $f_fname = $row['f_name'];
@@ -18,9 +19,24 @@ if (isset($_SESSION['user_id'])) {
     $course = $row['course'];
     $department = $row['department'];
     $yearOfAdmission = $row['yearOfAdmission'];
+    $active = $row['active'];
+    $classId = $row['classId'];
+    $isPaid = $row['paymentStatus'];
   }
 
+  // Check for admission form existence for a student
+  $sql="SELECT * FROM erp_admission WHERE userId = $user_id";
+  $admissionForm = mysqli_query($conn,$sql);
 
+  // Courses
+  $sql = "SELECT * FROM erp_course";
+  $result = mysqli_query($conn, $sql);
+  if ($result) {
+    $courses = array();
+    while ($row = $result->fetch_assoc()) {
+      $courses[] = $row;
+    }
+  }
 ?>
   <!doctype html>
   <html lang="en" dir="ltr">
@@ -57,7 +73,7 @@ if (isset($_SESSION['user_id'])) {
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <!-- font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    
+
 
 
   </head>
@@ -71,7 +87,7 @@ if (isset($_SESSION['user_id'])) {
     </div> -->
     <!-- loader END -->
 
-    <?php } else {
-    header("Location: /intern1/index.php");
-  }
-    ?>
+  <?php } else {
+  header("Location: /intern1/index.php");
+}
+  ?>

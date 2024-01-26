@@ -2,17 +2,9 @@
 include('/xampp/htdocs/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
-$sql = "SELECT * FROM `erp_login` WHERE role='faculty' and department='CSE'";
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    $faculties = array();
-    while ($row = $result->fetch_assoc()) {
-        $faculties[] = $row;
-    }
-}
-
-// Options of classes to which subject would belongs to
-$sql = "SELECT * FROM `erp_class`";
+// Get classes
+$year = date("Y");
+$sql = "SELECT * FROM erp_class WHERE startingYear = $year AND semester=1";
 $result = mysqli_query($conn, $sql);
 if ($result) {
     $classes = array();
@@ -20,6 +12,8 @@ if ($result) {
         $classes[] = $row;
     }
 }
+
+
 
 
 ?>
@@ -30,8 +24,8 @@ if ($result) {
             <div class="col-md-12">
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                     <div>
-                        <h1>Create Subjects</h1>
-                        <p>New subjects can be created here. Consult with management before creating new subjects.</p>
+                        <h1>Course Registration</h1>
+                        <p>New courses can be registered here. Consult with allocated advisors before registering into courses.</p>
                     </div>
                     <!-- Button on the header -->
                     <!-- <div>
@@ -57,70 +51,61 @@ if ($result) {
     </div>
 </div>
 
-<!-- Create a Subject form -->
+<!-- Create a course form -->
 <div class="d-flex justify-content-center mb-4">
     <div class="card m-3 w-50 text ">
-        <div class="card-header">
-            Subject Creation
-        </div>
-        <div class="card-body">
-            <!-- <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a> -->
-
-            <div class="form-group">
-                <label class="form-label" for="fname">Subject Code:</label>
-                <input type="text" value="" class="form-control" id="subjectCode" placeholder="Subject Code">
+        <?php if ($classId == 0) { ?>
+            <div class="card-header">
+                Course Registration
             </div>
-            <div class="form-group">
-                <label class="form-label" for="fname">Subject Name:</label>
-                <input type="text" value="" class="form-control" id="subjectName" placeholder="Subject Name">
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label" for="class">Course:</label>
+                    <select id="class" name="type" class="selectpicker form-control" data-style="py-0">
+                        <option hidden disabled selected value>Choose a course</option>
+                        <?php foreach ($classes as $class) { ?>
+                            <option value="<?php echo $class['classId'] . ',' . $user_id . ',' . $class['department'] . ',' . $class['course'] ?>"><?php echo $class['course'] . ' - ' . $class['department'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <button id="registerCourseBtn" type="button" class="btn btn-primary">Register</button>
+                <div id="Result" class="m-3"></div>
             </div>
-            <div class="form-group">
-                <label class="form-label" for="staffId">Faculty:</label>
-                <select id="staffId" name="type" class="selectpicker form-control" data-style="py-0">
-                    <option hidden disabled selected value>Choose a faculty</option>
-                    <?php foreach ($faculties as $faculty) { ?>
-                        <option value="<?php echo $faculty['user_id'] ?>"><?php echo $faculty['f_name'] . ' '. $faculty['l_name'] ?></option>
-                    <?php } ?>
-                </select>
+        <?php } else { ?>
+            <div class="d-flex justify-content-center mb-4">
+                <div class="card m-3 w-50 text ">
+                    <div class="card-header d-flex justify-content-center">
+                        <h4>You're registered!</h4>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label" for="class">Class:</label>
-                <select id="classId" name="type" class="selectpicker form-control" data-style="py-0">
-                    <option hidden disabled selected value>Choose a class</option>
-                    <?php foreach ($classes as $class) { ?>
-                        <option value="<?php echo $class['classId'] ?>"><?php echo  $className = $class['department'] . ' - Sem ' . $class['semester'] . ' - ' . $class['startingYear'] . ' batch'; ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <button id="createSubjectBtn" type="button" class="btn btn-primary">Create</button>
-            <div id="Result" class="m-3"></div>
-        </div>
+        <?php } ?>
     </div>
 </div>
 <script>
     $(document).ready(function() {
-        $("#createSubjectBtn").click(function(e) {
-            var subjectName = $('#subjectName').val();
-            var subjectCode = $('#subjectCode').val();
-            var classId = $('#classId').val();
-            var staffId = $('#staffId').val();
-            console.log(subjectName + ' ' + subjectCode);
+        $("#registerCourseBtn").click(function(e) {
+            // var jsArray = JSON.parse(array);
+            var stringArray = $('#class').val();
+            var explodedStringArary = stringArray.split(',');
+            var classId = explodedStringArary[0];
+            var userId = explodedStringArary[1];
+            var department = explodedStringArary[2];
+            var course = explodedStringArary[3];
             $.ajax({
                 url: '../functions.php',
                 type: 'POST',
                 data: {
-                    subjectCode: subjectCode,
-                    subjectName: subjectName,
                     classId: classId,
-                    staffId: staffId,
-                    Function: "createSubject",
+                    userId: userId,
+                    course: course,
+                    department: department,
+                    Function: "registerCourse",
                 },
                 success: function(response) {
                     console.log(response);
                     if (response == "OK") {
-                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
+                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Registered! </div>`);
                         // window.location.href = "home.php";
                     } else {
                         $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);

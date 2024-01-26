@@ -54,7 +54,7 @@ if ($result) {
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Add New User</h4>
+                            <h4 class="card-title">Profile</h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -119,7 +119,7 @@ if ($result) {
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">New User Information</h4>
+                            <h4 class="card-title">User Information</h4>
                         </div>
                         <a id="editBtn" href="#" class="text-center btn btn-primary btn-icon mt-lg-0 mt-md-0 mt-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop-1">
                             <i class="btn-inner">
@@ -155,60 +155,18 @@ if ($result) {
                                         <label class="form-label" for="email">Email:</label>
                                         <input type="email" value="<?php echo $userName ?>" class="form-control" id="email" placeholder="Email">
                                     </div>
-                                    <div class="form-group col-sm-12">
-                                        <label class="form-label">Course:</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
-                                            <option>Select Course</option>
-                                            <option>BE</option>
-                                            <option>ME</option>
-                                            <option>MBA</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-sm-12">
-                                        <label class="form-label">Department:</label>
-                                        <select name="type" class="selectpicker form-control" data-style="py-0">
-                                            <option>Select Department</option>
-                                            <option value="CSE">CSE</option>
-                                            <option value="ECE">ECE</option>
-                                            <option value="EEE">EEE</option>
-                                            <option value="MECH">MECH</option>
-                                        </select>
-                                    </div>
                                     <div class="form-group col-md-6">
                                         <label class="form-label" for="mobno">Mobile Number:</label>
-                                        <input type="text" value="" class="form-control" id="mobno" placeholder="Mobile Number">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="form-label" for="mobno">Year Of Admission:</label>
-                                        <input type="text" class="form-control" id="mobno" placeholder="Year Of Admission">
+                                        <input type="text" value="<?php echo $mobileNumber ?>" class="form-control" id="mobno" placeholder="Mobile Number">
                                     </div>
                                     <!-- <div class="form-group col-md-6">
                                         <label class="form-label" for="altconno">Alternate Contact:</label>
                                         <input type="text" class="form-control" id="altconno" placeholder="Alternate Contact">
                                     </div> -->
                                 </div>
-                                <hr>
-                                <h5 class="mb-3">Security</h5>
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label class="form-label" for="uname">User Name:</label>
-                                        <input type="text" class="form-control" id="uname" placeholder="User Name">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="form-label" for="pass">Password:</label>
-                                        <input type="password" class="form-control" id="pass" placeholder="Password">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="form-label" for="rpass">Repeat Password:</label>
-                                        <input type="password" class="form-control" id="rpass" placeholder="Repeat Password ">
-                                    </div>
-                                </div>
-                                <div class="checkbox">
-                                    <label class="form-label"><input class="form-check-input me-2" type="checkbox" value="" id="flexCheckChecked">Enable
-                                        Two-Factor-Authentication</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add New User</button>
+                                <button type="submit" userId ='<?php echo $user_id ?>' id="profileUpdateBtn" class="btn btn-primary">Save</button>
                             </form>
+                            <div id="Result"></div>
                         </div>
                     </div>
                 </div>
@@ -239,7 +197,41 @@ if ($result) {
             $("#profileForm :input").prop("disabled", true);
             disabled = true;
 
-        })
+        });
+
+        $('#profileUpdateBtn').click(function(e){
+            e.preventDefault();
+            var fname = $('#fname').val();
+            var lname = $('#lname').val();
+            var email = $('#email').val();
+            var mobno = $('#mobno').val();
+            var userId = $('#profileUpdateBtn').attr('userId');
+            console.log(userId);
+            $.ajax({
+                url: '../functions.php',
+                type: 'POST',
+                data: {
+                    fname: fname,
+                    lname: lname,
+                    email: email,
+                    mobno: mobno,
+                    userId: userId,
+                    Function: 'updateProfile',
+                },
+                success: function(response){
+                    if( response == 'OK'){
+                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Updated! </div>`);
+                    } else{
+                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                    }
+                    setTimeout(function(){
+                        $("#Result").html('');
+                        window.location.reload();
+                    }, 1000);
+                }
+
+            })
+        });
 
     })
 </script>

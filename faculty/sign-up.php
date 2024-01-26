@@ -116,6 +116,16 @@
                                                     <input type="text" class="form-control" id="phone" placeholder=" ">
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="courses">Department:</label>
+                                                <select id="department" name="type" class="selectpicker form-control" data-style="py-0">
+                                                    <option hidden disabled selected value>Choose a department</option>
+                                                    <option value="CSE">CSE</option>
+                                                    <option value="ECE">ECE</option>
+                                                    <option value="EEE">EEE</option>
+                                                    <option value="MECH">MECH</option>
+                                                </select>
+                                            </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="password" class="form-label">Password</label>
@@ -224,6 +234,7 @@
             var password = $('#password').val();
             var confirmPassword = $('#confirm-password').val();
             var functionName = 'signup';
+            var department = $('#department').val();
             // var Pickup_Time = $("#Pickup_Time").val();
             // var Stop_Name = $("#Stop_Name").val();
             // var Drop_Time = $("#Drop_Time").val();
@@ -240,6 +251,7 @@
             formData.append('phone', phone);
             formData.append('password', password);
             formData.append('confirmPassword', confirmPassword);
+            formData.append('department', department);
             formData.append('Function', functionName);
             // formData.append('event_name', event_name);
 
