@@ -507,7 +507,7 @@ if (isset($_POST["Function"])) {
             $semester = $_POST["semester"];
             $endingYear = $_POST["endingYear"];
             $startingYear = $_POST["startingYear"];
-            function updateClass($classId,$course,$department,$semester,$endingYear,$startingYear)
+            function updateClass($classId, $course, $department, $semester, $endingYear, $startingYear)
             {
                 global $conn;
                 // update class
@@ -519,12 +519,12 @@ if (isset($_POST["Function"])) {
                 return "OK";
             }
 
-            echo updateClass($classId,$course,$department,$semester,$endingYear,$startingYear);
+            echo updateClass($classId, $course, $department, $semester, $endingYear, $startingYear);
         }
     }
 
-     // Delete class
-     if (isset($_POST["Function"])) {
+    // Delete class
+    if (isset($_POST["Function"])) {
         if ($_POST["Function"] == "deleteClass") {
             $classId = $_POST["classId"];
             function deleteClass($classId)
@@ -541,4 +541,84 @@ if (isset($_POST["Function"])) {
             echo deleteClass($classId);
         }
     }
+?>
+    <?php
+    // Create a filtered table for Attendance report
+    if (isset($_POST["Function"])) {
+        if ($_POST["Function"] == "filterAttendanceTable") {
+            $classId = $_POST["classId"];
+            $fromDate = $_POST["fromDate"];
+            $toDate = $_POST["toDate"];
+            $days = $_POST["days"];
+            function filterAttendanceTable($classId, $fromDate, $toDate, $days)
+            {
+                global $conn;
+                // Get students with attendance record
+                $sql = "SELECT DISTINCT studentId FROM erp_attendance WHERE classId = $classId";
+                $result = mysqli_query($conn, $sql);
+                if ($result) {
+                    $studentIds = array();
+                    $studentsWithAttendance = array();
+                    while ($row = $result->fetch_assoc()) {
+                        $studentIds[] = $row;
+                    }
+                    foreach ($studentIds as $studentId) {
+                        $sql = "SELECT * FROM erp_login WHERE user_id = $studentId[studentId]";
+                        $result = mysqli_query($conn, $sql);
+                        if ($result) {
+                            while ($row = $result->fetch_assoc()) {
+                                $studentsWithAttendance[] = $row;
+                            }
+                        }
+                    }
+                }
+    ?>
+                <!-- HTML begins / Rows generation -->
+                <?php $i = 1;
+                // Get last 7 days for CSE students attendance record
+                foreach ($studentsWithAttendance as $studentWithAttendance) {
+                    $sql = "SELECT * FROM `erp_attendance` WHERE studentId = $studentWithAttendance[user_id] AND date BETWEEN '$fromDate' AND '$toDate'";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                        $attendanceRecords = array();
+                        while ($row = $result->fetch_assoc()) {
+                            $attendanceRecords[] = $row['status'];
+                        }
+                        $noOfPresentAndAbsent = array();
+                        $noOfPresentAndAbsent[] = array_count_values($attendanceRecords);
+                        $noOfPresent = (int)$noOfPresentAndAbsent[0][1];
+
+                        // Get all of the past days for CSE students attendance record
+                        $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id];";
+                        $result = mysqli_query($conn, $sql);
+                        $overallAttendanceRecords = array();
+                        while ($row = $result->fetch_assoc()) {
+                            $overallAttendanceRecords[] = $row['status'];
+                        }
+                        $overallNoOfPresentAndAbsent = array();
+                        $overallNoOfPresentAndAbsent[] = array_count_values($overallAttendanceRecords);
+                        $overallNoOfPresent = (int) $overallNoOfPresentAndAbsent[0][1];
+
+                ?>
+                        <tr>
+                            <td><?php echo $i ?></td>
+                            <td><?php echo $studentWithAttendance['f_name'] . ' ' . $studentWithAttendance['l_name'] ?></td>
+                            <td><?php echo ($days * 5) ?></td>
+                            <td><?php echo ($noOfPresent) ?></td>
+                            <td><?php echo round(($noOfPresent / ($days * 5)) * 100) . '%' ?></td>
+                            <td>125</td>
+                            <td><?php echo ($overallNoOfPresent) ?></td>
+                            <td><?php echo round(($overallNoOfPresent / 125) * 100) . '%' ?></td>
+                        </tr>
+<?php $i++;
+                    };
+                }
+                // close database connection
+                mysqli_close($conn);
+            }
+
+            filterAttendanceTable($classId, $fromDate, $toDate, $days);
+        }
+    }
 }
+?>

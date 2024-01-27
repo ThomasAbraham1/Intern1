@@ -1,0 +1,237 @@
+<?php
+include('/xampp/htdocs/Intern1/Includes/Header.php');
+include('../includes/Menu.php');
+
+// Get classes
+$year = date("Y");
+$sql = "SELECT * FROM erp_class";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    $classes = array();
+    while ($row = $result->fetch_assoc()) {
+        $classes[] = $row;
+    }
+}
+
+// Get students with attendance record
+$sql = "SELECT DISTINCT studentId FROM erp_attendance WHERE classId = 13";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    $studentIds = array();
+    $studentsWithAttendance = array();
+    while ($row = $result->fetch_assoc()) {
+        $studentIds[] = $row;
+    }
+    foreach ($studentIds as $studentId) {
+        $sql = "SELECT * FROM erp_login WHERE user_id = $studentId[studentId]";
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $studentsWithAttendance[] = $row;
+            }
+        }
+    }
+}
+
+?>
+
+<div class="iq-navbar-header" style="height: 215px;">
+    <div class="container-fluid iq-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="flex-wrap d-flex justify-content-between align-items-center">
+                    <div>
+                        <?php
+                        // print_r($studentsWithAttendance); 
+                        ?>
+                        <h1>Report Attendance</h1>
+                        <p>Use the filter to look inbetween dates to generate report.</p>
+                    </div>
+                    <div>
+                        <a href="" class="btn btn-link btn-soft-light">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.8251 15.2171H12.1748C14.0987 15.2171 15.731 13.985 16.3054 12.2764C16.3887 12.0276 16.1979 11.7713 15.9334 11.7713H14.8562C14.5133 11.7713 14.2362 11.4977 14.2362 11.16C14.2362 10.8213 14.5133 10.5467 14.8562 10.5467H15.9005C16.2463 10.5467 16.5263 10.2703 16.5263 9.92875C16.5263 9.58722 16.2463 9.31075 15.9005 9.31075H14.8562C14.5133 9.31075 14.2362 9.03619 14.2362 8.69849C14.2362 8.35984 14.5133 8.08528 14.8562 8.08528H15.9005C16.2463 8.08528 16.5263 7.8088 16.5263 7.46728C16.5263 7.12575 16.2463 6.84928 15.9005 6.84928H14.8562C14.5133 6.84928 14.2362 6.57472 14.2362 6.23606C14.2362 5.89837 14.5133 5.62381 14.8562 5.62381H15.9886C16.2483 5.62381 16.4343 5.3789 16.3645 5.13113C15.8501 3.32401 14.1694 2 12.1748 2H11.8251C9.42172 2 7.47363 3.92287 7.47363 6.29729V10.9198C7.47363 13.2933 9.42172 15.2171 11.8251 15.2171Z" fill="currentColor"></path>
+                                <path opacity="0.4" d="M19.5313 9.82568C18.9966 9.82568 18.5626 10.2533 18.5626 10.7823C18.5626 14.3554 15.6186 17.2627 12.0005 17.2627C8.38136 17.2627 5.43743 14.3554 5.43743 10.7823C5.43743 10.2533 5.00345 9.82568 4.46872 9.82568C3.93398 9.82568 3.5 10.2533 3.5 10.7823C3.5 15.0873 6.79945 18.6413 11.0318 19.1186V21.0434C11.0318 21.5715 11.4648 22.0001 12.0005 22.0001C12.5352 22.0001 12.9692 21.5715 12.9692 21.0434V19.1186C17.2006 18.6413 20.5 15.0873 20.5 10.7823C20.5 10.2533 20.066 9.82568 19.5313 9.82568Z" fill="currentColor"></path>
+                            </svg>
+                            Announcements
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="iq-header-img">
+        <img src="../../assets/images/dashboard/top-header.png" alt="header" class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX">
+        <img src="../../assets/images/dashboard/top-header1.png" alt="header" class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX">
+        <img src="../../assets/images/dashboard/top-header2.png" alt="header" class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX">
+        <img src="../../assets/images/dashboard/top-header3.png" alt="header" class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX">
+        <img src="../../assets/image    s/dashboard/top-header4.png" alt="header" class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX">
+        <img src="../../assets/images/dashboard/top-header5.png" alt="header" class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX">
+    </div>
+</div> <!-- Nav Header Component End -->
+<!--Nav End-->
+</div>
+<div class="conatiner-fluid content-inner mt-n5 py-0">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">Attendance Table</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <a href="#" class=" text-center btn btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 mb-4" data-bs-toggle="modal" data-bs-target="#filterModal">
+                        <i class="btn-inner">
+                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2 icon-20">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.56517 3C3.70108 3 3 3.71286 3 4.5904V5.52644C3 6.17647 3.24719 6.80158 3.68936 7.27177L8.5351 12.4243L8.53723 12.4211C9.47271 13.3788 9.99905 14.6734 9.99905 16.0233V20.5952C9.99905 20.9007 10.3187 21.0957 10.584 20.9516L13.3436 19.4479C13.7602 19.2204 14.0201 18.7784 14.0201 18.2984V16.0114C14.0201 14.6691 14.539 13.3799 15.466 12.4243L20.3117 7.27177C20.7528 6.80158 21 6.17647 21 5.52644V4.5904C21 3.71286 20.3 3 19.4359 3H4.56517Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </i>
+                        <span>Filter</span>
+                    </a>
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped" data-toggle="data-table">
+                            <thead>
+                                <tr>
+                                    <th>SI.NO</th>
+                                    <th>Student ID</th>
+                                    <th>Total Hours</th>
+                                    <th>Attended Hours</th>
+                                    <th>Attendance %</th>
+                                    <th>Overall Hours</th>
+                                    <th>Overall Att. Hours</th>
+                                    <th>Overall Att. %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1;
+                                // Get last 7 days for CSE students attendance record
+                                foreach ($studentsWithAttendance as $studentWithAttendance) {
+                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id] AND date > CURDATE() - INTERVAL 7 DAY;";
+                                    $result = mysqli_query($conn, $sql);
+                                    $attendanceRecords = array();
+                                    while ($row = $result->fetch_assoc()) {
+                                        $attendanceRecords[] = $row['status'];
+                                    }
+                                    $noOfPresentAndAbsent = array();
+                                    $noOfPresentAndAbsent[] = array_count_values($attendanceRecords);
+                                    $noOfPresent = $noOfPresentAndAbsent[0][1];
+
+                                    // Get all of the past days for CSE students attendance record
+                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id];";
+                                    $result = mysqli_query($conn, $sql);
+                                    $overallAttendanceRecords = array();
+                                    while ($row = $result->fetch_assoc()) {
+                                        $overallAttendanceRecords[] = $row['status'];
+                                    }
+                                    $overallNoOfPresentAndAbsent = array();
+                                    $overallNoOfPresentAndAbsent[] = array_count_values($overallAttendanceRecords);
+                                    $overallNoOfPresent = $overallNoOfPresentAndAbsent[0][1];
+
+                                ?>
+                                    <tr>
+                                        <td><?php echo $i ?></td>
+                                        <td><?php echo $studentWithAttendance['f_name'] . ' ' . $studentWithAttendance['l_name'] ?></td>
+                                        <td>25</td>
+                                        <td><?php echo ($noOfPresent) ?></td>
+                                        <td><?php echo ($noOfPresent / 25) * 100 . '%' ?></td>
+                                        <td>125</td>
+                                        <td><?php echo ($overallNoOfPresent) ?></td>
+                                        <td><?php echo ($overallNoOfPresent / 125) * 100 . '%' ?></td>
+                                    </tr>
+                                <?php $i++;
+                                } ?>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="btn-download">
+        <a class="btn btn-success px-3 py-2" href="https://iqonic.design/product/admin-templates/hope-ui-admin-free-open-source-bootstrap-admin-template/" target="_blank">
+            <svg class="icon-24" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path opacity="0.4" d="M17.554 7.29614C20.005 7.29614 22 9.35594 22 11.8876V16.9199C22 19.4453 20.01 21.5 17.564 21.5L6.448 21.5C3.996 21.5 2 19.4412 2 16.9096V11.8773C2 9.35181 3.991 7.29614 6.438 7.29614H7.378L17.554 7.29614Z" fill="currentColor"></path>
+                <path d="M12.5464 16.0374L15.4554 13.0695C15.7554 12.7627 15.7554 12.2691 15.4534 11.9634C15.1514 11.6587 14.6644 11.6597 14.3644 11.9654L12.7714 13.5905L12.7714 3.2821C12.7714 2.85042 12.4264 2.5 12.0004 2.5C11.5754 2.5 11.2314 2.85042 11.2314 3.2821L11.2314 13.5905L9.63742 11.9654C9.33742 11.6597 8.85043 11.6587 8.54843 11.9634C8.39743 12.1168 8.32142 12.3168 8.32142 12.518C8.32142 12.717 8.39743 12.9171 8.54643 13.0695L11.4554 16.0374C11.6004 16.1847 11.7964 16.268 12.0004 16.268C12.2054 16.268 12.4014 16.1847 12.5464 16.0374Z" fill="currentColor"></path>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Modal for filtering -->
+    <div class="modal fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Filter attendance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="classId">Class: </label>
+                        <select id="classId" name="type" class="selectpicker form-control" data-style="py-0">
+                            <option hidden disabled selected value>Choose class</option>
+                            <?php foreach ($classes as $class) { ?>
+                                <option value="<?php echo $class['classId'] ?>"><?php echo $class['course'] . ' - ' . $class['department'] . ' - ' . $class['semester'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text" class="form-label">From date</label>
+                        <input type="date" class="form-control" id="fromDate" aria-describedby="text" placeholder="From Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="text" class="form-label">To date</label>
+                        <input type="date" class="form-control" id="toDate" aria-describedby="text" placeholder="To Date">
+                    </div>
+                    <div class="text-start mt-2">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-primary" id="saveFilterBtn">Save</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+                <div id="result2"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('#saveFilterBtn').click(function(e) {
+                e.preventDefault();
+                var classId = $('#classId').val();
+                var fromDate = $('#fromDate').val();
+                var toDate = $('#toDate').val();
+                console.log(`classId: ${classId} fromDate: ${fromDate} toDate: ${toDate}`);
+                var date1 = new Date(toDate);
+                var date2 = new Date(fromDate);
+                let Difference_In_Time =
+                    date1.getTime() - date2.getTime();
+                    let Difference_In_Days =
+                    Math.round(Difference_In_Time / (1000 * 3600 * 24));
+                var days = Difference_In_Days+1;
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        classId: classId,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        days: days,
+                        Function: "filterAttendanceTable",
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        var rows = response;
+                        $('tbody').html(rows);
+                    }
+
+                })
+            });
+
+        })
+    </script>
+
+
+    <?php
+    include('/xampp/htdocs/Intern1/Includes/Footer.php');
+    ?>
