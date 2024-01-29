@@ -25,8 +25,8 @@ if (isset($_SESSION['user_id'])) {
   }
 
   // Check for admission form existence for a student
-  $sql="SELECT * FROM erp_admission WHERE userId = $user_id";
-  $admissionForm = mysqli_query($conn,$sql);
+  $sql = "SELECT * FROM erp_admission WHERE userId = $user_id";
+  $admissionForm = mysqli_query($conn, $sql);
 
   // Courses
   $sql = "SELECT * FROM erp_course";
@@ -73,6 +73,8 @@ if (isset($_SESSION['user_id'])) {
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <!-- font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="jquery.redirect.js"></script>
+
 
 
 

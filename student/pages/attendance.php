@@ -45,7 +45,7 @@ if ($result) {
                         // print_r($studentsWithAttendance); 
                         ?>
                         <h1>Report Attendance</h1>
-                        <p>Use the filter to look inbetween dates to generate report.</p>
+                        <p>You can track your attendance records of your current course.</p>
                     </div>
                     <div>
                         <a href="" class="btn btn-link btn-soft-light">
@@ -77,23 +77,14 @@ if ($result) {
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
-                        <h4 class="card-title" id="heading">Last 7 days attendance record for BE-CSE-Sem 1</h4>
+                        <h4 class="card-title" id="heading"> Your last 7 days attendance </h4>
                     </div>
                 </div>
                 <div class="card-body">
-                    <a href="#" class=" text-center btn btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 mb-4" data-bs-toggle="modal" data-bs-target="#filterModal">
-                        <i class="btn-inner">
-                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2 icon-20">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.56517 3C3.70108 3 3 3.71286 3 4.5904V5.52644C3 6.17647 3.24719 6.80158 3.68936 7.27177L8.5351 12.4243L8.53723 12.4211C9.47271 13.3788 9.99905 14.6734 9.99905 16.0233V20.5952C9.99905 20.9007 10.3187 21.0957 10.584 20.9516L13.3436 19.4479C13.7602 19.2204 14.0201 18.7784 14.0201 18.2984V16.0114C14.0201 14.6691 14.539 13.3799 15.466 12.4243L20.3117 7.27177C20.7528 6.80158 21 6.17647 21 5.52644V4.5904C21 3.71286 20.3 3 19.4359 3H4.56517Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                        </i>
-                        <span>Filter</span>
-                    </a>
                     <div class="table-responsive">
                         <table id="datatable" class="table table-striped" data-toggle="data-table">
                             <thead>
                                 <tr>
-                                    <th>SI.NO</th>
                                     <th>Student ID</th>
                                     <th>Total Hours</th>
                                     <th>Attended Hours</th>
@@ -104,10 +95,9 @@ if ($result) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1;
+                                <?php
                                 // Get last 7 days for CSE students attendance record
-                                foreach ($studentsWithAttendance as $studentWithAttendance) {
-                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id] AND date > CURDATE() - INTERVAL 7 DAY;";
+                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $user_id AND date > CURDATE() - INTERVAL 7 DAY;";
                                     $result = mysqli_query($conn, $sql);
                                     $attendanceRecords = array();
                                     while ($row = $result->fetch_assoc()) {
@@ -118,7 +108,7 @@ if ($result) {
                                     $noOfPresent = $noOfPresentAndAbsent[0][1];
 
                                     // Get all of the past days for CSE students attendance record
-                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id];";
+                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $user_id;";
                                     $result = mysqli_query($conn, $sql);
                                     $overallAttendanceRecords = array();
                                     while ($row = $result->fetch_assoc()) {
@@ -130,8 +120,7 @@ if ($result) {
 
                                 ?>
                                     <tr>
-                                        <td><?php echo $i ?></td>
-                                        <td><?php echo $studentWithAttendance['f_name'] . ' ' . $studentWithAttendance['l_name'] ?></td>
+                                        <td><?php echo $f_fname . ' ' . $f_lname ?></td>
                                         <td>25</td>
                                         <td><?php echo ($noOfPresent) ?></td>
                                         <td><?php echo ($noOfPresent / 25) * 100 . '%' ?></td>
@@ -139,8 +128,6 @@ if ($result) {
                                         <td><?php echo ($overallNoOfPresent) ?></td>
                                         <td><?php echo ($overallNoOfPresent / 125) * 100 . '%' ?></td>
                                     </tr>
-                                <?php $i++;
-                                } ?>
                         </table>
                     </div>
                 </div>
@@ -244,11 +231,8 @@ if ($result) {
                 var tableRows = $('tbody').html();
                 var classNameAndInfo = $('#reportTableRows').val();
                 $('#reportTableRows').val(`${tableRows},${classNameAndInfo}`);
-                console.log($('#reportTableRows').val());
+                console.log(classNameAndInfo);
                 $('#reportTableRowsForm').submit();
-                var classNameAndInfo = $('#reportTableRows').val("");
-                $('#reportTableRows').val(initialHeading);
-
             })
 
         })
