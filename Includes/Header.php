@@ -8,7 +8,6 @@ if (isset($_SESSION['user_id'])) {
   $query = "SELECT * FROM erp_login WHERE user_id = '$user_id'";
   $result = mysqli_query($conn, $query);
 
-
   if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $f_fname = $row['f_name'];

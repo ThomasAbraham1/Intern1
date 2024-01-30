@@ -77,7 +77,7 @@ if ($result) {
                                         </thead>
                                         <tbody>
                                             <?php foreach ($fees as $fee) { ?>
-                                                <tr>
+                                                <tr class="feeNameAndAmountRow">
                                                     <td>
                                                         <h6 class="mb-0"><?php echo $fee['feeName'] ?></h6>
                                                         <p class="mb-0">
@@ -147,24 +147,37 @@ if ($result) {
 <script>
     $(document).ready(function() {
         var total = 0;
+        var feeAmounts = [];
         $('.amount').each(function() {
+            feeAmounts.push($(this).html());
             console.log($(this).html());
             total += parseInt($(this).html(), 10);
         });
         console.log(total);
         $("#total").html('Rs. ' + total);
         var userId = $('#userId').attr('userId');
-
+        var feeNames = [];
+        $('.feeNameAndAmountRow').each(function(e) {
+            var feeName = $(this).children(':eq(0)').children(':eq(0)').html();
+            feeNames.push(feeName);
+        });
+        feeObject = {};
+        $.each(feeNames, function(e,i) {
+            feeObject[i] =feeAmounts[e];
+        });
+        console.log(feeObject);
+        // FeesObject is the json with fee name and respect amount
         // Payment confirmation - Yes
         $('#paymentConfirmBtn').click(function() {
             ;
-            console.log(userId);
+            // console.log(userId);
             // AJAX CALL FOR INSERTING 
             $.ajax({
                 url: '../functions.php',
                 type: 'POST',
                 data: {
                     userId: userId,
+                    feeObject:feeObject,
                     Function: "paymentSuccess"
                 },
                 success: function(response) {

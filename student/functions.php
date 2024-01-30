@@ -309,10 +309,26 @@ if (isset($_POST["Function"])) {
     if (isset($_POST["Function"])) {
         if ($_POST["Function"] == "paymentSuccess") {
             $userId = $_POST["userId"];
-            function paymentSuccess($userId)
+            $feeObject = $_POST["feeObject"];
+            $feeNames = '';
+            $feeAmounts = '';
+            foreach($feeObject as $feeName=>$feeAmount){
+                $feeNames .= $feeName. '/';
+                $feeAmounts .= "$feeAmount". '/';
+            }
+            $feeNames = rtrim($feeNames, '/');
+            $feeAmounts = rtrim($feeAmounts, '/');
+            // echo $feeAmounts;
+
+            function paymentSuccess($userId,$feeAmounts,$feeNames)
             {
                 global $conn;
+                // Updating student paymentStatus
                 $sql = "UPDATE `erp_login` SET `paymentStatus` = '1' WHERE `erp_login`.`user_id` = $userId";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                // Creating receipt for paid fees
+                $sql = "INSERT INTO `erp_receipt` (`receiptId`, `studentId`,`date`,`feeName`,`amount`) VALUES (NULL, '$userId',CURRENT_DATE,'$feeNames','$feeAmounts')";
                 $result = mysqli_query($conn, $sql);
                 if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
                 // close database connection
@@ -320,7 +336,7 @@ if (isset($_POST["Function"])) {
                 return "OK";
             }
 
-            echo paymentSuccess($userId);
+            echo paymentSuccess($userId,$feeAmounts,$feeNames);
         }
     }
 
