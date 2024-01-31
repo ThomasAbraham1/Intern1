@@ -616,4 +616,23 @@ if (isset($_POST["Function"])) {
         filterAttendanceTable($classId, $fromDate, $toDate, $days);
     }
 }
+
+// Create Exam
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "createExam") {
+        $examName = $_POST["examName"];
+        function createExam($examName)
+        {
+            global $conn;
+            $sql = "DELETE FROM erp_class WHERE `erp_class`.`classId` = $classId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+
+        echo createExam($examName);
+    }
+}
 ?>
