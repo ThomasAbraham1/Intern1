@@ -324,7 +324,7 @@ if (isset($_POST["Function"])) {
     }
 }
 
-//  Mark attendance
+//  Generate grading sheet
 if (isset($_POST["Function"])) {
     if ($_POST["Function"] == "generateGradingSheet") {
         $classId = $_POST["classId"];
@@ -354,6 +354,30 @@ if (isset($_POST["Function"])) {
         }
 
         echo generateGradingSheet($classId);
+    }
+}
+
+
+//  Save grading sheet
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "saveGradingSheet") {
+        $studentMarkData = $_POST["studentMarkData"];
+        function saveGradingSheet($studentMarkData)
+        {
+            global $conn;
+            foreach ($studentMarkData as $studentMarkRecord) {
+                $sql = "INSERT INTO `erp_grade` (`gradeId`, `subjectCode`, `subjectName`, `examName`, `mark`) VALUES (NULL, 'asda', 'adasdsa', 'adsa', '1231'), (NULL, 'asdas', 'asdas', 'asda', '123')";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            }
+
+            // close database connection
+            mysqli_close($conn);
+            // return "|OK";
+        }
+
+        echo saveGradingSheet($studentMarkData);
+        print_r($studentMarkData);
     }
 }
 

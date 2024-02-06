@@ -4,12 +4,12 @@ include('../includes/Menu.php');
 
 
 // Get distinct classIds from subject
-$sql = "select distinct classId from erp_subject where staffId = $user_id";
+$sql = "select * from erp_subject where staffId = $user_id";
 $result = mysqli_query($conn, $sql);
 if ($result) {
-    $uniqueClassIds = array();
+    $uniqueSubjects = array();
     while ($row = $result->fetch_assoc()) {
-        $uniqueClassIds[] = $row['classId'];
+        $uniqueSubjects[] = $row;
     }
 }
 
@@ -34,6 +34,7 @@ if ($result) {
 }
 
 ?>
+
 
 <div class="iq-navbar-header" style="height: 215px;">
     <div class="container-fluid iq-container">
@@ -71,11 +72,12 @@ if ($result) {
 
 
 <div class="card m-3 w-100 text ">
-    <div class="card-header">
-    </div>
     <div class="card-body">
+
         <div class="bd-example">
             <div class="card-body">
+                <div id="Result" style="width:30%; position:absolute;left:60%; top:7%">
+                </div>
                 <a href="#" class=" text-center btn btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 mb-4" data-bs-toggle="modal" data-bs-target="#filterModal">
                     <i class="btn-inner">
                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2 icon-20">
@@ -84,26 +86,25 @@ if ($result) {
                     </i>
                     <span>Choose class</span>
                 </a>
-                <p id="tableHeading" class='h5'></p>
+                <p id="tableHeading" class='h5 mb-4'></p>
                 <div class="table-responsive">
-                    <table id="datatable" class="table table-striped" data-toggle="data-table">
+                    <table id="basic-table" class="table table-striped mb-0" role="grid">
                         <thead>
-                            <tr>
-                                <th>Student ID</th>
-                                <th>Student Name</th>
-                                <th>Mark</th>
-                            </tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Mark</th>
                         </thead>
                         <tbody id='tableBody'>
                         </tbody>
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#paymentModal" class="btn btn-primary">Save</button>
+                    <button id="gradesSaveTableBtn" type="button" data-bs-toggle="modal" data-bs-target="#confirmGradesModal" class="btn btn-primary" hidden>Save</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <!-- Modal for filtering -->
@@ -119,11 +120,11 @@ if ($result) {
                         <label class="form-label" for="selectedClassForGrading">Class: </label>
                         <select id="selectedClassForGrading" name="type" class="selectpicker form-control" data-style="py-0">
                             <option hidden disabled selected value>Choose class</option>
-                            <?php foreach ($uniqueClassIds as $uniqueClassId) {
+                            <?php foreach ($uniqueSubjects as $uniqueSubject) {
                                 foreach ($classes as $class) {
-                                    if ($uniqueClassId == $class['classId']) {
+                                    if ($uniqueSubject['classId'] == $class['classId']) {
                             ?>
-                                        <option value="<?php echo $class['classId'] . ',' . $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] ?>"><?php echo $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] ?></option>
+                                        <option value="<?php echo $class['classId'] . ',' . $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] .','. $uniqueSubject['subjectCode']. ' ' . $uniqueSubject['subjectName']?>"><?php echo $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] . ' - '.$uniqueSubject['subjectCode']. ' - ' . $uniqueSubject['subjectName'] ?></option>
                             <?php
                                     }
                                 }
@@ -154,7 +155,7 @@ if ($result) {
     </div>
 
     <!-- Modal for confirming saving the grades -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+    <div class="modal fade" id="confirmGradesModal" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -162,16 +163,17 @@ if ($result) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete?
+                    Are you sure you want to save the grades?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
-                    <button type="button" id="delConfirmBtn" class="btn btn-danger">Yes</button>
+                    <button type="button" id="saveGradesConfirmBtn" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                 </div>
-                <div id="DelResult"></div>
+                <div id="saveGradesResult"></div>
             </div>
         </div>
     </div>
+
     <script>
         $(document).ready(function() {
             $("#chooseClassBtn").click(function(e) {
@@ -179,11 +181,11 @@ if ($result) {
                 classIdAndClassName = classIdAndClassName.split(',');
                 var classId = classIdAndClassName[0];
                 var className = classIdAndClassName[1];
-                if($('#selectedExamName').val()){
-                    console.log('Value is found');
-                } else{
-                    console.log("Not filled")
-                }
+                var subjectCodeAndSubjectName = classIdAndClassName[2];
+                var examName = $('#selectedExamName').val();
+                // if ($('#selectedExamName').val()) {
+                //     console.log('Exam Name is found');
+
 
                 $.ajax({
                     url: '../functions.php',
@@ -199,9 +201,12 @@ if ($result) {
                         console.log(response);
 
                         if (response == "OK") {
-                            $('#tableHeading').html("Mark grades for " + className);
+                            $('#tableHeading').html("Mark grades for " + className + " <br />  " + subjectCodeAndSubjectName + '<br ?>' + examName );
                             $('#tableHeading').attr('classId', classId);
                             $('#tableBody').html(rows);
+                            if ($('#tableBody td').length) {
+                                $('#gradesSaveTableBtn').attr('hidden', false);
+                            }
                             // window.location.href = "home.php";
                         } else {
                             $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
@@ -212,6 +217,62 @@ if ($result) {
                         // }, 1000);
                     }
                 });
+                // } else {
+                //     console.log("Not filled exam name");
+                //     $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> Please fill along the Exam Name field also. </div>`);
+                //     setTimeout(function() {
+                //         $("#Result").html('');
+                //     }, 2000);
+
+                // }
+            });
+
+            $('#saveGradesConfirmBtn').click(function(e) {
+                var classIdAndClassName = $('#selectedClassForGrading').val();
+                classIdAndClassName = classIdAndClassName.split(',');
+                var subjectCodeAndSubjectName = classIdAndClassName[2];
+                subjectCodeAndSubjectName= subjectCodeAndSubjectName.split(' ');
+                subjectCode = subjectCodeAndSubjectName[0];
+                subjectName = subjectCodeAndSubjectName.slice(1,subjectCodeAndSubjectName.length);
+                subjectName =subjectName.join(' ');
+                var examName = $('#selectedExamName').val();
+                var studentRow = {};
+                var studentMarkData = [];
+                $('#tableBody tr').each(function(i, e) {
+                    studentRow['studentId'] = $(e).children().eq(0).html();
+                    studentRow['studentName'] = $(e).children().eq(1).html();
+                    studentRow['studentMark'] = $(e).children().eq(2).children().val();
+                    studentMarkData.push(studentRow);
+                })
+                // $.each(studentMarkData,function(i){
+                //     studentMarkData = studentMarkData;
+                // });
+                console.log(subjectName);
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        studentMarkData: studentMarkData,
+                        Function: "saveGradingSheet",
+                    },
+                    success: function(responseMsg) {
+                        // responseMsg = responseMsg.split('|');
+                        // response = responseMsg[1];
+                        // var rows = responseMsg[0];
+                        console.log(responseMsg);
+
+                        if (response == "OK") {
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        // setTimeout(function() {
+                        //     $("#Result").html('');
+                        //     window.location.reload();
+                        // }, 1000);
+                    }
+                });
+
             });
         });
     </script>
