@@ -624,7 +624,7 @@ if (isset($_POST["Function"])) {
         function createExam($examName)
         {
             global $conn;
-            $sql = "DELETE FROM erp_class WHERE `erp_class`.`classId` = $classId";
+            $sql = "INSERT INTO `erp_exam` (`examId`, `examName`) VALUES ('', '$examName')";
             $result = mysqli_query($conn, $sql);
             if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
             // close database connection

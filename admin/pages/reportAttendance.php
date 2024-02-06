@@ -110,36 +110,39 @@ if ($result) {
                                     $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id] AND date > CURDATE() - INTERVAL 7 DAY;";
                                     $result = mysqli_query($conn, $sql);
                                     $attendanceRecords = array();
-                                    while ($row = $result->fetch_assoc()) {
-                                        $attendanceRecords[] = $row['status'];
-                                    }
-                                    $noOfPresentAndAbsent = array();
-                                    $noOfPresentAndAbsent[] = array_count_values($attendanceRecords);
-                                    $noOfPresent = $noOfPresentAndAbsent[0][1];
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            $attendanceRecords[] = $row['status'];
+                                        }
+                                        $noOfPresentAndAbsent = array();
+                                        $noOfPresentAndAbsent[] = array_count_values($attendanceRecords);
+                                        $noOfPresent = $noOfPresentAndAbsent[0][1];
 
-                                    // Get all of the past days for CSE students attendance record
-                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id];";
-                                    $result = mysqli_query($conn, $sql);
-                                    $overallAttendanceRecords = array();
-                                    while ($row = $result->fetch_assoc()) {
-                                        $overallAttendanceRecords[] = $row['status'];
-                                    }
-                                    $overallNoOfPresentAndAbsent = array();
-                                    $overallNoOfPresentAndAbsent[] = array_count_values($overallAttendanceRecords);
-                                    $overallNoOfPresent = $overallNoOfPresentAndAbsent[0][1];
+
+                                        // Get all of the past days for CSE students attendance record
+                                        $sql = "SELECT * FROM erp_attendance WHERE studentId = $studentWithAttendance[user_id];";
+                                        $result = mysqli_query($conn, $sql);
+                                        $overallAttendanceRecords = array();
+                                        while ($row = $result->fetch_assoc()) {
+                                            $overallAttendanceRecords[] = $row['status'];
+                                        }
+                                        $overallNoOfPresentAndAbsent = array();
+                                        $overallNoOfPresentAndAbsent[] = array_count_values($overallAttendanceRecords);
+                                        $overallNoOfPresent = $overallNoOfPresentAndAbsent[0][1];
 
                                 ?>
-                                    <tr>
-                                        <td><?php echo $i ?></td>
-                                        <td><?php echo $studentWithAttendance['f_name'] . ' ' . $studentWithAttendance['l_name'] ?></td>
-                                        <td>25</td>
-                                        <td><?php echo ($noOfPresent) ?></td>
-                                        <td><?php echo ($noOfPresent / 25) * 100 . '%' ?></td>
-                                        <td>125</td>
-                                        <td><?php echo ($overallNoOfPresent) ?></td>
-                                        <td><?php echo ($overallNoOfPresent / 125) * 100 . '%' ?></td>
-                                    </tr>
+                                        <tr>
+                                            <td><?php echo $i ?></td>
+                                            <td><?php echo $studentWithAttendance['f_name'] . ' ' . $studentWithAttendance['l_name'] ?></td>
+                                            <td>25</td>
+                                            <td><?php echo ($noOfPresent) ?></td>
+                                            <td><?php echo ($noOfPresent / 25) * 100 . '%' ?></td>
+                                            <td>125</td>
+                                            <td><?php echo ($overallNoOfPresent) ?></td>
+                                            <td><?php echo ($overallNoOfPresent / 125) * 100 . '%' ?></td>
+                                        </tr>
                                 <?php $i++;
+                                    }
                                 } ?>
                         </table>
                     </div>

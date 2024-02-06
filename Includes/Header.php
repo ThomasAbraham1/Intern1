@@ -36,6 +36,15 @@ if (isset($_SESSION['user_id'])) {
       $courses[] = $row;
     }
   }
+
+  // Get users
+  $sql = "SELECT * FROM erp_login";
+  $result=mysqli_query($conn,$sql);
+  $users = array();
+  while($row = $result->fetch_assoc()){
+    $users[] = $row;
+  }
+  
 ?>
   <!doctype html>
   <html lang="en" dir="ltr">

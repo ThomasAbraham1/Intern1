@@ -323,3 +323,39 @@ if (isset($_POST["Function"])) {
         }
     }
 }
+
+//  Mark attendance
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "generateGradingSheet") {
+        $classId = $_POST["classId"];
+        function generateGradingSheet($classId)
+        {
+            global $conn;
+            $sql = "SELECT * FROM erp_login where classId = $classId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            $students = array();
+            while ($row = $result->fetch_assoc()) {
+                $students[] = $row;
+            }
+
+            foreach ($students as $student) {
+?>
+                <tr>
+                    <td><?php echo $student['user_id'] ?></td>
+                    <td><?php echo $student['f_name'] . $student['l_name'] ?></td>
+                    <td><input class='form-control' type='number' value=''></td>
+                </tr>
+<?php
+            }
+            // close database connection
+            mysqli_close($conn);
+            return "|OK";
+        }
+
+        echo generateGradingSheet($classId);
+    }
+}
+
+
+?>
