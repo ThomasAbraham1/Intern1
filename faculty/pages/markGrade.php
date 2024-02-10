@@ -42,7 +42,7 @@ if ($result) {
             <div class="col-md-12">
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                     <div>
-                        <h1>Mark grades for your classes</h1>
+                        <h1>Mark grades for your classes</h1> <?php echo date('Y-m-d'); ?>
                         <p>Marks can be published for various exams for your classes here.</p>
                     </div>
                     <!-- Button on the header -->
@@ -72,12 +72,11 @@ if ($result) {
 
 
 <div class="card m-3 w-100 text ">
+<div id="Result" style="width:30%; position:absolute;left:60%; top:0%">
     <div class="card-body">
 
         <div class="bd-example">
             <div class="card-body">
-                <div id="Result" style="width:30%; position:absolute;left:60%; top:7%">
-                </div>
                 <a href="#" class=" text-center btn btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 mb-4" data-bs-toggle="modal" data-bs-target="#filterModal">
                     <i class="btn-inner">
                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2 icon-20">
@@ -124,7 +123,7 @@ if ($result) {
                                 foreach ($classes as $class) {
                                     if ($uniqueSubject['classId'] == $class['classId']) {
                             ?>
-                                        <option value="<?php echo $class['classId'] . ',' . $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] .','. $uniqueSubject['subjectCode']. ' ' . $uniqueSubject['subjectName']?>"><?php echo $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] . ' - '.$uniqueSubject['subjectCode']. ' - ' . $uniqueSubject['subjectName'] ?></option>
+                                        <option value="<?php echo $class['classId'] . ',' . $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] . ',' . $uniqueSubject['subjectCode'] . ' ' . $uniqueSubject['subjectName'] . ',' . $class['semester'] ?>"><?php echo $class['course'] . ' ' . $class['department'] . ' Sem - ' . $class['semester'] . ' - ' . $uniqueSubject['subjectCode'] . ' - ' . $uniqueSubject['subjectName'] ?></option>
                             <?php
                                     }
                                 }
@@ -183,58 +182,77 @@ if ($result) {
                 var className = classIdAndClassName[1];
                 var subjectCodeAndSubjectName = classIdAndClassName[2];
                 var examName = $('#selectedExamName').val();
-                // if ($('#selectedExamName').val()) {
-                //     console.log('Exam Name is found');
+                if ($('#selectedExamName').val()) {
+                    console.log('Exam Name is found');
 
 
-                $.ajax({
-                    url: '../functions.php',
-                    type: 'POST',
-                    data: {
-                        classId: classId,
-                        Function: "generateGradingSheet",
-                    },
-                    success: function(responseMsg) {
-                        responseMsg = responseMsg.split('|');
-                        response = responseMsg[1];
-                        var rows = responseMsg[0];
-                        console.log(response);
+                    $.ajax({
+                        url: '../functions.php',
+                        type: 'POST',
+                        data: {
+                            classId: classId,
+                            Function: "generateGradingSheet",
+                        },
+                        success: function(responseMsg) {
+                            responseMsg = responseMsg.split('|');
+                            response = responseMsg[1];
+                            var rows = responseMsg[0];
+                            console.log(response);
 
-                        if (response == "OK") {
-                            $('#tableHeading').html("Mark grades for " + className + " <br />  " + subjectCodeAndSubjectName + '<br ?>' + examName );
-                            $('#tableHeading').attr('classId', classId);
-                            $('#tableBody').html(rows);
-                            if ($('#tableBody td').length) {
-                                $('#gradesSaveTableBtn').attr('hidden', false);
+                            if (response == "OK") {
+                                $('#tableHeading').html("Mark grades for " + className + " <br />  " + subjectCodeAndSubjectName + '<br ?>' + examName);
+                                $('#tableHeading').attr('classId', classId);
+                                $('#tableBody').html(rows);
+                                if ($('#tableBody td').length) {
+                                    $('#gradesSaveTableBtn').attr('hidden', false);
+                                }
+                                // window.location.href = "home.php";
+                            } else {
+                                $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
                             }
-                            // window.location.href = "home.php";
-                        } else {
-                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                            // setTimeout(function() {
+                            //     $("#Result").html('');
+                            //     window.location.reload();
+                            // }, 1000);
                         }
-                        // setTimeout(function() {
-                        //     $("#Result").html('');
-                        //     window.location.reload();
-                        // }, 1000);
-                    }
-                });
-                // } else {
-                //     console.log("Not filled exam name");
-                //     $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> Please fill along the Exam Name field also. </div>`);
-                //     setTimeout(function() {
-                //         $("#Result").html('');
-                //     }, 2000);
+                    });
+                } else {
+                    console.log("Not filled exam name");
+                    $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> Please fill along the Exam Name field also. </div>`);
+                    setTimeout(function() {
+                        $("#Result").html('');
+                    }, 5000);
 
-                // }
+                }
             });
 
             $('#saveGradesConfirmBtn').click(function(e) {
                 var classIdAndClassName = $('#selectedClassForGrading').val();
                 classIdAndClassName = classIdAndClassName.split(',');
+                var semester = classIdAndClassName[3];
+                // console.log(semester);
+                var isAnyFieldEmpty = 0;
+                $('#tableBody input').each(function(i, e) {
+                    if (!$(e).val()) {
+                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert">Some students are missing mark entry.</div>`);
+                        setTimeout(function() {
+                            $("#Result").html('');
+                        }, 5000);
+                        isAnyFieldEmpty = 1;
+                        return false;
+                    }
+                })
+                if (isAnyFieldEmpty) return false;
+
+
+
+                var classIdAndClassName = $('#selectedClassForGrading').val();
+                classIdAndClassName = classIdAndClassName.split(',');
                 var subjectCodeAndSubjectName = classIdAndClassName[2];
-                subjectCodeAndSubjectName= subjectCodeAndSubjectName.split(' ');
+                subjectCodeAndSubjectName = subjectCodeAndSubjectName.split(' ');
                 subjectCode = subjectCodeAndSubjectName[0];
-                subjectName = subjectCodeAndSubjectName.slice(1,subjectCodeAndSubjectName.length);
-                subjectName =subjectName.join(' ');
+                subjectName = subjectCodeAndSubjectName.slice(1, subjectCodeAndSubjectName.length);
+                subjectName = subjectName.join(' ');
                 var examName = $('#selectedExamName').val();
                 var studentRow = {};
                 var studentMarkData = [];
@@ -243,16 +261,18 @@ if ($result) {
                     studentRow['studentName'] = $(e).children().eq(1).html();
                     studentRow['studentMark'] = $(e).children().eq(2).children().val();
                     studentMarkData.push(studentRow);
-                })
-                // $.each(studentMarkData,function(i){
-                //     studentMarkData = studentMarkData;
-                // });
-                console.log(subjectName);
+                    studentRow = {};
+                });
+
                 $.ajax({
                     url: '../functions.php',
                     type: 'POST',
                     data: {
                         studentMarkData: studentMarkData,
+                        examName: examName,
+                        subjectCode: subjectCode,
+                        subjectName: subjectName,
+                        semester: semester,
                         Function: "saveGradingSheet",
                     },
                     success: function(responseMsg) {
@@ -261,15 +281,16 @@ if ($result) {
                         // var rows = responseMsg[0];
                         console.log(responseMsg);
 
-                        if (response == "OK") {
+                        if (responseMsg == "OK") {
+                            $("#Result").html(`<div class="alert alert-success fade show" role="alert">Successfully Saved!</div>`);
                             // window.location.href = "home.php";
                         } else {
-                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${responseMsg}</div>`);
                         }
-                        // setTimeout(function() {
-                        //     $("#Result").html('');
-                        //     window.location.reload();
-                        // }, 1000);
+                        setTimeout(function() {
+                            $("#Result").html('');
+                            // window.location.reload();
+                        }, 5000);
                     }
                 });
 

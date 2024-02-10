@@ -3,7 +3,7 @@
 use Dompdf\Dompdf;
 // somewhere early in your project's loading, require the Composer autoloader
 // see: http://getcomposer.org/doc/00-intro.md
-require '../../../vendor/autoload.php';
+require '../../vendor/autoload.php';
 $invoiceData = $_POST['invoiceData'];
 $invoiceData = explode(',', $invoiceData);
 $receiptId = $invoiceData[0];

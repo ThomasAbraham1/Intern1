@@ -343,7 +343,7 @@ if (isset($_POST["Function"])) {
 ?>
                 <tr>
                     <td><?php echo $student['user_id'] ?></td>
-                    <td><?php echo $student['f_name'] . $student['l_name'] ?></td>
+                    <td><?php echo $student['f_name'] . ' ' . $student['l_name'] ?></td>
                     <td><input class='form-control' type='number' value=''></td>
                 </tr>
 <?php
@@ -362,22 +362,33 @@ if (isset($_POST["Function"])) {
 if (isset($_POST["Function"])) {
     if ($_POST["Function"] == "saveGradingSheet") {
         $studentMarkData = $_POST["studentMarkData"];
-        function saveGradingSheet($studentMarkData)
+        $examName = $_POST["examName"];
+        $subjectName = $_POST["subjectName"];
+        $subjectCode = $_POST["subjectCode"];
+        $semester = $_POST["semester"];
+        $date = date('Y-m-d');
+        function saveGradingSheet($studentMarkData, $subjectName, $subjectCode, $examName, $semester)
         {
             global $conn;
             foreach ($studentMarkData as $studentMarkRecord) {
-                $sql = "INSERT INTO `erp_grade` (`gradeId`, `subjectCode`, `subjectName`, `examName`, `mark`) VALUES (NULL, 'asda', 'adasdsa', 'adsa', '1231'), (NULL, 'asdas', 'asdas', 'asda', '123')";
+                $sql = "INSERT INTO `erp_grade` (`gradeId`, `subjectCode`, `subjectName`,`studentId`, `studentName`,`semester`, `examName`, `mark`,`date`) VALUES (NULL, '$subjectCode', '$subjectName','$studentMarkRecord[studentId]','$studentMarkRecord[studentName]', $semester, '$examName','$studentMarkRecord[studentMark]', CURRENT_DATE)";
                 $result = mysqli_query($conn, $sql);
                 if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
             }
 
             // close database connection
             mysqli_close($conn);
-            // return "|OK";
+            return "OK";
         }
 
-        echo saveGradingSheet($studentMarkData);
-        print_r($studentMarkData);
+        $sql = "SELECT * FROM `erp_grade` WHERE date = '$date' AND semester=$semester AND subjectCode='$subjectCode' AND examName='$examName'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            echo 'Please check the manage page before possibly posting duplicates. Or contact an administrator regarding this issue.';
+        } else {
+            echo saveGradingSheet($studentMarkData, $subjectName, $subjectCode, $examName, $semester);
+        }
+        // print_r($studentMarkData);
     }
 }
 

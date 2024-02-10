@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2024 at 09:47 AM
+-- Generation Time: Feb 10, 2024 at 06:29 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -60,56 +60,21 @@ CREATE TABLE `erp_attendance` (
 --
 
 INSERT INTO `erp_attendance` (`attendanceId`, `classId`, `subjectCode`, `period`, `studentId`, `staffId`, `date`, `day`, `status`) VALUES
-(36, 13, 'CS8762', 3, 17, 8, '2024-01-26', 'friday', 1),
-(37, 13, 'CS8762', 3, 22, 8, '2024-01-26', 'friday', 1),
-(38, 13, 'CS7724', 1, 17, 8, '2024-01-26', 'friday', 1),
-(39, 13, 'CS7724', 1, 22, 8, '2024-01-26', 'friday', 1),
-(40, 13, 'CS7724', 2, 17, 8, '2024-01-26', 'friday', 1),
-(41, 13, 'CS7724', 2, 22, 8, '2024-01-26', 'friday', 1),
-(42, 13, 'CS7724', 5, 17, 8, '2024-01-26', 'friday', 1),
-(43, 13, 'CS7724', 5, 22, 8, '2024-01-26', 'friday', 1),
-(44, 13, 'CS2891', 4, 17, 8, '2024-01-26', 'friday', 1),
-(45, 13, 'CS2891', 4, 22, 8, '2024-01-26', 'friday', 1),
-(46, 13, 'CS8762', 4, 17, 8, '2024-01-25', 'thursday', 1),
-(47, 13, 'CS8762', 4, 22, 8, '2024-01-25', 'thursday', 1),
-(48, 13, 'CS7724', 2, 17, 8, '2024-01-25', 'thursday', 1),
-(49, 13, 'CS7724', 2, 22, 8, '2024-01-25', 'thursday', 1),
-(50, 13, 'CS2891', 3, 17, 8, '2024-01-25', 'thursday', 1),
-(51, 13, 'CS2891', 3, 22, 8, '2024-01-25', 'thursday', 0),
-(52, 13, 'CS2764', 1, 17, 8, '2024-01-25', 'thursday', 0),
-(53, 13, 'CS2764', 1, 22, 8, '2024-01-25', 'thursday', 0),
-(54, 13, 'CS2764', 5, 17, 8, '2024-01-25', 'thursday', 0),
-(55, 13, 'CS2764', 5, 22, 8, '2024-01-25', 'thursday', 1),
-(56, 13, 'CS8762', 2, 17, 8, '2024-01-24', 'wednesday', 0),
-(57, 13, 'CS8762', 2, 22, 8, '2024-01-24', 'wednesday', 1),
-(58, 13, 'CS9968', 3, 17, 8, '2024-01-24', 'wednesday', 0),
-(59, 13, 'CS9968', 3, 22, 8, '2024-01-24', 'wednesday', 1),
-(60, 13, 'CS9968', 4, 17, 8, '2024-01-24', 'wednesday', 1),
-(61, 13, 'CS9968', 4, 22, 8, '2024-01-24', 'wednesday', 1),
-(62, 13, 'CS2891', 1, 17, 8, '2024-01-24', 'wednesday', 1),
-(63, 13, 'CS2891', 1, 22, 8, '2024-01-24', 'wednesday', 1),
-(64, 13, 'CS2764', 5, 17, 8, '2024-01-24', 'wednesday', 1),
-(65, 13, 'CS2764', 5, 22, 8, '2024-01-24', 'wednesday', 1),
-(66, 13, 'CS9968', 2, 17, 8, '2024-01-23', 'tuesday', 1),
-(67, 13, 'CS9968', 2, 22, 8, '2024-01-23', 'tuesday', 1),
-(68, 13, 'CS9968', 4, 17, 8, '2024-01-23', 'tuesday', 1),
-(69, 13, 'CS9968', 4, 22, 8, '2024-01-23', 'tuesday', 1),
-(70, 13, 'CS7724', 1, 17, 8, '2024-01-23', 'tuesday', 0),
-(71, 13, 'CS7724', 1, 22, 8, '2024-01-23', 'tuesday', 0),
-(72, 13, 'CS2891', 3, 17, 8, '2024-01-23', 'tuesday', 1),
-(73, 13, 'CS2891', 3, 22, 8, '2024-01-23', 'tuesday', 1),
-(74, 13, 'CS2891', 5, 22, 8, '2024-01-23', 'tuesday', 0),
-(75, 13, 'CS2891', 5, 17, 8, '2024-01-23', 'tuesday', 1),
-(76, 13, 'CS8762', 5, 17, 8, '2024-01-22', 'monday', 1),
-(77, 13, 'CS8762', 5, 22, 8, '2024-01-22', 'monday', 1),
-(78, 13, 'CS9968', 1, 17, 8, '2024-01-22', 'monday', 1),
-(79, 13, 'CS9968', 1, 22, 8, '2024-01-22', 'monday', 1),
-(80, 13, 'CS2891', 2, 17, 8, '2024-01-22', 'monday', 0),
-(81, 13, 'CS2891', 2, 22, 8, '2024-01-22', 'monday', 1),
-(82, 13, 'CS2891', 4, 17, 8, '2024-01-22', 'monday', 0),
-(83, 13, 'CS2891', 4, 22, 8, '2024-01-22', 'monday', 0),
-(84, 13, 'CS2764', 3, 17, 8, '2024-01-22', 'monday', 1),
-(85, 13, 'CS2764', 3, 22, 8, '2024-01-22', 'monday', 0);
+(96, 13, 'CS9968', 2, 17, 8, '2024-02-06', 'tuesday', 1),
+(97, 13, 'CS9968', 2, 22, 8, '2024-02-06', 'tuesday', 0),
+(98, 13, 'CS9968', 2, 23, 8, '2024-02-06', 'tuesday', 1),
+(99, 13, 'CS9968', 4, 17, 8, '2024-02-06', 'tuesday', 1),
+(100, 13, 'CS9968', 4, 22, 8, '2024-02-06', 'tuesday', 1),
+(101, 13, 'CS9968', 4, 23, 8, '2024-02-06', 'tuesday', 0),
+(102, 13, 'CS7724', 1, 17, 8, '2024-02-06', 'tuesday', 1),
+(103, 13, 'CS7724', 1, 22, 8, '2024-02-06', 'tuesday', 1),
+(104, 13, 'CS7724', 1, 23, 8, '2024-02-06', 'tuesday', 0),
+(105, 13, 'CS2891', 3, 17, 8, '2024-02-06', 'tuesday', 1),
+(106, 13, 'CS2891', 3, 22, 8, '2024-02-06', 'tuesday', 0),
+(107, 13, 'CS2891', 3, 23, 8, '2024-02-06', 'tuesday', 0),
+(108, 13, 'CS2891', 5, 17, 8, '2024-02-06', 'tuesday', 1),
+(109, 13, 'CS2891', 5, 22, 8, '2024-02-06', 'tuesday', 0),
+(110, 13, 'CS2891', 5, 23, 8, '2024-02-06', 'tuesday', 1);
 
 -- --------------------------------------------------------
 
@@ -131,12 +96,8 @@ CREATE TABLE `erp_class` (
 --
 
 INSERT INTO `erp_class` (`classId`, `startingYear`, `endingYear`, `semester`, `department`, `course`) VALUES
-(7, 2020, 2024, 3, 'EEE', 'BE'),
-(8, 2020, 2024, 1, 'MECH', 'BE'),
-(9, 2021, 2025, 1, 'ECE', 'BE'),
-(12, 12312, 12321, 3, 'ECE', 'MBA'),
 (13, 2024, 2028, 1, 'CSE', 'BE'),
-(14, 2024, 2028, 2, 'EEE', 'BE');
+(18, 2024, 2028, 1, 'ECE', 'BE');
 
 -- --------------------------------------------------------
 
@@ -171,6 +132,16 @@ CREATE TABLE `erp_exam` (
   `examName` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `erp_exam`
+--
+
+INSERT INTO `erp_exam` (`examId`, `examName`) VALUES
+(5, 'IAT1'),
+(6, 'IAT2'),
+(7, 'IAT3'),
+(8, 'University Exam');
+
 -- --------------------------------------------------------
 
 --
@@ -194,6 +165,60 @@ INSERT INTO `erp_fees` (`feesId`, `feeName`, `classId`, `amount`) VALUES
 (8, 'sports', 13, 500),
 (9, 'semester', 14, 3700),
 (10, 'sports', 14, 780);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `erp_grade`
+--
+
+CREATE TABLE `erp_grade` (
+  `gradeId` int(11) NOT NULL,
+  `subjectCode` varchar(200) NOT NULL,
+  `subjectName` varchar(200) NOT NULL,
+  `studentId` int(11) NOT NULL,
+  `studentName` varchar(200) NOT NULL,
+  `semester` int(11) NOT NULL,
+  `examName` varchar(200) NOT NULL,
+  `mark` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `erp_grade`
+--
+
+INSERT INTO `erp_grade` (`gradeId`, `subjectCode`, `subjectName`, `studentId`, `studentName`, `semester`, `examName`, `mark`, `date`) VALUES
+(58, 'CS8762', 'Computer and Fundamentals', 17, 'Thesai Jebas', 1, 'IAT1', 56, '2024-02-07'),
+(59, 'CS8762', 'Computer and Fundamentals', 22, 'Sudhan  Svan', 1, 'IAT1', 76, '2024-02-07'),
+(60, 'CS8762', 'Computer and Fundamentals', 23, 'Gowtham  S', 1, 'IAT1', 87, '2024-02-07'),
+(64, 'CS9968', 'Compiler Design', 17, 'Thesai Jebas', 1, 'IAT2', 78, '2024-02-07'),
+(65, 'CS9968', 'Compiler Design', 22, 'Sudhan  Svan', 1, 'IAT2', 98, '2024-02-07'),
+(66, 'CS9968', 'Compiler Design', 23, 'Gowtham  S', 1, 'IAT2', 75, '2024-02-07'),
+(67, 'CS7724', 'Data Structures and Algorithms', 17, 'Thesai Jebas', 1, 'IAT1', 78, '2024-02-07'),
+(68, 'CS7724', 'Data Structures and Algorithms', 22, 'Sudhan  Svan', 1, 'IAT1', 78, '2024-02-07'),
+(69, 'CS7724', 'Data Structures and Algorithms', 23, 'Gowtham  S', 1, 'IAT1', 99, '2024-02-07'),
+(70, 'CS2891', 'Problem Solving', 17, 'Thesai Jebas', 1, 'IAT1', 67, '2024-02-07'),
+(71, 'CS2891', 'Problem Solving', 22, 'Sudhan  Svan', 1, 'IAT1', 67, '2024-02-07'),
+(72, 'CS2891', 'Problem Solving', 23, 'Gowtham  S', 1, 'IAT1', 56, '2024-02-07'),
+(73, 'CS2764', 'Python Programming', 17, 'Thesai Jebas', 1, 'IAT1', 78, '2024-02-07'),
+(74, 'CS2764', 'Python Programming', 22, 'Sudhan  Svan', 1, 'IAT1', 76, '2024-02-07'),
+(75, 'CS2764', 'Python Programming', 23, 'Gowtham  S', 1, 'IAT1', 98, '2024-02-07'),
+(76, 'CS9968', 'Compiler Design', 17, 'Thesai Jebas', 1, 'IAT1', 73, '2024-02-07'),
+(77, 'CS9968', 'Compiler Design', 22, 'Sudhan  Svan', 1, 'IAT1', 86, '2024-02-07'),
+(78, 'CS9968', 'Compiler Design', 23, 'Gowtham  S', 1, 'IAT1', 78, '2024-02-07'),
+(79, 'CS8762', 'Computer and Fundamentals', 17, 'Thesai Jebas', 1, 'IAT2', 67, '2024-02-07'),
+(80, 'CS8762', 'Computer and Fundamentals', 22, 'Sudhan  Svan', 1, 'IAT2', 98, '2024-02-07'),
+(81, 'CS8762', 'Computer and Fundamentals', 23, 'Gowtham  S', 1, 'IAT2', 56, '2024-02-07'),
+(82, 'CS7724', 'Data Structures and Algorithms', 17, 'Thesai Jebas', 1, 'IAT2', 49, '2024-02-07'),
+(83, 'CS7724', 'Data Structures and Algorithms', 22, 'Sudhan  Svan', 1, 'IAT2', 95, '2024-02-07'),
+(84, 'CS7724', 'Data Structures and Algorithms', 23, 'Gowtham  S', 1, 'IAT2', 94, '2024-02-07'),
+(85, 'CS2891', 'Problem Solving', 17, 'Thesai Jebas', 1, 'IAT2', 92, '2024-02-07'),
+(86, 'CS2891', 'Problem Solving', 22, 'Sudhan  Svan', 1, 'IAT2', 28, '2024-02-07'),
+(87, 'CS2891', 'Problem Solving', 23, 'Gowtham  S', 1, 'IAT2', 95, '2024-02-07'),
+(88, 'CS2764', 'Python Programming', 17, 'Thesai Jebas', 1, 'IAT2', 75, '2024-02-07'),
+(89, 'CS2764', 'Python Programming', 22, 'Sudhan  Svan', 1, 'IAT2', 37, '2024-02-07'),
+(90, 'CS2764', 'Python Programming', 23, 'Gowtham  S', 1, 'IAT2', 96, '2024-02-07');
 
 -- --------------------------------------------------------
 
@@ -232,7 +257,8 @@ INSERT INTO `erp_login` (`user_id`, `userName`, `log_pwd`, `phone`, `role`, `cou
 (18, 'asds@1', '$2y$10$48a5KG0b5GGWrZmeg014o.tVZ31TWCzJMWNvIIUhPdLNrdEkoO0Iq', '342342', 'faculty', '', '', 0, 'asdas', 'fgdfr', '', '2023-12-09 12:37:47', 0, 0),
 (20, 'mani@1', '$2y$10$dq8bGQbUPdT6oel933iUHOch4OF/uoCz2iKKrtkVhovO/vtIlJuXW', '9442723653', 'faculty', '', '', 0, 'Sakaran', 'Manickam ', '', '2024-01-15 13:19:19', 0, 0),
 (21, 'malik@1', '$2y$10$9nJ5S5W.P1B0lA1IVr8bPui14d55qvulcfDmHjHyeMICHOv2yagKa', '091823298', 'faculty', '', '', 0, 'Shyam', 'Malick', '', '2024-01-15 13:24:07', 0, 0),
-(22, 'svan@1', '$2y$10$U5X9fE46tzKbgeJ4ITm/.eVV2mjq.4mHqxicTz1YhI1MPlB5rpxkS', '8798123782', 'student', 'BE', 'EEE', 13, 'Svan', 'Sudhan ', '', '2024-01-30 10:00:10', 1, 1);
+(22, 'svan@1', '$2y$10$U5X9fE46tzKbgeJ4ITm/.eVV2mjq.4mHqxicTz1YhI1MPlB5rpxkS', '8798123782', 'student', 'BE', 'EEE', 13, 'Svan', 'Sudhan ', '', '2024-01-30 10:00:10', 1, 1),
+(23, 'gowtham@1', '$2y$10$VnZDi/wo5Xfdi/p9Br/K1ukgaafdk8KPYz1LRosspSM2riw3ovoHi', '43543532', 'student', 'BE', 'CSE', 13, 'S', 'Gowtham ', '', '2024-02-06 11:20:07', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -273,7 +299,8 @@ CREATE TABLE `erp_receipt` (
 
 INSERT INTO `erp_receipt` (`receiptId`, `studentId`, `date`, `feeName`, `amount`) VALUES
 (9, 17, '2024-01-30', 'semester/sports', '3600/500'),
-(10, 22, '2024-01-30', 'semester/sports', '3600/500');
+(10, 22, '2024-01-30', 'semester/sports', '3600/500'),
+(11, 23, '2024-02-06', 'semester/sports', '3600/500');
 
 -- --------------------------------------------------------
 
@@ -320,12 +347,7 @@ INSERT INTO `erp_subject` (`subjectId`, `subjectCode`, `subjectName`, `staffId`,
 (3, 'CS9968', 'Compiler Design', 8, 13),
 (4, 'CS7724', 'Data Structures and Algorithms', 8, 13),
 (5, 'CS2891', 'Problem Solving', 8, 13),
-(6, 'CS2764', 'Python Programming', 8, 13),
-(9, 'EC1233', 'Electronics and Engineering', 8, 9),
-(10, 'EC9283', 'Sensor and Light', 8, 9),
-(11, 'EC9837', 'Wireless Communication', 8, 9),
-(12, 'EC2398', 'Microprocessors and architecture', 8, 9),
-(13, 'EC2039', 'Transistors and switches', 8, 9);
+(6, 'CS2764', 'Python Programming', 8, 13);
 
 -- --------------------------------------------------------
 
@@ -370,32 +392,7 @@ INSERT INTO `erp_timetable` (`timeTableId`, `classId`, `day`, `period`, `subject
 (147, 13, 'friday', '2', 'CS7724'),
 (148, 13, 'friday', '3', 'CS8762'),
 (149, 13, 'friday', '4', 'CS2891'),
-(150, 13, 'friday', '5', 'CS7724'),
-(151, 9, 'monday', '1', 'EC1233'),
-(152, 9, 'monday', '2', 'EC9837'),
-(153, 9, 'monday', '3', 'EC2398'),
-(154, 9, 'monday', '4', 'EC2398'),
-(155, 9, 'monday', '5', 'EC2039'),
-(156, 9, 'tuesday', '1', 'EC9283'),
-(157, 9, 'tuesday', '2', 'EC2039'),
-(158, 9, 'tuesday', '3', 'EC2398'),
-(159, 9, 'tuesday', '4', 'EC2039'),
-(160, 9, 'tuesday', '5', 'EC9837'),
-(161, 9, 'wednesday', '1', 'EC9283'),
-(162, 9, 'wednesday', '2', 'EC1233'),
-(163, 9, 'wednesday', '3', 'EC2039'),
-(164, 9, 'wednesday', '4', 'EC2398'),
-(165, 9, 'wednesday', '5', 'EC2039'),
-(166, 9, 'thursday', '1', 'EC2039'),
-(167, 9, 'thursday', '2', 'EC2398'),
-(168, 9, 'thursday', '3', 'EC9837'),
-(169, 9, 'thursday', '4', 'EC1233'),
-(170, 9, 'thursday', '5', 'EC9283'),
-(171, 9, 'friday', '1', 'EC9837'),
-(172, 9, 'friday', '2', 'EC9837'),
-(173, 9, 'friday', '3', 'EC1233'),
-(174, 9, 'friday', '4', 'EC2039'),
-(175, 9, 'friday', '5', 'EC2398');
+(150, 13, 'friday', '5', 'CS7724');
 
 --
 -- Indexes for dumped tables
@@ -426,10 +423,22 @@ ALTER TABLE `erp_course`
   ADD PRIMARY KEY (`courseId`);
 
 --
+-- Indexes for table `erp_exam`
+--
+ALTER TABLE `erp_exam`
+  ADD PRIMARY KEY (`examId`);
+
+--
 -- Indexes for table `erp_fees`
 --
 ALTER TABLE `erp_fees`
   ADD PRIMARY KEY (`feesId`);
+
+--
+-- Indexes for table `erp_grade`
+--
+ALTER TABLE `erp_grade`
+  ADD PRIMARY KEY (`gradeId`);
 
 --
 -- Indexes for table `erp_login`
@@ -476,19 +485,19 @@ ALTER TABLE `erp_timetable`
 -- AUTO_INCREMENT for table `erp_admission`
 --
 ALTER TABLE `erp_admission`
-  MODIFY `admissionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `admissionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `erp_attendance`
 --
 ALTER TABLE `erp_attendance`
-  MODIFY `attendanceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `attendanceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `erp_class`
 --
 ALTER TABLE `erp_class`
-  MODIFY `classId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `classId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `erp_course`
@@ -497,16 +506,28 @@ ALTER TABLE `erp_course`
   MODIFY `courseId` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `erp_exam`
+--
+ALTER TABLE `erp_exam`
+  MODIFY `examId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `erp_fees`
 --
 ALTER TABLE `erp_fees`
   MODIFY `feesId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `erp_grade`
+--
+ALTER TABLE `erp_grade`
+  MODIFY `gradeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+
+--
 -- AUTO_INCREMENT for table `erp_login`
 --
 ALTER TABLE `erp_login`
-  MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `erp_permission`
@@ -518,7 +539,7 @@ ALTER TABLE `erp_permission`
 -- AUTO_INCREMENT for table `erp_receipt`
 --
 ALTER TABLE `erp_receipt`
-  MODIFY `receiptId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `receiptId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `erp_role`

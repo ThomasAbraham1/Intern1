@@ -70,8 +70,13 @@ foreach ($subjectClassIds as $subjectClassId) {
             <!-- Display which class -->
             <?php
             $sql = "SELECT * FROM erp_class WHERE classId = $subjectClassId";
-            $result = mysqli_query($conn, $sql)->fetch_assoc();
-            echo $result['course'] . ' - ' . $result['department'] . ' - Sem ' . $result['semester'];
+            $result = mysqli_query($conn, $sql);
+            $rows = array();
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo $row['course'] . ' - ' . $row['department'] . ' - Sem ' . $row['semester'];
+                }
+            }
             ?>
         </div>
         <div class="card-body">
@@ -144,21 +149,21 @@ foreach ($subjectClassIds as $subjectClassId) {
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-check form-check-inline">
-                                                                            <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" present="1"   <?php
-                                                                                                                                if (mysqli_num_rows($result) > 0) {
-                                                                                                                                    $isPresent = $radioCheckAttendanceData[0]['status'] == 1 ? 'checked' : 'nope' ;
-                                                                                                                                echo $isPresent;
-                                                                                                                                }
-                                                                                                                                ?>>
+                                                                            <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" present="1" <?php
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    if (mysqli_num_rows($result) > 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        $isPresent = $radioCheckAttendanceData[0]['status'] == 1 ? 'checked' : 'nope';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        echo $isPresent;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    ?>>
                                                                             <label for="radio1" class="form-check-label pl-2">Present</label>
                                                                         </div>
                                                                         <div class="form-check form-check-inline">
-                                                                            <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" absent=""   <?php
-                                                                                                                                if (mysqli_num_rows($result) > 0) {
-                                                                                                                                    $isPresent = $radioCheckAttendanceData[0]['status'] == 0 ? 'checked' : 'nope' ;
-                                                                                                                                echo $isPresent;
-                                                                                                                                }
-                                                                                                                                ?>>
+                                                                            <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" absent="" <?php
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    if (mysqli_num_rows($result) > 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        $isPresent = $radioCheckAttendanceData[0]['status'] == 0 ? 'checked' : 'nope';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        echo $isPresent;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    ?>>
                                                                             <label for="radio1" class="form-check-label pl-2">Absent</label>
                                                                         </div>
                                                                     </td>

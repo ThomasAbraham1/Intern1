@@ -607,7 +607,7 @@ if (isset($_POST["Function"])) {
                         <td><?php echo ($overallNoOfPresent) ?></td>
                         <td><?php echo round(($overallNoOfPresent / 125) * 100) . '%' ?></td>
                     </tr>
-<?php $i++;
+                <?php $i++;
                 };
             }
             // close database connection
@@ -633,6 +633,83 @@ if (isset($_POST["Function"])) {
         }
 
         echo createExam($examName);
+    }
+}
+
+// Update grade
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "updateGrade") {
+        $gradeId = $_POST["gradeId"];
+        $studentMark = $_POST["studentMark"];
+        function updateGrade($gradeId, $studentMark)
+        {
+            global $conn;
+            $sql = "UPDATE `erp_grade` SET `mark` = '$studentMark' WHERE `erp_grade`.`gradeId` = $gradeId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+        echo updateGrade($gradeId, $studentMark);
+    }
+}
+
+// Filter manage grade page
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "filterManageClassPage") {
+        $classId = $_POST["classId"];
+        $semester = $_POST["semester"];
+        $examName = $_POST["examName"];
+        function filterManageClassPage($classId, $semester, $examName)
+        {
+            global $conn;
+            // $sql = "SELECT * FROM `erp_grade` WHERE semester =$semester AND studentId= AND examName= 'IAT1';";
+            // Getting student IDs with selected class from filter
+            $sql = "SELECT * FROM erp_login WHERE classId =$classId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            $studentIds = array();
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $studentIds[] = $row['user_id'];
+                }
+            }
+            $filteredGradeRecords = array();
+            foreach ($studentIds as $studentId) {
+                $sql = "SELECT * FROM `erp_grade` WHERE semester=$semester AND studentId=$studentId AND examName='$examName'";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $filteredGradeRecords[] = $row;
+                    }
+                }
+            }
+            foreach ($filteredGradeRecords as $grade) {
+                ?>
+                <tr>
+                            <td><?php echo $grade['examName'] ?></td>
+                            <td><?php echo $grade['subjectCode'] ?></td>
+                            <td><?php echo $grade['subjectName'] ?></td>
+                            <td><?php echo $grade['studentId'] ?></td>
+                            <td><?php echo $grade['studentName'] ?></td>
+                            <td><?php echo $grade['mark'] ?></td>
+                            <td>
+                                <button type='button' rowData="[<?php echo $grade['gradeId'] . ',' . $grade['studentName'] . ',' . $grade['mark'] ?>]" class='btn btn-primary editBtn' data-bs-toggle='modal' data-bs-target='#editModal'>
+                                    Edit
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" gradeId="<?php echo $grade['gradeId'] ?>" class="btn btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                            </td>
+                        </tr>
+<?php }
+            // close database connection
+            mysqli_close($conn);
+            return "|OK";
+        }
+        echo filterManageClassPage($classId, $semester, $examName);
     }
 }
 ?>

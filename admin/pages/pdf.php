@@ -2,7 +2,7 @@
 use Dompdf\Dompdf;
 // somewhere early in your project's loading, require the Composer autoloader
 // see: http://getcomposer.org/doc/00-intro.md
-require '../../../vendor/autoload.php';
+require '../../vendor/autoload.php';
 $tableRowsAndInfo = $_POST['reportTableRows'];
 $tableRowsAndInfo = explode(',',$tableRowsAndInfo);
 $tableRows = $tableRowsAndInfo[0];

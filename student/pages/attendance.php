@@ -97,8 +97,9 @@ if ($result) {
                             <tbody>
                                 <?php
                                 // Get last 7 days for CSE students attendance record
-                                    $sql = "SELECT * FROM erp_attendance WHERE studentId = $user_id AND date > CURDATE() - INTERVAL 7 DAY;";
-                                    $result = mysqli_query($conn, $sql);
+                                $sql = "SELECT * FROM erp_attendance WHERE studentId = $user_id AND date > CURDATE() - INTERVAL 7 DAY;";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0) {
                                     $attendanceRecords = array();
                                     while ($row = $result->fetch_assoc()) {
                                         $attendanceRecords[] = $row['status'];
@@ -119,15 +120,16 @@ if ($result) {
                                     $overallNoOfPresent = $overallNoOfPresentAndAbsent[0][1];
 
                                 ?>
-                                    <tr>
-                                        <td><?php echo $f_fname . ' ' . $f_lname ?></td>
-                                        <td>25</td>
-                                        <td><?php echo ($noOfPresent) ?></td>
-                                        <td><?php echo ($noOfPresent / 25) * 100 . '%' ?></td>
-                                        <td>125</td>
-                                        <td><?php echo ($overallNoOfPresent) ?></td>
-                                        <td><?php echo ($overallNoOfPresent / 125) * 100 . '%' ?></td>
-                                    </tr>
+                                <tr>
+                                    <td><?php echo $f_fname . ' ' . $f_lname ?></td>
+                                    <td>25</td>
+                                    <td><?php echo ($noOfPresent) ?></td>
+                                    <td><?php echo ($noOfPresent / 25) * 100 . '%' ?></td>
+                                    <td>125</td>
+                                    <td><?php echo ($overallNoOfPresent) ?></td>
+                                    <td><?php echo ($overallNoOfPresent / 125) * 100 . '%' ?></td>
+                                </tr>
+                                <?php } ?>
                         </table>
                     </div>
                 </div>

@@ -34,20 +34,8 @@
             document.getElementById("account").classList.add("done");
             document.getElementById("personal").classList.add("done");
             document.getElementById("payment").classList.add("done");
-            document.getElementById("payment2").classList.add("active");
-            document.getElementById("payment2").classList.remove("done");
+            document.getElementById("confirm").classList.add("active");
             document.getElementById("confirm").classList.remove("done");
-            document.getElementById("confirm").classList.remove("active");
-        }
-        if(n==4){
-            document.getElementById("account").classList.add("done");
-            document.getElementById("personal").classList.add("done");
-            document.getElementById("payment").classList.add("done");
-            document.getElementById("payment2").classList.add("done");
-            document.getElementById("payment").classList.add("active");
-            document.getElementById("payment2").classList.remove("done");
-            document.getElementById("confirm").classList.remove("done");
-            document.getElementById("confirm").classList.remove("active");
         }
     } 
     const showTab=(n)=>{
