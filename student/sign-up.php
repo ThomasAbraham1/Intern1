@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hope UI | Responsive Bootstrap 5 Admin Dashboard Template</title>
+    <title>TOM CMS | Student Sign Up</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../assets/images/favicon.ico" />
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../assets/css/core/libs.min.css" />
 
 
-    <!-- Hope Ui Design System Css -->
+    <!-- TOM CMS Design System Css -->
     <link rel="stylesheet" href="../assets/css/hope-ui.min.css?v=2.0.0" />
 
     <!-- Custom Css -->
@@ -86,10 +86,10 @@
 
 
 
-                                        <h4 class="logo-title ms-3">Hope UI</h4>
+                                        <h4 class="logo-title ms-3">TOM CMS</h4>
                                     </a>
                                     <h2 class="mb-2 text-center">Sign Up</h2>
-                                    <p class="text-center">Create your Hope UI account.</p>
+                                    <p class="text-center">Create your TOM CMS account.</p>
                                     <form id='signUpForm'>
                                         <div class="row">
                                             <div class="col-lg-6">

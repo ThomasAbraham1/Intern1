@@ -42,6 +42,7 @@ if (isset($_POST["Function"])) {
             $phone = $_POST['phone'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hasing the password
             $confirmPassword = $_POST['confirmPassword'];
+            if(!password_verify($confirmPassword,$password)) return "Passwords do not match!";
             global $conn;
             $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, active)
             VALUES ('$firstName', '$lastName', '$email', '$phone', '$roleName', '$password', 0);

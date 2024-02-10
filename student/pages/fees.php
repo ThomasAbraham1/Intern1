@@ -54,72 +54,74 @@ if ($result) {
     <div class="row">
         <div class="col-lg-12">
             <div class="card   rounded">
-                <?php if (!$isPaid) { ?>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h4 class="mb-2">Invoice </h4>
-                                <h5 class="mb-3"> </h5>
-                                <p></p>
+                <?php
+                    if (!$isPaid && $classId != 0) { ?>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h4 class="mb-2">Invoice </h4>
+                                    <h5 class="mb-3"> </h5>
+                                    <p></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 mt-4">
-                                <div class="table-responsive-lg">
-                                    <table class="table" id='userId' userId='<?php echo $user_id ?>'>
-                                        <thead>
+                            <div class="row">
+                                <div class="col-sm-12 mt-4">
+                                    <div class="table-responsive-lg">
+                                        <table class="table" id='userId' userId='<?php echo $user_id ?>'>
+                                            <thead>
 
-                                            <tr>
-                                                <th scope="col">Fee</th>
-                                                <th class="text-center" scope="col">Price</th>
-                                            </tr>
-
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($fees as $fee) { ?>
-                                                <tr class="feeNameAndAmountRow">
-                                                    <td>
-                                                        <h6 class="mb-0"><?php echo $fee['feeName'] ?></h6>
-                                                        <p class="mb-0">
-                                                        </p>
-                                                    </td>
-                                                    <td class="text-center amount"><?php echo $fee['amount'] ?></td>
+                                                <tr>
+                                                    <th scope="col">Fee</th>
+                                                    <th class="text-center" scope="col">Price</th>
                                                 </tr>
-                                            <?php } ?>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="mb-0">Net Amount</h6>
-                                                </td>
-                                                <td class="text-center"><b id='total'></b></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($fees as $fee) { ?>
+                                                    <tr class="feeNameAndAmountRow">
+                                                        <td>
+                                                            <h6 class="mb-0"><?php echo $fee['feeName'] ?></h6>
+                                                            <p class="mb-0">
+                                                            </p>
+                                                        </td>
+                                                        <td class="text-center amount"><?php echo $fee['amount'] ?></td>
+                                                    </tr>
+                                                <?php } ?>
+                                                <tr>
+                                                    <td>
+                                                        <h6 class="mb-0">Net Amount</h6>
+                                                    </td>
+                                                    <td class="text-center"><b id='total'></b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="mb-0 mt-4">
+                                        <span style="color:red">*</span>
+                                        If there by any transactional errors in processing the payment, you can always contact your immediate higher up and report the incident for a resolve with refund.
+                                    </p>
+                                    <div class="d-flex justify-content-center mt-4">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#paymentModal" class="btn btn-success">Pay Now</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <p class="mb-0 mt-4">
-                                    <span style="color:red">*</span>
-                                    If there by any transactional errors in processing the payment, you can always contact your immediate higher up and report the incident for a resolve with refund.
-                                </p>
-                                <div class="d-flex justify-content-center mt-4">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#paymentModal" class="btn btn-success">Pay Now</button>
+                    <?php } else { ?>
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-sm-12">
+                                    <h4 class="mb-2">No pending fee!</h4>
+                                    <h5 class="mb-3"> </h5>
+                                    <p></p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php } else { ?>
-                    <div class="card-body">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-sm-12">
-                                <h4 class="mb-2">No pending fee!</h4>
-                                <h5 class="mb-3"> </h5>
-                                <p></p>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
+                <?php }
+                 ?>
             </div>
         </div>
     </div>
@@ -162,8 +164,8 @@ if ($result) {
             feeNames.push(feeName);
         });
         feeObject = {};
-        $.each(feeNames, function(e,i) {
-            feeObject[i] =feeAmounts[e];
+        $.each(feeNames, function(e, i) {
+            feeObject[i] = feeAmounts[e];
         });
         console.log(feeObject);
         // FeesObject is the json with fee name and respect amount
@@ -177,7 +179,7 @@ if ($result) {
                 type: 'POST',
                 data: {
                     userId: userId,
-                    feeObject:feeObject,
+                    feeObject: feeObject,
                     Function: "paymentSuccess"
                 },
                 success: function(response) {
