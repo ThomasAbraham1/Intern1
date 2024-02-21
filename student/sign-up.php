@@ -32,6 +32,9 @@
     <!-- RTL Css -->
     <link rel="stylesheet" href="../assets/css/rtl.min.css" />
 
+      <!-- Parsley css for form validation -->
+   <link href="/intern1/assets/css/parsley.css" rel="stylesheet" />
+
 
 </head>
 
@@ -95,43 +98,37 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="first-name" class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" id="first-name" placeholder=" ">
+                                                    <input type="text" data-parsley-trigger="change" class="form-control" id="first-name" placeholder=" " required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="last-name" class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" id="last-name" placeholder=" ">
+                                                    <input type="text" data-parsley-trigger="change" class="form-control" id="last-name" placeholder=" " required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email" placeholder=" ">
+                                                    <input type="email" class="form-control" id="email" placeholder=" " data-parsley-trigger="change" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="phone" class="form-label">Phone No.</label>
-                                                    <input type="text" class="form-control" id="phone" placeholder=" ">
+                                                    <input type="number" class="form-control" data-parsley-trigger="change" id="phone" placeholder=" " required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="form-group">
+                                            <div class="form-group">
                                                     <label for="password" class="form-label">Password</label>
-                                                    <input type="password" class="form-control" id="password" placeholder=" ">
+                                                    <input type="password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z]).*" data-parsley-pattern-message="The password must include at least 1 upper case letter" class="form-control" id="password" placeholder=" " required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="confirm-password" class="form-label">Confirm Password</label>
-                                                    <input type="password" class="form-control" id="confirm-password" placeholder=" ">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 d-flex justify-content-center">
-                                                <div class="form-check mb-3">
-                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                    <label class="form-check-label" for="customCheck1">I agree with the terms of use</label>
+                                                    <input type="password" data-parsley-trigger="change" class="form-control" id="confirm-password" placeholder=" " required>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,23 +137,23 @@
                                         </div>
                                         <p class="text-center my-3">or sign in with other accounts?</p>
                                         <div class="d-flex justify-content-center">
-                                 <ul class="list-group list-group-horizontal list-group-flush">
-                                    <li class="list-group-item border-0 pb-0">
-                                       <a href="../faculty/sign-up.php">Faculty Sign Up</a>
-                                    </li>
-                                    <li class="list-group-item border-0 pb-0">
-                                       <a href="../student/sign-up.php">Admin Sign Up</a>
-                                    </li>
-                                    <!-- <li class="list-group-item border-0 pb-0">
+                                            <ul class="list-group list-group-horizontal list-group-flush">
+                                                <li class="list-group-item border-0 pb-0">
+                                                    <a href="../faculty/sign-up.php">Faculty Sign Up</a>
+                                                </li>
+                                                <li class="list-group-item border-0 pb-0">
+                                                    <a href="../student/sign-up.php">Admin Sign Up</a>
+                                                </li>
+                                                <!-- <li class="list-group-item border-0 pb-0">
                                        <a href="#"><img src="../assets/images/brands/im.svg" alt="im"></a>
                                     </li>
                                     <li class="list-group-item border-0 pb-0">
                                        <a href="#"><img src="../assets/images/brands/li.svg" alt="li"></a>
                                     </li> -->
-                                 </ul>
-                              </div>
+                                            </ul>
+                                        </div>
                                         <p class="mt-3 text-center">
-                                            Already have an Account <a href="/intern1/student/sign-up.php" class="text-underline">Sign In</a>
+                                            Already have an Account <a href="sign-in.php" class="text-underline">Sign In</a>
                                         </p>
                                     </form>
                                     <div id="Result"></div>
@@ -209,63 +206,79 @@
     <!-- App Script -->
     <script src="../assets/js/hope-ui.js" defer></script>
 
+    <!-- Parsley.js for form validation -->
+    <script src="/intern1/assets/js/parsley.js"></script>
+
 </body>
 <script>
     $(document).ready(function() {
 
+        $(function() {
+            $('#signUpForm').parsley().on('field:validated', function() {
+                    var ok = $('.parsley-error').length === 0;
+                    $('.bs-callout-info').toggleClass('hidden', !ok);
+                    $('.bs-callout-warning').toggleClass('hidden', ok);
+                })
+                .on('form:submit', function() {
+                    return false; // Don't submit form for this demo
+                });
+        });
+
         $('#signUpForm').submit(function(e) {
-            e.preventDefault();
+            if ($('#signUpForm').parsley().isValid()) {
+                e.preventDefault();
 
-            // Gather values from the form
-            var fullName = $('#first-name').val();
-            var lastName = $('#last-name').val();
-            var email = $('#email').val();
-            var phone = $('#phone').val();
-            var password = $('#password').val();
-            var confirmPassword = $('#confirm-password').val();
-            var functionName = 'signup';
-            // var Pickup_Time = $("#Pickup_Time").val();
-            // var Stop_Name = $("#Stop_Name").val();
-            // var Drop_Time = $("#Drop_Time").val();
-            // console.log(Route_No + 'HI');
+                // Gather values from the form
+                var fullName = $('#first-name').val();
+                var lastName = $('#last-name').val();
+                var email = $('#email').val();
+                var phone = $('#phone').val();
+                var password = $('#password').val();
+                var confirmPassword = $('#confirm-password').val();
+                var functionName = 'signup';
+                // var Pickup_Time = $("#Pickup_Time").val();
+                // var Stop_Name = $("#Stop_Name").val();
+                // var Drop_Time = $("#Drop_Time").val();
+                // console.log(Route_No + 'HI');
 
 
-            // Create a FormData object
-            var formData = new FormData(this);
+                // Create a FormData object
+                var formData = new FormData(this);
 
-            // Append form values to FormData
-            formData.append('fullName', fullName);
-            formData.append('lastName', lastName);
-            formData.append('email', email);
-            formData.append('phone', phone);
-            formData.append('password', password);
-            formData.append('confirmPassword', confirmPassword);
-            formData.append('Function', functionName);
-            // formData.append('event_name', event_name);
+                // Append form values to FormData
+                formData.append('fullName', fullName);
+                formData.append('lastName', lastName);
+                formData.append('email', email);
+                formData.append('phone', phone);
+                formData.append('password', password);
+                formData.append('confirmPassword', confirmPassword);
+                formData.append('Function', functionName);
+                // formData.append('event_name', event_name);
 
-            // console.log(formData);
-            // AJAX CALL FOR INSERTING 
-            $.ajax({
-                url: 'functions.php',
-                type: 'POST',
-                // data: formData,
-                processData: false,
-                contentType: false,
-                data: formData,
-                success: function(response) {
-                    console.log(response);
-                    if (response == "OK") {
-                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully logged in! </div>`);
-                        window.location.href = "home.php";
-                    } else {
-                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                // console.log(formData);
+                // AJAX CALL FOR INSERTING 
+                $.ajax({
+                    url: 'functions.php',
+                    type: 'POST',
+                    // data: formData,
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully logged in! </div>`);
+                            window.location.href = "home.php";
+                        } else {
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#Result").html('');
+                        }, 5000);
+
                     }
-                    setTimeout(function() {
-                        $("#Result").html('');
-                    }, 5000);
-
-                }
-            });
+                });
+            }
         });
     });
 </script>

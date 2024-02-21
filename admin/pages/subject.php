@@ -10,7 +10,7 @@ if ($result) {
         $faculties[] = $row;
     }
 }
-
+    
 // Options of classes to which subject would belongs to
 $sql = "SELECT * FROM `erp_class`";
 $result = mysqli_query($conn, $sql);

@@ -4,8 +4,8 @@ include('../includes/Menu.php');
 
 // Attendance data for marking structure
 // $today = strtolower(date('l'));
-$today = date('l');
-$date = date('Y-m-d');
+$today = 'friday'; 
+$date = '2024-02-16';
 $sql = "SELECT * FROM `erp_subject` WHERE staffId = $user_id";
 $result = mysqli_query($conn, $sql);
 if ($result) {

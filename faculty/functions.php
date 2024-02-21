@@ -44,6 +44,7 @@ if (isset($_POST["Function"])) {
             $department = $_POST['department'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hasing the password
             $confirmPassword = $_POST['confirmPassword'];
+            if(!password_verify($confirmPassword,$password)) return "Passwords do not match!";
             global $conn;
             $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, active, department)
             VALUES ('$firstName', '$lastName', '$email', '$phone', '$roleName', '$password', 0, '$department');
@@ -297,7 +298,7 @@ if (isset($_POST["Function"])) {
             function markAttendance($isPresent, $classId, $day, $staffId, $studentId, $subjectCode, $period)
             {
                 global $conn;
-                $date = date('Y-m-d');
+                $date = '2024-02-16';
                 // Check if record already exists for a subject's specific period
                 $sql = "SELECT * FROM erp_attendance WHERE date='$date' AND studentId =$studentId AND classId=$classId AND subjectCode='$subjectCode' AND period=$period";
                 $result = mysqli_query($conn, $sql);

@@ -278,7 +278,7 @@ if (isset($_GET["Menu"])) {
             </i>
           </a>
           <ul class="sub-nav collapse" id="horizontal-menu3" data-bs-parent="#sidebar-menu">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" aria-current="page" href="/Intern1/admin/pages/roles.php">
                 <i class="icon">
                   <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -292,7 +292,7 @@ if (isset($_GET["Menu"])) {
                   <!-- <span class="badge rounded-pill bg-success item-name">UI</span> -->
                 </span>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="/Intern1/admin/pages/reportAttendance.php">
                 <i class="icon">
@@ -996,7 +996,7 @@ if (isset($_GET["Menu"])) {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
-            <li class="me-0 me-xl-2">
+            <!-- <li class="me-0 me-xl-2">
               <a class="btn btn-primary btn-sm d-flex gap-2 align-items-center" aria-current="page" href="http://hopeui.iqonic.design/pro?utm_source=hopeui-free-demo&utm_medium=hopeui-free-demo&utm_campaign=hopeui-pro-launch" target="_blank">
                 <svg class="icon-16" width="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M21.4274 2.5783C20.9274 2.0673 20.1874 1.8783 19.4974 2.0783L3.40742 6.7273C2.67942 6.9293 2.16342 7.5063 2.02442 8.2383C1.88242 8.9843 2.37842 9.9323 3.02642 10.3283L8.05742 13.4003C8.57342 13.7163 9.23942 13.6373 9.66642 13.2093L15.4274 7.4483C15.7174 7.1473 16.1974 7.1473 16.4874 7.4483C16.7774 7.7373 16.7774 8.2083 16.4874 8.5083L10.7164 14.2693C10.2884 14.6973 10.2084 15.3613 10.5234 15.8783L13.5974 20.9283C13.9574 21.5273 14.5774 21.8683 15.2574 21.8683C15.3374 21.8683 15.4274 21.8683 15.5074 21.8573C16.2874 21.7583 16.9074 21.2273 17.1374 20.4773L21.9074 4.5083C22.1174 3.8283 21.9274 3.0883 21.4274 2.5783Z" fill="currentColor"></path>
@@ -1173,7 +1173,7 @@ if (isset($_GET["Menu"])) {
                   </div>
                 </div>
               </div>
-            </li>
+            </li> -->
             <li class="nav-item dropdown">
               <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="/intern1/assets/images/avatars/01.png" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">

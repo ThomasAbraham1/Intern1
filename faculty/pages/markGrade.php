@@ -72,7 +72,8 @@ if ($result) {
 
 
 <div class="card m-3 w-100 text ">
-<div id="Result" style="width:30%; position:absolute;left:60%; top:0%">
+    <div id="Result" style="width:30%; position:absolute;left:60%; top:0%">
+    </div>
     <div class="card-body">
 
         <div class="bd-example">

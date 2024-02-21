@@ -111,7 +111,7 @@ mysqli_close($conn);
                                         </ul>
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <ul class="list-group list-group-horizontal list-group-flush">
+                                        <!-- <ul class="list-group list-group-horizontal list-group-flush">
                                             <li class="list-group-item border-0 pb-0">
                                                 <a href="./Student/sign-up.php">Student Sign Up</a>
                                             </li>
@@ -120,7 +120,7 @@ mysqli_close($conn);
                                             </li>
                                             <li class="list-group-item border-0 pb-0">
                                                 <a href="./Faculty/sign-up.php">Faculty Sign Up</a>
-                                            </li>
+                                            </li> -->
                                             <!-- <li class="list-group-item border-0 pb-0">
                                        <a href="#"><img src="assets/images/brands/im.svg" alt="im"></a>
                                     </li>

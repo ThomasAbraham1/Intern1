@@ -32,6 +32,9 @@
    <!-- RTL Css -->
    <link rel="stylesheet" href="../assets/css/rtl.min.css" />
 
+   <!-- Parsley css for form validation -->
+   <link href="/intern1/assets/css/parsley.css" rel="stylesheet" />
+
 
 </head>
 
@@ -88,22 +91,15 @@
                               <div class="row">
                                  <div class="col-lg-12">
                                     <div class="form-group">
-                                       <label for="username" class="form-label">Username</label>
-                                       <input type="username" class="form-control" name="username" id="username" aria-describedby="username" placeholder=" ">
+                                       <label for="username" class="form-label">Email</label>
+                                       <input type="email" class="form-control" name="username" id="username" aria-describedby="username" data-parsley-trigger="change" placeholder="" required>
                                     </div>
                                  </div>
                                  <div class="col-lg-12">
-                                    <div class="form-group">
+                                 <div class="form-group">
                                        <label for="password" class="form-label">Password</label>
-                                       <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder=" ">
+                                       <input type="password" class="form-control" name="password" id="password" data-parsley-trigger="change" aria-describedby="password" placeholder=" " required>
                                     </div>
-                                 </div>
-                                 <div class="col-lg-12 d-flex justify-content-between">
-                                    <div class="form-check mb-3">
-                                       <input type="checkbox" class="form-check-input" id="customCheck1">
-                                       <label class="form-check-label" for="customCheck1">Remember Me</label>
-                                    </div>
-                                    <a href="recoverpw.html">Forgot Password?</a>
                                  </div>
                               </div>
                               <div class="d-flex justify-content-center">
@@ -152,62 +148,6 @@
          </div>
       </section>
    </div>
-
-   <script>
-      $(document).ready(function() {
-
-         $('#loginForm').submit(function(e) {
-            e.preventDefault();
-
-            var username = $("#username").val();
-            var password = $("#password").val();
-            // var Pickup_Time = $("#Pickup_Time").val();
-            // var Stop_Name = $("#Stop_Name").val();
-            // var Drop_Time = $("#Drop_Time").val();
-            // console.log(Route_No + 'HI');
-
-
-            // var formData = new FormData(this); 
-
-            // // add selected value to formData
-            // formData.append('event_name', event_name);
-
-            // console.log(formData);
-            // AJAX CALL FOR INSERTING 
-            $.ajax({
-               url: 'functions.php',
-               type: 'POST',
-               // data: formData,
-               // processData: false,
-               // contentType: false,
-               data: {
-                  username: username,
-                  password: password,
-                  // Route_No: Route_No,
-                  // Route_Name: Route_Name,
-                  // Pickup_Time: Pickup_Time,
-                  // Stop_Name: Stop_Name,
-                  // Drop_Time: Drop_Time,
-                  Function: "Login"
-               },
-               success: function(response) {
-                  console.log(response);
-                  if (response == "OK") {
-                     $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully logged in! </div>`);
-                     window.location.href = "home.php";
-                  } else {
-                     $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
-                  }
-                  setTimeout(function() {
-                     $("#Result").html('');
-                  }, 5000);
-
-               }
-            });
-         });
-      });
-   </script>
-
    <!-- Library Bundle Script -->
    <script src="../assets/js/core/libs.min.js"></script>
 
@@ -237,6 +177,79 @@
 
    <!-- App Script -->
    <script src="../assets/js/hope-ui.js" defer></script>
+
+   <!-- Parsley.js for form validation -->
+   <script src="/intern1/assets/js/parsley.js"></script>
+
+   <script>
+      $(document).ready(function() {
+
+         $(function() {
+            $('#loginForm').parsley().on('field:validated', function() {
+                  var ok = $('.parsley-error').length === 0;
+                  $('.bs-callout-info').toggleClass('hidden', !ok);
+                  $('.bs-callout-warning').toggleClass('hidden', ok);
+               })
+               .on('form:submit', function() {
+                  return false; // Don't submit form for this demo
+               });
+         });
+
+         $('#loginForm').submit(function(e) {
+            if ($('#loginForm').parsley().isValid()) {
+               e.preventDefault();
+
+               var username = $("#username").val();
+               var password = $("#password").val();
+               // var Pickup_Time = $("#Pickup_Time").val();
+               // var Stop_Name = $("#Stop_Name").val();
+               // var Drop_Time = $("#Drop_Time").val();
+               // console.log(Route_No + 'HI');
+
+
+               // var formData = new FormData(this); 
+
+               // // add selected value to formData
+               // formData.append('event_name', event_name);
+
+               // console.log(formData);
+               // AJAX CALL FOR INSERTING 
+               $.ajax({
+                  url: 'functions.php',
+                  type: 'POST',
+                  // data: formData,
+                  // processData: false,
+                  // contentType: false,
+                  data: {
+                     username: username,
+                     password: password,
+                     // Route_No: Route_No,
+                     // Route_Name: Route_Name,
+                     // Pickup_Time: Pickup_Time,
+                     // Stop_Name: Stop_Name,
+                     // Drop_Time: Drop_Time,
+                     Function: "Login"
+                  },
+                  success: function(response) {
+                     console.log(response);
+                     if (response == "OK") {
+                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully logged in! </div>`);
+                        window.location.href = "home.php";
+                     } else {
+                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                     }
+                     setTimeout(function() {
+                        $("#Result").html('');
+                     }, 5000);
+
+                  }
+               });
+            }
+         });
+      });
+   </script>
+
+
 
 </body>
 

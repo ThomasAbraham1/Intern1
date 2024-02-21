@@ -82,6 +82,8 @@ if (isset($_SESSION['user_id'])) {
     <!-- font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="jquery.redirect.js"></script>
+    <!-- Parsley.js for form validation -->
+    <script src="/assets/js/parsley.js"></script>
 
 
 
