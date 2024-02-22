@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2024 at 06:29 AM
+-- Generation Time: Feb 22, 2024 at 06:04 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -60,21 +60,77 @@ CREATE TABLE `erp_attendance` (
 --
 
 INSERT INTO `erp_attendance` (`attendanceId`, `classId`, `subjectCode`, `period`, `studentId`, `staffId`, `date`, `day`, `status`) VALUES
-(96, 13, 'CS9968', 2, 17, 8, '2024-02-06', 'tuesday', 1),
-(97, 13, 'CS9968', 2, 22, 8, '2024-02-06', 'tuesday', 0),
-(98, 13, 'CS9968', 2, 23, 8, '2024-02-06', 'tuesday', 1),
-(99, 13, 'CS9968', 4, 17, 8, '2024-02-06', 'tuesday', 1),
-(100, 13, 'CS9968', 4, 22, 8, '2024-02-06', 'tuesday', 1),
-(101, 13, 'CS9968', 4, 23, 8, '2024-02-06', 'tuesday', 0),
-(102, 13, 'CS7724', 1, 17, 8, '2024-02-06', 'tuesday', 1),
-(103, 13, 'CS7724', 1, 22, 8, '2024-02-06', 'tuesday', 1),
-(104, 13, 'CS7724', 1, 23, 8, '2024-02-06', 'tuesday', 0),
-(105, 13, 'CS2891', 3, 17, 8, '2024-02-06', 'tuesday', 1),
-(106, 13, 'CS2891', 3, 22, 8, '2024-02-06', 'tuesday', 0),
-(107, 13, 'CS2891', 3, 23, 8, '2024-02-06', 'tuesday', 0),
-(108, 13, 'CS2891', 5, 17, 8, '2024-02-06', 'tuesday', 1),
-(109, 13, 'CS2891', 5, 22, 8, '2024-02-06', 'tuesday', 0),
-(110, 13, 'CS2891', 5, 23, 8, '2024-02-06', 'tuesday', 1);
+(136, 13, 'CS2891', 4, 23, 8, '2024-02-13', 'monday', 0),
+(137, 13, 'CS2891', 4, 25, 8, '2024-02-13', 'monday', 1),
+(138, 13, 'CS2764', 3, 22, 8, '2024-02-13', 'monday', 0),
+(139, 13, 'CS2764', 3, 23, 8, '2024-02-13', 'monday', 1),
+(140, 13, 'CS2764', 3, 25, 8, '2024-02-13', 'monday', 1),
+(141, 13, 'CS9968', 2, 22, 8, '2024-02-13', 'tuesday', 1),
+(142, 13, 'CS8762', 5, 22, 8, '2024-02-12', 'monday', 1),
+(143, 13, 'CS8762', 5, 23, 8, '2024-02-12', 'monday', 1),
+(144, 13, 'CS8762', 5, 25, 8, '2024-02-12', 'monday', 1),
+(145, 13, 'CS9968', 1, 22, 8, '2024-02-12', 'monday', 1),
+(146, 13, 'CS9968', 1, 23, 8, '2024-02-12', 'monday', 1),
+(147, 13, 'CS9968', 1, 25, 8, '2024-02-12', 'monday', 0),
+(148, 13, 'CS2891', 2, 22, 8, '2024-02-12', 'monday', 0),
+(149, 13, 'CS2891', 2, 23, 8, '2024-02-12', 'monday', 0),
+(150, 13, 'CS2891', 2, 25, 8, '2024-02-12', 'monday', 1),
+(151, 13, 'CS2891', 4, 22, 8, '2024-02-12', 'monday', 1),
+(152, 13, 'CS2891', 4, 23, 8, '2024-02-12', 'monday', 1),
+(153, 13, 'CS2891', 4, 25, 8, '2024-02-12', 'monday', 1),
+(154, 13, 'CS2764', 3, 22, 8, '2024-02-12', 'monday', 1),
+(155, 13, 'CS2764', 3, 23, 8, '2024-02-12', 'monday', 0),
+(156, 13, 'CS2764', 3, 25, 8, '2024-02-12', 'monday', 1),
+(157, 13, 'CS9968', 2, 23, 8, '2024-02-13', 'tuesday', 1),
+(158, 13, 'CS9968', 2, 25, 8, '2024-02-13', 'tuesday', 0),
+(159, 13, 'CS9968', 4, 22, 8, '2024-02-13', 'tuesday', 0),
+(160, 13, 'CS9968', 4, 23, 8, '2024-02-13', 'tuesday', 1),
+(161, 13, 'CS9968', 4, 25, 8, '2024-02-13', 'tuesday', 1),
+(162, 13, 'CS7724', 1, 23, 8, '2024-02-13', 'tuesday', 1),
+(163, 13, 'CS7724', 1, 22, 8, '2024-02-13', 'tuesday', 1),
+(164, 13, 'CS7724', 1, 25, 8, '2024-02-13', 'tuesday', 1),
+(165, 13, 'CS2891', 3, 22, 8, '2024-02-13', 'tuesday', 1),
+(166, 13, 'CS2891', 3, 23, 8, '2024-02-13', 'tuesday', 1),
+(167, 13, 'CS2891', 3, 25, 8, '2024-02-13', 'tuesday', 1),
+(168, 13, 'CS2891', 5, 22, 8, '2024-02-13', 'tuesday', 1),
+(169, 13, 'CS2891', 5, 23, 8, '2024-02-13', 'tuesday', 0),
+(170, 13, 'CS2891', 5, 25, 8, '2024-02-13', 'tuesday', 1),
+(171, 13, 'CS8762', 2, 22, 8, '2024-02-14', 'wednesday', 1),
+(172, 13, 'CS8762', 2, 23, 8, '2024-02-14', 'wednesday', 1),
+(173, 13, 'CS8762', 2, 25, 8, '2024-02-14', 'wednesday', 1),
+(174, 13, 'CS9968', 3, 22, 8, '2024-02-14', 'wednesday', 1),
+(175, 13, 'CS9968', 3, 23, 8, '2024-02-14', 'wednesday', 1),
+(176, 13, 'CS9968', 3, 25, 8, '2024-02-14', 'wednesday', 1),
+(177, 13, 'CS9968', 4, 22, 8, '2024-02-14', 'wednesday', 1),
+(178, 13, 'CS9968', 4, 23, 8, '2024-02-14', 'wednesday', 1),
+(179, 13, 'CS9968', 4, 25, 8, '2024-02-14', 'wednesday', 1),
+(180, 13, 'CS2891', 1, 22, 8, '2024-02-14', 'wednesday', 1),
+(181, 13, 'CS2891', 1, 23, 8, '2024-02-14', 'wednesday', 1),
+(182, 13, 'CS2891', 1, 25, 8, '2024-02-14', 'wednesday', 0),
+(183, 13, 'CS2764', 5, 22, 8, '2024-02-14', 'wednesday', 0),
+(184, 13, 'CS2764', 5, 23, 8, '2024-02-14', 'wednesday', 0),
+(185, 13, 'CS2764', 5, 25, 8, '2024-02-14', 'wednesday', 0),
+(186, 13, 'CS8762', 4, 22, 8, '2024-02-15', 'thursday', 0),
+(187, 13, 'CS8762', 4, 23, 8, '2024-02-15', 'thursday', 1),
+(188, 13, 'CS8762', 4, 25, 8, '2024-02-15', 'thursday', 1),
+(189, 13, 'CS7724', 2, 22, 8, '2024-02-15', 'thursday', 1),
+(190, 13, 'CS7724', 2, 23, 8, '2024-02-15', 'thursday', 1),
+(191, 13, 'CS7724', 2, 25, 8, '2024-02-15', 'thursday', 1),
+(192, 13, 'CS2891', 3, 23, 8, '2024-02-15', 'thursday', 0),
+(193, 13, 'CS2891', 3, 22, 8, '2024-02-15', 'thursday', 1),
+(194, 13, 'CS2891', 3, 25, 8, '2024-02-15', 'thursday', 1),
+(195, 13, 'CS2764', 1, 22, 8, '2024-02-15', 'thursday', 1),
+(196, 13, 'CS2764', 1, 23, 8, '2024-02-15', 'thursday', 1),
+(197, 13, 'CS2764', 1, 25, 8, '2024-02-15', 'thursday', 1),
+(198, 13, 'CS2764', 5, 22, 8, '2024-02-15', 'thursday', 1),
+(199, 13, 'CS2764', 5, 23, 8, '2024-02-15', 'thursday', 1),
+(200, 13, 'CS2764', 5, 25, 8, '2024-02-15', 'thursday', 1),
+(201, 13, 'CS8762', 3, 22, 8, '2024-02-16', 'friday', 1),
+(202, 13, 'CS8762', 3, 25, 8, '2024-02-16', 'friday', 0),
+(203, 13, 'CS8762', 3, 23, 8, '2024-02-16', 'friday', 0),
+(204, 13, 'CS7724', 1, 22, 8, '2024-02-16', 'friday', 1),
+(205, 13, 'CS7724', 1, 25, 8, '2024-02-16', 'friday', 1),
+(206, 13, 'CS7724', 1, 23, 8, '2024-02-16', 'friday', 1);
 
 -- --------------------------------------------------------
 
@@ -189,7 +245,7 @@ CREATE TABLE `erp_grade` (
 --
 
 INSERT INTO `erp_grade` (`gradeId`, `subjectCode`, `subjectName`, `studentId`, `studentName`, `semester`, `examName`, `mark`, `date`) VALUES
-(58, 'CS8762', 'Computer and Fundamentals', 17, 'Thesai Jebas', 1, 'IAT1', 56, '2024-02-07'),
+(58, 'CS8762', 'Computer and Fundamentals', 17, 'Thesai Jebas', 1, 'IAT1', 57, '2024-02-07'),
 (59, 'CS8762', 'Computer and Fundamentals', 22, 'Sudhan  Svan', 1, 'IAT1', 76, '2024-02-07'),
 (60, 'CS8762', 'Computer and Fundamentals', 23, 'Gowtham  S', 1, 'IAT1', 87, '2024-02-07'),
 (64, 'CS9968', 'Compiler Design', 17, 'Thesai Jebas', 1, 'IAT2', 78, '2024-02-07'),
@@ -218,7 +274,10 @@ INSERT INTO `erp_grade` (`gradeId`, `subjectCode`, `subjectName`, `studentId`, `
 (87, 'CS2891', 'Problem Solving', 23, 'Gowtham  S', 1, 'IAT2', 95, '2024-02-07'),
 (88, 'CS2764', 'Python Programming', 17, 'Thesai Jebas', 1, 'IAT2', 75, '2024-02-07'),
 (89, 'CS2764', 'Python Programming', 22, 'Sudhan  Svan', 1, 'IAT2', 37, '2024-02-07'),
-(90, 'CS2764', 'Python Programming', 23, 'Gowtham  S', 1, 'IAT2', 96, '2024-02-07');
+(90, 'CS2764', 'Python Programming', 23, 'Gowtham  S', 1, 'IAT2', 96, '2024-02-07'),
+(91, 'CS8762', 'Computer and Fundamentals', 22, 'Sudhan  Svan', 1, 'IAT3', 78, '2024-02-17'),
+(92, 'CS8762', 'Computer and Fundamentals', 23, 'Gowtham  S', 1, 'IAT3', 65, '2024-02-17'),
+(93, 'CS8762', 'Computer and Fundamentals', 25, 'Timothy Abraham', 1, 'IAT3', 89, '2024-02-17');
 
 -- --------------------------------------------------------
 
@@ -248,17 +307,22 @@ CREATE TABLE `erp_login` (
 --
 
 INSERT INTO `erp_login` (`user_id`, `userName`, `log_pwd`, `phone`, `role`, `course`, `department`, `classId`, `l_name`, `f_name`, `yearOfAdmission`, `log_session`, `active`, `paymentStatus`) VALUES
-(6, 'cta@1', '$2y$10$WZxQYEUe800HmaqL5okcK.k1rpuLOlyQE/YGjx/Unsg.EZG94y1ji', '2334999', 'admin', '', '', 0, 'Abraham', 'Thomas', '', '2023-12-10 16:13:42', 0, 0),
+(6, 'cta@gmail.com', '$2y$10$WZxQYEUe800HmaqL5okcK.k1rpuLOlyQE/YGjx/Unsg.EZG94y1ji', '2334999', 'admin', '', '', 0, 'Abraham', 'Thomas', '', '2024-02-21 17:33:17', 0, 0),
 (7, 'cta@2', '$2y$10$x85S7zGqgNFtcMQ.VuA75OtUwQ.YaweIa.ErEb0LXXR0xC0jJiufy', '9442723543', 'admin', '', '', 0, 'Abraham', 'Timothy', '', '2023-12-07 13:07:00', 0, 0),
-(8, 'muthu@1', '$2y$10$oEIXB6BH5eOug9vtsT9PJ.DsDhsx8T87qo.ZqvLZbdKv8EnIoucJu', '81209381', 'faculty', '', '', 0, 'Raman', 'Muthu', '', '2024-01-24 07:38:47', 0, 0),
+(8, 'muthu@gmail.com', '$2y$10$oEIXB6BH5eOug9vtsT9PJ.DsDhsx8T87qo.ZqvLZbdKv8EnIoucJu', '81209381', 'faculty', '', 'CSE', 0, 'Raman', 'Muthu', '', '2024-02-21 17:30:10', 0, 0),
 (9, 'hello@1', '$2y$10$XVA/8ZRttEU2vVqkkcT9Kux6rVya0RCQH2G7sagXLL1RTA1xPN8hq', '12312', 'admin', '', '', 0, 'Kong', 'King', '', '2023-12-07 13:38:40', 0, 0),
 (10, 'asa@1', '$2y$10$JScnPNB5R5/4aT.PtYy13uHVYTKwOLQV5Y.o.T4ARqbMylxGAL7Dy', '0981230', 'faculty', '', '', 0, 'asda', 'asd', '', '2023-12-07 14:00:56', 0, 0),
-(17, 'thesai@1', '$2y$10$Jn/13Md3Yw/EAoJdx3SmYen0YHiZgKAzXb5opr7ssHSQdkOt7YL/m', '901280381', 'student', 'BE', 'CSE', 13, 'Jebas', 'Thesai', '', '2024-01-30 09:20:19', 1, 1),
+(17, 'thesai@gmail.com', '$2y$10$Jn/13Md3Yw/EAoJdx3SmYen0YHiZgKAzXb5opr7ssHSQdkOt7YL/m', '901280381', 'student', '', '', 0, 'Jebas', 'Thesai', '', '2024-02-21 17:03:04', 1, 0),
 (18, 'asds@1', '$2y$10$48a5KG0b5GGWrZmeg014o.tVZ31TWCzJMWNvIIUhPdLNrdEkoO0Iq', '342342', 'faculty', '', '', 0, 'asdas', 'fgdfr', '', '2023-12-09 12:37:47', 0, 0),
 (20, 'mani@1', '$2y$10$dq8bGQbUPdT6oel933iUHOch4OF/uoCz2iKKrtkVhovO/vtIlJuXW', '9442723653', 'faculty', '', '', 0, 'Sakaran', 'Manickam ', '', '2024-01-15 13:19:19', 0, 0),
 (21, 'malik@1', '$2y$10$9nJ5S5W.P1B0lA1IVr8bPui14d55qvulcfDmHjHyeMICHOv2yagKa', '091823298', 'faculty', '', '', 0, 'Shyam', 'Malick', '', '2024-01-15 13:24:07', 0, 0),
 (22, 'svan@1', '$2y$10$U5X9fE46tzKbgeJ4ITm/.eVV2mjq.4mHqxicTz1YhI1MPlB5rpxkS', '8798123782', 'student', 'BE', 'EEE', 13, 'Svan', 'Sudhan ', '', '2024-01-30 10:00:10', 1, 1),
-(23, 'gowtham@1', '$2y$10$VnZDi/wo5Xfdi/p9Br/K1ukgaafdk8KPYz1LRosspSM2riw3ovoHi', '43543532', 'student', 'BE', 'CSE', 13, 'S', 'Gowtham ', '', '2024-02-06 11:20:07', 1, 1);
+(23, 'gowtham@1', '$2y$10$VnZDi/wo5Xfdi/p9Br/K1ukgaafdk8KPYz1LRosspSM2riw3ovoHi', '43543532', 'student', 'BE', 'CSE', 13, 'S', 'Gowtham ', '', '2024-02-06 11:20:07', 1, 1),
+(25, 'timo@1', '$2y$10$ZhjpNs784PPF45fzLTOmku.EDh.2KuXHRHo2IoCQrwfd8FRQ3aeja', '123412312', 'student', 'BE', 'CSE', 13, 'Abraham', 'Timothy', '', '2024-02-10 06:40:58', 1, 0),
+(27, 'manickam@1', '$2y$10$KZpN0sXubQka3jhUvGgfM.V/Vxiy.h6U4ObOtgajPRnHU5tepc3sC', '34234323', 'admin', '', '', 0, 'Sakarai', 'Manickam', '', '2024-02-10 06:17:56', 0, 0),
+(28, 'richard@1', '$2y$10$JjpNAkSwxRXGFKydLTZbXepv.D5HgnZmK05iummNfnjqEFcSjBx0y', '9347343', 'faculty', '', 'CSE', 0, 'Daniel', 'Richard', '', '2024-02-10 06:56:13', 0, 0),
+(33, '.cta@gmail.com', '$2y$10$l0g7aEX9pnX4mHPdRylCq.o2ebrQa/EgXltiedJCTDUoenwDyNgoC', '09385341273', 'student', 'BE', 'CSE', 13, 'Abraham', 'Thomas', '', '2024-02-17 07:43:30', 1, 1),
+(36, 'jesus@gmail.com', '$2y$10$SOYI4R5o9B.4mskbDqxiRewe8qiIPNVMLKiMAmJgG4wLC54eEcVG2', '12312', 'admin', '', '', 0, 'Christ', 'Jes', '', '2024-02-21 14:07:16', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -298,9 +362,9 @@ CREATE TABLE `erp_receipt` (
 --
 
 INSERT INTO `erp_receipt` (`receiptId`, `studentId`, `date`, `feeName`, `amount`) VALUES
-(9, 17, '2024-01-30', 'semester/sports', '3600/500'),
 (10, 22, '2024-01-30', 'semester/sports', '3600/500'),
-(11, 23, '2024-02-06', 'semester/sports', '3600/500');
+(11, 23, '2024-02-06', 'semester/sports', '3600/500'),
+(13, 33, '2024-02-17', 'semester/sports', '3600/500');
 
 -- --------------------------------------------------------
 
@@ -485,13 +549,13 @@ ALTER TABLE `erp_timetable`
 -- AUTO_INCREMENT for table `erp_admission`
 --
 ALTER TABLE `erp_admission`
-  MODIFY `admissionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `admissionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `erp_attendance`
 --
 ALTER TABLE `erp_attendance`
-  MODIFY `attendanceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `attendanceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT for table `erp_class`
@@ -521,13 +585,13 @@ ALTER TABLE `erp_fees`
 -- AUTO_INCREMENT for table `erp_grade`
 --
 ALTER TABLE `erp_grade`
-  MODIFY `gradeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `gradeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `erp_login`
 --
 ALTER TABLE `erp_login`
-  MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `erp_permission`
@@ -539,7 +603,7 @@ ALTER TABLE `erp_permission`
 -- AUTO_INCREMENT for table `erp_receipt`
 --
 ALTER TABLE `erp_receipt`
-  MODIFY `receiptId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `receiptId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `erp_role`

@@ -43,7 +43,7 @@ if (isset($_POST["Function"])) {
             $phone = $_POST['phone'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hasing the password
             $confirmPassword = $_POST['confirmPassword'];
-            if(!password_verify($confirmPassword,$password)) return "Passwords do not match!";
+            if (!password_verify($confirmPassword, $password)) return "Passwords do not match!";
             global $conn;
             $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, active)
             VALUES ('$firstName', '$lastName', '$email', '$phone', '$roleName', '$password', 0);
@@ -356,6 +356,7 @@ if (isset($_POST["Function"])) {
         // echo count($timeTable);
     }
 }
+
 
 // Edit admission Form
 
@@ -690,27 +691,51 @@ if (isset($_POST["Function"])) {
             foreach ($filteredGradeRecords as $grade) {
                 ?>
                 <tr>
-                            <td><?php echo $grade['examName'] ?></td>
-                            <td><?php echo $grade['subjectCode'] ?></td>
-                            <td><?php echo $grade['subjectName'] ?></td>
-                            <td><?php echo $grade['studentId'] ?></td>
-                            <td><?php echo $grade['studentName'] ?></td>
-                            <td><?php echo $grade['mark'] ?></td>
-                            <td>
-                                <button type='button' rowData="[<?php echo $grade['gradeId'] . ',' . $grade['studentName'] . ',' . $grade['mark'] ?>]" class='btn btn-primary editBtn' data-bs-toggle='modal' data-bs-target='#editModal'>
-                                    Edit
-                                </button>
-                            </td>
-                            <td>
-                                <button type="button" gradeId="<?php echo $grade['gradeId'] ?>" class="btn btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
-                            </td>
-                        </tr>
+                    <td><?php echo $grade['examName'] ?></td>
+                    <td><?php echo $grade['subjectCode'] ?></td>
+                    <td><?php echo $grade['subjectName'] ?></td>
+                    <td><?php echo $grade['studentId'] ?></td>
+                    <td><?php echo $grade['studentName'] ?></td>
+                    <td><?php echo $grade['mark'] ?></td>
+                    <td>
+                        <button type='button' rowData="[<?php echo $grade['gradeId'] . ',' . $grade['studentName'] . ',' . $grade['mark'] ?>]" class='btn btn-primary editBtn' data-bs-toggle='modal' data-bs-target='#editModal'>
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" gradeId="<?php echo $grade['gradeId'] ?>" class="btn btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                    </td>
+                </tr>
 <?php }
             // close database connection
             mysqli_close($conn);
             return "|OK";
         }
         echo filterManageClassPage($classId, $semester, $examName);
+    }
+}
+
+
+//  Profile update
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "updateProfile") {
+        $fname = $_POST["fname"];
+        $lname = $_POST["lname"];
+        $email = $_POST["email"];
+        $mobno = $_POST["mobno"];
+        $userId = $_POST["userId"];
+        function updateProfile($fname, $lname, $email, $userId, $mobno)
+        {
+            global $conn;
+            $sql = "UPDATE `erp_login` SET `userName` = '$email', `phone` = '$mobno', `l_name` = '$lname', `f_name` = '$fname' WHERE `erp_login`.`user_id` = $userId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+
+        echo updateProfile($fname, $lname, $email, $userId, $mobno);
     }
 }
 ?>
