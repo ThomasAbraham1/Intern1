@@ -259,6 +259,6 @@ if ($result) {
 
 
     <?php
-  include($_SERVER['DOCUMENT_ROOT'] .'/xampp/htdocs/Intern1/Includes/Footer.php');
+  include($_SERVER['DOCUMENT_ROOT'] .'/Intern1/Includes/Footer.php');
 
     ?>
