@@ -46,81 +46,99 @@ if ($result) {
 </div>
 
 <!-- Create a class form -->
-<div class="d-flex justify-content-center mb-4">
-    <div class="card m-3 w-50 text ">
-        <div class="card-header">
-            Class Creation
-        </div>
-        <div class="card-body">
-            <!-- <h5 class="card-title">Special title treatment</h5>
+<form id="createClassForm">
+    <div class="d-flex justify-content-center mb-4">
+        <div class="card m-3 w-50 text ">
+            <div class="card-header">
+                Class Creation
+            </div>
+            <div class="card-body">
+                <!-- <h5 class="card-title">Special title treatment</h5>
     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
     <a href="#" class="btn btn-primary">Go somewhere</a> -->
 
 
-            <div class="form-group">
-                <label class="form-label" for="startingYear">Starting Year:</label>
-                <input type="number" value="" class="form-control" id="startingYear" placeholder="YYYY">
+                <div class="form-group">
+                    <label class="form-label" for="startingYear">Starting Year:</label>
+                    <input type="number" value="" class="form-control" id="startingYear" placeholder="YYYY">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="endingYear">Ending Year:</label>
+                    <input type="number" value="" class="form-control" id="endingYear" placeholder="YYYY" required >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="course"> Course:</label>
+                    <select id="course" name="type" class="selectpicker form-control" data-style="py-0" required>
+                        <option hidden disabled selected value>Choose a course</option>
+                        <?php foreach ($courses as $course) { ?>
+                            <option value="<?php echo $course['courseName'] ?>"><?php echo $course['courseName'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="department"> Department:</label>
+                    <select id="department" name="type" class="selectpicker form-control" data-style="py-0" required>
+                        <option hidden disabled selected value>Choose a department</option>
+                        <option>CSE</option>
+                        <option>ECE</option>
+                        <option>EEE</option>
+                        <option>MECH</option>
+                    </select>
+                </div>
+                <button id="createClassBtn" type="submit" class="btn btn-primary">Create</button>
+                <div id="Result" class="m-3"></div>
             </div>
-            <div class="form-group">
-                <label class="form-label" for="endingYear">Ending Year:</label>
-                <input type="number" value="" class="form-control" id="endingYear" placeholder="YYYY">
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="course"> Course:</label>
-                <select id="course" name="type" class="selectpicker form-control" data-style="py-0">
-                    <option hidden disabled selected value>Choose a course</option>
-                    <?php foreach ($courses as $course) { ?>
-                        <option value="<?php echo $course['courseName'] ?>"><?php echo $course['courseName'] ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="department"> Department:</label>
-                <select id="department" name="type" class="selectpicker form-control" data-style="py-0">
-                    <option hidden disabled selected value>Choose a department</option>
-                    <option>CSE</option>
-                    <option>ECE</option>
-                    <option>EEE</option>
-                    <option>MECH</option>
-                </select>
-            </div>
-            <button id="createClassBtn" type="button" class="btn btn-primary">Create</button>
-            <div id="Result" class="m-3"></div>
         </div>
     </div>
-</div>
+</form>
+
 <script>
     $(document).ready(function() {
+
+        $(function() {
+            $('#createClassForm').parsley().on('field:validated', function() {
+                    var ok = $('.parsley-error').length === 0;
+                    $('.bs-callout-info').toggleClass('hidden', !ok);
+                    $('.bs-callout-warning').toggleClass('hidden', ok);
+                })
+                .on('form:submit', function() {
+                    return false; // Don't submit form for this demo
+                });
+        });
+
         $("#createClassBtn").click(function(e) {
-            var startingYear = $('#startingYear').val();
-            var endingYear = $('#endingYear').val();
-            var department = $('#department').val();
-            var course = $('#course').val();
-            console.log(startingYear + " " + endingYear);
-            $.ajax({
-                url: '../functions.php',
-                type: 'POST',
-                data: {
-                    startingYear: startingYear,
-                    endingYear: endingYear,
-                    department: department,
-                    course: course,
-                    Function: "createClass",
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response == "OK") {
-                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
-                        // window.location.href = "home.php";
-                    } else {
-                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+            if ($('#createClassForm').parsley().isValid()) {
+
+                var startingYear = $('#startingYear').val();
+                var endingYear = $('#endingYear').val();
+                var department = $('#department').val();
+                var course = $('#course').val();
+                console.log(startingYear + " " + endingYear);
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        startingYear: startingYear,
+                        endingYear: endingYear,
+                        department: department,
+                        course: course,
+                        Function: "createClass",
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#Result").html('');
+                            window.location.reload();
+                        }, 1000);
                     }
-                    setTimeout(function() {
-                        $("#Result").html('');
-                        window.location.reload();
-                    }, 1000);
-                }
-            });
+                });
+            }
         });
     });
 </script>

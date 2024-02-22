@@ -289,7 +289,7 @@ if (isset($_GET["Menu"])) {
 
                 </i>
                 <span class="item-name">Roles
-                  <!-- <span class="badge rounded-pill bg-success item-name">UI</span> -->
+                  <span class="badge rounded-pill bg-success item-name">UI</span>
                 </span>
               </a>
             </li> -->
@@ -308,7 +308,7 @@ if (isset($_GET["Menu"])) {
                 </span>
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" aria-current="page" href="/Intern1/admin/pages/register.php">
                 <i class="icon">
                   <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -322,7 +322,7 @@ if (isset($_GET["Menu"])) {
                   <!-- <span class="badge rounded-pill bg-success item-name">UI</span> -->
                 </span>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="/Intern1/admin/pages/receiptGeneration.php">
                 <i class="icon">
