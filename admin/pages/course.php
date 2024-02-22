@@ -1,5 +1,5 @@
 <?php
-include('/xampp/htdocs/Intern1/Includes/Header.php');
+include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 ?>
 
@@ -42,47 +42,56 @@ include('../includes/Menu.php');
         <div class="card-header">
             Course Creation
         </div>
-        <div class="card-body">
-            <!-- <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a> -->
-
-
-            <div class="form-group">
-                <label class="form-label" for="fname">Course Name:</label>
-                <input type="text" value="" class="form-control" id="courseName" placeholder="Course Name">
+        <form id="createCourseForm">
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label" for="fname">Course Name:</label>
+                    <input type="text" value="" class="form-control" id="courseName" placeholder="Course Name" required>
+                </div>
+                <button id="createCourseBtn" type="submit" class="btn btn-primary">Create</button>
+                <div id="Result" class="m-3"></div>
             </div>
-            <button id="createCourseBtn" type="button" class="btn btn-primary">Create</button>
-            <div id="Result" class="m-3"></div>
-        </div>
+        </form>
     </div>
 </div>
 <script>
+    $(function() {
+        $('#createCourseForm').parsley().on('field:validated', function() {
+                var ok = $('.parsley-error').length === 0;
+                $('.bs-callout-info').toggleClass('hidden', !ok);
+                $('.bs-callout-warning').toggleClass('hidden', ok);
+            })
+            .on('form:submit', function() {
+                return false; // Don't submit form for this demo
+            });
+    });
     $(document).ready(function() {
         $("#createCourseBtn").click(function(e) {
-            var courseName = $('#courseName').val();
-            console.log(courseName);
-            $.ajax({
-                url: '../functions.php',
-                type: 'POST',
-                data: {
-                    courseName: courseName,
-                    Function: "createCourse",
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response == "OK") {
-                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
-                        // window.location.href = "home.php";
-                    } else {
-                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+            if ($('#createCourseForm').parsley().isValid()) {
+                var courseName = $('#courseName').val();
+                console.log(courseName);
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        courseName: courseName,
+                        Function: "createCourse",
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#Result").html('');
+                            // window.location.reload();
+                        }, 1000);
                     }
-                    setTimeout(function() {
-                        $("#Result").html('');
-                        window.location.reload();
-                    }, 1000);
-                }
-            });
+                });
+            }
         });
     });
 </script>

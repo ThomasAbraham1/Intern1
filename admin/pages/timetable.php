@@ -1,5 +1,5 @@
 <?php
-include('/xampp/htdocs/Intern1/Includes/Header.php');
+include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
 // Select all subjects from erp_subject
@@ -31,6 +31,7 @@ if ($result) {
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                     <div>
                         <h1>Create Timetable</h1>
+                        <?php echo $root = $_SERVER['DOCUMENT_ROOT']; ?>
                         <p>New Timetable can be created here. Consult with management before creating new Timetable.</p>
                     </div>
                     <!-- Button on the header -->
@@ -57,104 +58,104 @@ if ($result) {
     </div>
 </div>
 
-<form>
+<form id="createTimetableForm">
     <div class="conatiner-fluid content-inner mt-n5 py-0 mb-4">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-betweenmb-4">
-                        <div class="header-title">
-                            <div class="form-group">
-                                <label class="form-label" for="department"> Create a timetable for:</label>
-                                <select id="classId" name="type" class="selectpicker form-control" data-style="py-0" required>
-                                    <option hidden disabled selected value>Choose a class</option>
-                                    <?php foreach ($classes as $class) { ?>
-                                        <option value="<?php echo $class['classId'] ?>"><?php echo  $className = $class['department'] . ' - Sem ' . $class['semester'] . ' - ' . $class['startingYear'] . ' batch'; ?></option>
-                                    <?php } ?>
-                                </select>
+                        <div class="card-header d-flex justify-content-betweenmb-4">
+                            <div class="header-title">
+                                <div class="form-group">
+                                    <label class="form-label" for="department"> Create a timetable for:</label>
+                                    <select id="classId" name="type" class="selectpicker form-control" data-style="py-0" required>
+                                        <option hidden disabled selected value>Choose a class</option>
+                                        <?php foreach ($classes as $class) { ?>
+                                            <option value="<?php echo $class['classId'] ?>"><?php echo  $className = $class['department'] . ' - Sem ' . $class['semester'] . ' - ' . $class['startingYear'] . ' batch'; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive mt-4">
-                            <table id="basic-table" class="table table-striped mb-0" role="grid">
-                                <thead>
-                                    <tr>
-                                        <th>Monday</th>
-                                        <th>Tuesday</th>
-                                        <th>Wednesday </th>
-                                        <th>Thursday</th>
-                                        <th>Friday</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php for ($i = 1; $i <= 5; $i++) { ?>
+                        <div class="card-body p-0">
+                            <div class="table-responsive mt-4">
+                                <table id="basic-table" class="table table-striped mb-0" role="grid">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label class="form-label">Period: <?php echo $i ?></label>
-                                                    <select id="" name="type" class="selectpicker form-control w-75 monday" data-style="py-0" required>
-                                                        <option hidden disabled selected value>Choose a period</option>
-                                                        <?php foreach ($subjects as $subject) {  ?>
-                                                            <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label class="form-label">Period: <?php echo $i ?></label>
-                                                    <select id="" name="type" class="selectpicker form-control w-75 tuesday" data-style="py-0" required>
-                                                        <option hidden disabled selected value>Choose a period</option>
-                                                        <?php foreach ($subjects as $subject) {  ?>
-                                                            <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label class="form-label">Period: <?php echo $i ?></label>
-                                                    <select id="" name="type" class="selectpicker form-control w-75 wednesday" data-style="py-0" required>
-                                                        <option hidden disabled selected value>Choose a period</option>
-                                                        <?php foreach ($subjects as $subject) {  ?>
-                                                            <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label class="form-label">Period: <?php echo $i ?></label>
-                                                    <select id="" name="type" class="selectpicker form-control w-75 thursday" data-style="py-0" required>
-                                                        <option hidden disabled selected value>Choose a period</option>
-                                                        <?php foreach ($subjects as $subject) {  ?>
-                                                            <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label class="form-label">Period: <?php echo $i ?></label>
-                                                    <select id="" name="type" class="selectpicker form-control w-75 friday" data-style="py-0" required>
-                                                        <option hidden disabled selected value>Choose a period</option>
-                                                        <?php foreach ($subjects as $subject) {  ?>
-                                                            <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-                                            </td>
+                                            <th>Monday</th>
+                                            <th>Tuesday</th>
+                                            <th>Wednesday </th>
+                                            <th>Thursday</th>
+                                            <th>Friday</th>
                                         </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php for ($i = 1; $i <= 5; $i++) { ?>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Period: <?php echo $i ?></label>
+                                                        <select id="" name="type" class="selectpicker form-control w-75 monday" data-style="py-0" required>
+                                                            <option hidden disabled selected value>Choose a period</option>
+                                                            <?php foreach ($subjects as $subject) {  ?>
+                                                                <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Period: <?php echo $i ?></label>
+                                                        <select id="" name="type" class="selectpicker form-control w-75 tuesday" data-style="py-0" required>
+                                                            <option hidden disabled selected value>Choose a period</option>
+                                                            <?php foreach ($subjects as $subject) {  ?>
+                                                                <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Period: <?php echo $i ?></label>
+                                                        <select id="" name="type" class="selectpicker form-control w-75 wednesday" data-style="py-0" required>
+                                                            <option hidden disabled selected value>Choose a period</option>
+                                                            <?php foreach ($subjects as $subject) {  ?>
+                                                                <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Period: <?php echo $i ?></label>
+                                                        <select id="" name="type" class="selectpicker form-control w-75 thursday" data-style="py-0" required>
+                                                            <option hidden disabled selected value>Choose a period</option>
+                                                            <?php foreach ($subjects as $subject) {  ?>
+                                                                <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Period: <?php echo $i ?></label>
+                                                        <select id="" name="type" class="selectpicker form-control w-75 friday" data-style="py-0" required>
+                                                            <option hidden disabled selected value>Choose a period</option>
+                                                            <?php foreach ($subjects as $subject) {  ?>
+                                                                <option value="<?php echo $subject['subjectCode'] ?>"><?php echo $subject['subjectName'] ?> - <?php echo $subject['subjectCode'] ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group mx-auto ">
+                            <button id="createTimetableBtn" type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
-                    <div class="form-group mx-auto ">
-                        <button id="createTimetableBtn" type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
                 <div id="Result"></div>
             </div>
         </div>
@@ -162,59 +163,72 @@ if ($result) {
 </form>
 <script>
     $(document).ready(function(e) {
+
+        $(function() {
+            $('#createTimetableForm').parsley().on('field:validated', function() {
+                    var ok = $('.parsley-error').length === 0;
+                    $('.bs-callout-info').toggleClass('hidden', !ok);
+                    $('.bs-callout-warning').toggleClass('hidden', ok);
+                })
+                .on('form:submit', function() {
+                    return false; // Don't submit form for this demo
+                });
+        });
         $("#createTimetableBtn").click(function(event) {
-            event.preventDefault();
-            var timeTable = [];
-            var mondayPeriods = [];
-            var tuesdayPeriods = [];
-            var wednesdayPeriods = [];
-            var thursdayPeriods = [];
-            var fridayPeriods = [];
+            if ($('#createTimetableForm').parsley().isValid()) {
+                // event.preventDefault();
+                var timeTable = [];
+                var mondayPeriods = [];
+                var tuesdayPeriods = [];
+                var wednesdayPeriods = [];
+                var thursdayPeriods = [];
+                var fridayPeriods = [];
 
-            var classId = $("#classId").val();
+                var classId = $("#classId").val();
 
-            $('.monday').each(function() {
-                mondayPeriods.push($(this).val())
-            });
-            $('.tuesday').each(function() {
-                tuesdayPeriods.push($(this).val())
-            });
-            $('.wednesday').each(function() {
-                wednesdayPeriods.push($(this).val())
-            });
-            $('.thursday').each(function() {
-                thursdayPeriods.push($(this).val())
-            });
-            $('.friday').each(function() {
-                fridayPeriods.push($(this).val())
-            });
+                $('.monday').each(function() {
+                    mondayPeriods.push($(this).val())
+                });
+                $('.tuesday').each(function() {
+                    tuesdayPeriods.push($(this).val())
+                });
+                $('.wednesday').each(function() {
+                    wednesdayPeriods.push($(this).val())
+                });
+                $('.thursday').each(function() {
+                    thursdayPeriods.push($(this).val())
+                });
+                $('.friday').each(function() {
+                    fridayPeriods.push($(this).val())
+                });
 
-            timeTable = [mondayPeriods, tuesdayPeriods, wednesdayPeriods, thursdayPeriods, fridayPeriods];
-            timeTable = JSON.stringify(timeTable);
-            console.log(timeTable);
+                timeTable = [mondayPeriods, tuesdayPeriods, wednesdayPeriods, thursdayPeriods, fridayPeriods];
+                timeTable = JSON.stringify(timeTable);
+                console.log(timeTable);
 
-            $.ajax({
-                url: '../functions.php',
-                type: 'POST',
-                data: {
-                    timeTable: timeTable,
-                    classId: classId,
-                    Function: "createTimetable",
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response == "OK") {
-                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
-                        // window.location.href = "home.php";
-                    } else {
-                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        timeTable: timeTable,
+                        classId: classId,
+                        Function: "createTimetable",
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#Result").html('');
+                            window.location.reload();
+                        }, 1000);
                     }
-                    setTimeout(function() {
-                        $("#Result").html('');
-                        window.location.reload();
-                    }, 1000);
-                }
-            });
+                });
+            }
         });
     })
 </script>

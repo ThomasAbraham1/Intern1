@@ -1,5 +1,5 @@
 <?php
-include('/xampp/htdocs/Intern1/Includes/Header.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 // Get classes
 $year = date("Y");
@@ -52,34 +52,33 @@ if ($result) {
         <div class="card-header">
             Fee creation
         </div>
-        <div class="card-body">
-            <!-- <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a> -->
-            <div class="form-group">
-                <label class="form-label" for="course"> Course:</label>
-                <select id="class" name="type" class="selectpicker form-control" data-style="py-0">
-                    <option hidden disabled selected value>Choose a class</option>
-                    <?php foreach ($classes as $class) { ?>
-                        <option value="<?php echo $class['classId'] ?>"><?php echo $class['course']. ' - ' . $class['department'] .' - sem '. $class['semester'] ?></option>
-                    <?php } ?>
-                </select>
+        <form id="createFeeForm">
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label" for="course"> Course:</label>
+                    <select id="class" name="type" class="selectpicker form-control" data-style="py-0" required>
+                        <option hidden disabled selected value>Choose a class</option>
+                        <?php foreach ($classes as $class) { ?>
+                            <option value="<?php echo $class['classId'] ?>"><?php echo $class['course'] . ' - ' . $class['department'] . ' - sem ' . $class['semester'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="feeName">Fee Name:</label>
+                    <input type="text" value="" class="form-control" id="feeName" list="options" placeholder="Fee Name"  required>
+                    <datalist id="options">
+                        <option>semester</option>
+                        <option>sports</option>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="Amount">Amount:</label>
+                    <input type="number" value="" class="form-control" id="amount" placeholder="Amount"   required>
+                </div>
+                <button id="createFeesBtn" type="submit" class="btn btn-primary">Create</button>
+                <div id="Result" class="m-3"></div>
             </div>
-            <div class="form-group">
-                <label class="form-label" for="feeName">Fee Name:</label>
-                <input type="text" value="" class="form-control" id="feeName" list="options" placeholder="Fee Name">
-                <datalist id="options">
-                    <option>semester</option>
-                    <option>sports</option>
-                </datalist>
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="Amount">Amount:</label>
-                <input type="number" value="" class="form-control" id="amount" placeholder="Amount">
-            </div>
-            <button id="createFeesBtn" type="button" class="btn btn-primary">Create</button>
-            <div id="Result" class="m-3"></div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -161,34 +160,46 @@ if ($result) {
 </div>
 <script>
     $(document).ready(function() {
+        $(function() {
+            $('#createFeeForm').parsley().on('field:validated', function() {
+                    var ok = $('.parsley-error').length === 0;
+                    $('.bs-callout-info').toggleClass('hidden', !ok);
+                    $('.bs-callout-warning').toggleClass('hidden', ok);
+                })
+                .on('form:submit', function() {
+                    return false; // Don't submit form for this demo
+                });
+        });
         $("#createFeesBtn").click(function(e) {
-            var classId = $('#class').val();
-            var feeName = $('#feeName').val();
-            var amount = $('#amount').val();
-            console.log(classId + feeName + amount);
-            $.ajax({
-                url: '../functions.php',
-                type: 'POST',
-                data: {
-                    classId: classId,
-                    amount: amount,
-                    feeName: feeName,
-                    Function: "createFees",
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response == "OK") {
-                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
-                        // window.location.href = "home.php";
-                    } else {
-                        $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+            if ($('#createFeeForm').parsley().isValid()) {
+                var classId = $('#class').val();
+                var feeName = $('#feeName').val();
+                var amount = $('#amount').val();
+                console.log(classId + feeName + amount);
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        classId: classId,
+                        amount: amount,
+                        feeName: feeName,
+                        Function: "createFees",
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        setTimeout(function() {
+                            $("#Result").html('');
+                            window.location.reload();
+                        }, 1000);
                     }
-                    setTimeout(function() {
-                        $("#Result").html('');
-                        window.location.reload();
-                    }, 1000);
-                }
-            });
+                });
+            }
         });
     });
 </script>

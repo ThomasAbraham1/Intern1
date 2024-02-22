@@ -1,5 +1,5 @@
 <?php
-include('/xampp/htdocs/Intern1/Includes/Header.php');
+include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
 // Query to get all records from erp_login ( user infomrmation )
