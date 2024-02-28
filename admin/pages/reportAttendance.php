@@ -1,5 +1,5 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
 // Get classes
@@ -202,6 +202,46 @@ if ($result) {
 
     <script>
         $(document).ready(function() {
+
+            function calculateBusinessDays(startDate, endDate) {
+                // Validate input
+                if (endDate < startDate)
+                    return 0;
+
+                // Calculate days between dates
+                var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
+                startDate.setHours(0, 0, 0, 1); // Start just after midnight
+                endDate.setHours(23, 59, 59, 999); // End just before midnight
+                var diff = endDate - startDate; // Milliseconds between datetime objects    
+                var days = Math.ceil(diff / millisecondsPerDay);
+
+                // Subtract two weekend days for every week in between
+                var weeks = Math.floor(days / 7);
+                days = days - (weeks * 2);
+
+                // Handle special cases
+                var startDay = startDate.getDay();
+                var endDay = endDate.getDay();
+
+                // Remove weekend not previously removed.   
+                if (startDay - endDay > 1)
+                    days = days - 2;
+
+                // Remove start day if span starts on Sunday but ends before Saturday
+                if (startDay == 0 && endDay != 6) {
+                    days = days - 1;
+                }
+
+                // Remove end day if span ends on Saturday but starts after Sunday
+                if (endDay == 6 && startDay != 0) {
+                    days = days - 1;
+                }
+
+                return days;
+            }
+
+
+
             var initialHeading = $('#heading').html();
             $('#reportTableRows').val(initialHeading);
             $('#saveFilterBtn').click(function(e) {
@@ -215,14 +255,14 @@ if ($result) {
                 console.log(`classId: ${classId} fromDate: ${fromDate} toDate: ${toDate}`);
                 var date1 = new Date(toDate);
                 var date2 = new Date(fromDate);
-                let Difference_In_Time =
-                    date1.getTime() - date2.getTime();
-                let Difference_In_Days =
-                    Math.round(Difference_In_Time / (1000 * 3600 * 24));
-                var days = Difference_In_Days + 1;
+                var noOfBusinessDays = calculateBusinessDays(date2, date1);
+                var days =noOfBusinessDays;
+                console.log(days);
                 $('#heading').html(`${days} days attendance record from ${fromDate} to ${toDate} for ${className}`);
                 var classNameAndInfo = `${days} days attendance record from ${fromDate} to ${toDate} for ${className}`;
                 $('#reportTableRows').val(classNameAndInfo);
+                // date2.setDate(date2.getDate() - 1);
+                // date1.setDate(date1.getDate() + 1);
 
                 $.ajax({
                     url: '../functions.php',
@@ -259,6 +299,6 @@ if ($result) {
 
 
     <?php
-  include($_SERVER['DOCUMENT_ROOT'] .'/Intern1/Includes/Footer.php');
+    include($_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Footer.php');
 
     ?>
