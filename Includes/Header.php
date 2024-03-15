@@ -86,6 +86,8 @@ if (isset($_SESSION['user_id'])) {
    <!-- Parsley css for form validation -->
    <link href="/intern1/assets/css/parsley.css" rel="stylesheet" />
 
+   
+
 <!-- scripts -->
 
 
@@ -100,6 +102,7 @@ if (isset($_SESSION['user_id'])) {
 
     <!-- mapchart Script -->
     <script src="/intern1/assets/js/charts/vectore-chart.js"></script>
+    <script src="/intern1/assets/js/charts/apexchart.js"></script>
     <script src="/intern1/assets/js/charts/dashboard.js"></script>
 
     <!-- fslightbox Script -->

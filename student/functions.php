@@ -42,7 +42,7 @@ if (isset($_POST["Function"])) {
             $phone = $_POST['phone'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hasing the password
             $confirmPassword = $_POST['confirmPassword'];
-            if(!password_verify($confirmPassword,$password)) return "Passwords do not match!";
+            if (!password_verify($confirmPassword, $password)) return "Passwords do not match!";
             global $conn;
             $sql = "INSERT INTO erp_login (f_name, l_name, userName, phone, role,  log_pwd, active)
             VALUES ('$firstName', '$lastName', '$email', '$phone', '$roleName', '$password', 0);
@@ -313,15 +313,15 @@ if (isset($_POST["Function"])) {
             $feeObject = $_POST["feeObject"];
             $feeNames = '';
             $feeAmounts = '';
-            foreach($feeObject as $feeName=>$feeAmount){
-                $feeNames .= $feeName. '/';
-                $feeAmounts .= "$feeAmount". '/';
+            foreach ($feeObject as $feeName => $feeAmount) {
+                $feeNames .= $feeName . '/';
+                $feeAmounts .= "$feeAmount" . '/';
             }
             $feeNames = rtrim($feeNames, '/');
             $feeAmounts = rtrim($feeAmounts, '/');
             // echo $feeAmounts;
 
-            function paymentSuccess($userId,$feeAmounts,$feeNames)
+            function paymentSuccess($userId, $feeAmounts, $feeNames)
             {
                 global $conn;
                 // Updating student paymentStatus
@@ -337,7 +337,7 @@ if (isset($_POST["Function"])) {
                 return "OK";
             }
 
-            echo paymentSuccess($userId,$feeAmounts,$feeNames);
+            echo paymentSuccess($userId, $feeAmounts, $feeNames);
         }
     }
 
@@ -349,7 +349,7 @@ if (isset($_POST["Function"])) {
             $email = $_POST["email"];
             $mobno = $_POST["mobno"];
             $userId = $_POST["userId"];
-            function updateProfile($fname,$lname,$email,$userId,$mobno)
+            function updateProfile($fname, $lname, $email, $userId, $mobno)
             {
                 global $conn;
                 $sql = "UPDATE `erp_login` SET `userName` = '$email', `phone` = '$mobno', `l_name` = '$lname', `f_name` = '$fname' WHERE `erp_login`.`user_id` = $userId";
@@ -360,7 +360,45 @@ if (isset($_POST["Function"])) {
                 return "OK";
             }
 
-            echo updateProfile($fname,$lname,$email,$userId,$mobno);
+            echo updateProfile($fname, $lname, $email, $userId, $mobno);
         }
+    }
+}
+
+
+// Filter grade page
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "filterGradesPage") {
+        $examName = $_POST["examName"];
+        $studentId = $_POST["studentId"];
+        function filterGradesPage($examName, $studentId)
+        {
+            global $conn;
+            $date = date('Y-m-d');
+            $filteredGradeRecords = array();
+                $sql = "SELECT * FROM erp_grade WHERE studentId = $studentId AND examName = '$examName' AND date <= '$date'";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $filteredGradeRecords[] = $row;
+                    }
+                }
+            foreach($filteredGradeRecords as $grade) {
+?>
+                <tr>
+                    <td><?php echo $grade['examName'] ?></td>
+                    <td><?php echo $grade['subjectCode'] ?></td>
+                    <td><?php echo $grade['subjectName'] ?></td>
+                    <td><?php echo $grade['studentId'] ?></td>
+                    <td><?php echo $grade['studentName'] ?></td>
+                    <td><?php echo $grade['mark'] ?></td>
+                </tr>
+<?php }
+            // close database connection
+            mysqli_close($conn);
+            return "|OK";
+        }
+        echo filterGradesPage($examName, $studentId);
     }
 }

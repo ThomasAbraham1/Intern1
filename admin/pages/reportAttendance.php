@@ -182,11 +182,11 @@ if ($result) {
                     </div>
                     <div class="form-group">
                         <label for="text" class="form-label">From date</label>
-                        <input type="date" class="form-control" id="fromDate" aria-describedby="text" placeholder="From Date">
+                        <input type="date" class="form-control" id="fromDate" aria-describedby="text" placeholder="From Date" max="<?php echo date('Y-m-d') ?>">
                     </div>
                     <div class="form-group">
                         <label for="text" class="form-label">To date</label>
-                        <input type="date" class="form-control" id="toDate" aria-describedby="text" placeholder="To Date">
+                        <input type="date" class="form-control" id="toDate" aria-describedby="text" placeholder="To Date" max="<?php echo date('Y-m-d') ?>">
                     </div>
                     <div class="text-start mt-2">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-primary" id="saveFilterBtn">Save</button>
@@ -256,7 +256,7 @@ if ($result) {
                 var date1 = new Date(toDate);
                 var date2 = new Date(fromDate);
                 var noOfBusinessDays = calculateBusinessDays(date2, date1);
-                var days =noOfBusinessDays;
+                var days = noOfBusinessDays;
                 console.log(days);
                 $('#heading').html(`${days} days attendance record from ${fromDate} to ${toDate} for ${className}`);
                 var classNameAndInfo = `${days} days attendance record from ${fromDate} to ${toDate} for ${className}`;

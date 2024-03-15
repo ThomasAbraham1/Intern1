@@ -31,7 +31,9 @@ if ($result) {
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                     <div>
                         <h1>Create Timetable</h1>
-                        <?php echo $root = $_SERVER['DOCUMENT_ROOT']; ?>
+                        <?php 
+                        // echo $root = $_SERVER['DOCUMENT_ROOT'];
+                         ?>
                         <p>New Timetable can be created here. Consult with management before creating new Timetable.</p>
                     </div>
                     <!-- Button on the header -->

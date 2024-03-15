@@ -1,11 +1,11 @@
 <?php
-include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
 // Attendance data for marking structure
-// $today = strtolower(date('l'));
-$today = 'friday'; 
-$date = '2024-02-16';
+$today = strtolower(date('l'));
+// $today = 'friday'; 
+$date = date('Y-m-d');
 $sql = "SELECT * FROM `erp_subject` WHERE staffId = $user_id";
 $result = mysqli_query($conn, $sql);
 if ($result) {
@@ -23,6 +23,7 @@ if ($result) {
 ?>
 
 <div class="iq-navbar-header" style="height: 215px;">
+
     <div class="container-fluid iq-container">
         <div class="row">
             <div class="col-md-12">
@@ -56,168 +57,215 @@ if ($result) {
 </div>
 
 <!-- Create a Subject form -->
-<?php
-$i = 0;
-$r = 0;
-$subjectClassIds = array_unique($subjectClassIds); // Number of subjects in total a staff handles
-// print_r($subjectClassIds);
-foreach ($subjectClassIds as $subjectClassId) {
-?>
+<div class="form-group m-4">
+    <label class="form-label" for="department">Date:</label>
+    <input class="form-control" type="date" id="date" style="width:15%" value="<?php echo date('Y-m-d') ?>">
+</div>
+<div id="attendanceMainSection">
+    <?php
+    $i = 0;
+    $r = 0;
+    $subjectClassIds = array_unique($subjectClassIds); // Number of subjects in total a staff handles
+    // print_r($subjectClassIds);
+    foreach ($subjectClassIds as $subjectClassId) {
+    ?>
 
 
-    <div class="card m-3 w-100 text ">
-        <div class="card-header">
-            <!-- Display which class -->
-            <?php
-            $sql = "SELECT * FROM erp_class WHERE classId = $subjectClassId";
-            $result = mysqli_query($conn, $sql);
-            $rows = array();
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo $row['course'] . ' - ' . $row['department'] . ' - Sem ' . $row['semester'];
-                }
-            }
-            ?>
-        </div>
-        <div class="card-body">
-            <div class="bd-example">
+        <div class="card m-3 w-100 text ">
+            <div class="card-header">
                 <?php
-                foreach ($subjectRows as $subjectRow) {
-                    if ($subjectRow['classId'] == $subjectClassId) {
-                        // Today's timetable
-                        $sql = "SELECT * FROM erp_timetable WHERE classId=$subjectClassId AND day='$today' AND subjectCode='$subjectRow[subjectCode]'";
-                        $result = mysqli_query($conn, $sql);
-                        $classTimetable = array();
-                        while ($row = $result->fetch_assoc()) {
-                            $classTimetable[] = $row;
-                        }
-                        // print_r($classTimetable);
-                        echo "You have " . count($classTimetable) . ' periods for ' . $subjectRow['subjectCode'] . ' - ' . $subjectRow['subjectName'] . "<br />";
-                        // Skip if the there is no timetable for a subject, therefore skipping a accordion
-                        $noOfPeriods = count($classTimetable);
-                        if ($noOfPeriods == 0) {
-                            continue;
-                        }
-
+                $sql = "SELECT * FROM erp_class WHERE classId = $subjectClassId";
+                $result = mysqli_query($conn, $sql);
+                $rows = array();
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo $row['course'] . ' - ' . $row['department'] . ' - Sem ' . $row['semester'];
+                    }
+                }
                 ?>
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h4 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $i; ?>" aria-expanded="false" aria-controls="collapse<?php echo $i; ?>">
-                                        <?php
-                                        echo $subjectRow['subjectCode'] . ' - ' . $subjectRow['subjectName'];
-                                        ?>
-                                    </button>
-                                </h4>
-                                <div id="collapse<?php echo $i; ?>" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <?php foreach ($classTimetable as $period) {
-                                        ?>
-                                            <div class="card-body p-0">
-                                                <b>Period: <?php echo $period['period'] ?></b>
-                                                <div class="table-responsive mt-4">
-                                                    <table id="basic-table" style="text-align:center" class="table table-striped mb-0" role="grid">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Student ID</th>
-                                                                <th>Student Name</th>
-                                                                <th>Presence</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $sql = "SELECT * FROM erp_login WHERE role='student' AND classId = $subjectClassId";
-                                                            $studentsArray = array();
-                                                            $result = mysqli_query($conn, $sql);
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $studentsArray[] = $row;
-                                                            }
-                                                            ?>
-                                                            <?php foreach ($studentsArray as $student) {
-                                                                $sql = "SELECT * FROM `erp_attendance` WHERE classId=$period[classId] AND subjectCode='$period[subjectCode]' AND studentId=$student[user_id] AND date='$date' AND period=$period[period];";
-                                                                $result = mysqli_query($conn, $sql);
-                                                                $radioCheckAttendanceData = array();
-                                                                while ($row = $result->fetch_assoc()) {
-                                                                    $radioCheckAttendanceData[] = $row;
-                                                                }
-                                                            ?>
+            </div>
+            <div class="card-body">
+                <div class="bd-example">
+                    <?php
+                    foreach ($subjectRows as $subjectRow) {
+                        if ($subjectRow['classId'] == $subjectClassId) {
+                            // Today's timetable
+                            $sql = "SELECT * FROM erp_timetable WHERE classId=$subjectClassId AND day='$today' AND subjectCode='$subjectRow[subjectCode]'";
+                            $result = mysqli_query($conn, $sql);
+                            $classTimetable = array();
+                            while ($row = $result->fetch_assoc()) {
+                                $classTimetable[] = $row;
+                            }
+                            // print_r($classTimetable);
+                            echo "You have " . count($classTimetable) . ' periods for ' . $subjectRow['subjectCode'] . ' - ' . $subjectRow['subjectName'] . "<br />";
+                            // Skip if the there is no timetable for a subject, therefore skipping a accordion
+                            $noOfPeriods = count($classTimetable);
+                            if ($noOfPeriods == 0) {
+                                continue;
+                            }
+
+                    ?>
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h4 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $i; ?>" aria-expanded="false" aria-controls="collapse<?php echo $i; ?>">
+                                            <?php
+                                            echo $subjectRow['subjectCode'] . ' - ' . $subjectRow['subjectName'];
+                                            ?>
+                                        </button>
+                                    </h4>
+                                    <div id="collapse<?php echo $i; ?>" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <?php foreach ($classTimetable as $period) {
+                                            ?>
+                                                <div class="card-body p-0">
+                                                    <b>Period: <?php echo $period['period'] ?></b>
+                                                    <div class="table-responsive mt-4">
+                                                        <table id="basic-table" style="text-align:center" class="table table-striped mb-0" role="grid">
+                                                            <thead>
                                                                 <tr>
-                                                                    <td>
-                                                                        <?php echo $student['user_id'] ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $student['f_name'] . ' ' . $student['l_name'] ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="form-check form-check-inline">
-                                                                            <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" present="1" <?php
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    if (mysqli_num_rows($result) > 0) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        $isPresent = $radioCheckAttendanceData[0]['status'] == 1 ? 'checked' : 'nope';
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        echo $isPresent;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    ?>>
-                                                                            <label for="radio1" class="form-check-label pl-2">Present</label>
-                                                                        </div>
-                                                                        <div class="form-check form-check-inline">
-                                                                            <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" absent="" <?php
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    if (mysqli_num_rows($result) > 0) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        $isPresent = $radioCheckAttendanceData[0]['status'] == 0 ? 'checked' : 'nope';
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        echo $isPresent;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    ?>>
-                                                                            <label for="radio1" class="form-check-label pl-2">Absent</label>
-                                                                        </div>
-                                                                    </td>
+                                                                    <th>Student ID</th>
+                                                                    <th>Student Name</th>
+                                                                    <th>Presence</th>
                                                                 </tr>
-                                                            <?php
-                                                                $r++;
-                                                            } ?>
-                                                        </tbody>
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $sql = "SELECT * FROM erp_login WHERE role='student' AND classId = $subjectClassId";
+                                                                $studentsArray = array();
+                                                                $result = mysqli_query($conn, $sql);
+                                                                while ($row = $result->fetch_assoc()) {
+                                                                    $studentsArray[] = $row;
+                                                                }
+                                                                ?>
+                                                                <?php foreach ($studentsArray as $student) {
+                                                                    $sql = "SELECT * FROM `erp_attendance` WHERE classId=$period[classId] AND subjectCode='$period[subjectCode]' AND studentId=$student[user_id] AND date='$date' AND period=$period[period];";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    $radioCheckAttendanceData = array();
+                                                                    while ($row = $result->fetch_assoc()) {
+                                                                        $radioCheckAttendanceData[] = $row;
+                                                                    }
+                                                                ?>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <?php echo $student['user_id'] ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $student['f_name'] . ' ' . $student['l_name'] ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" present="1" <?php
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        if (mysqli_num_rows($result) > 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            $isPresent = $radioCheckAttendanceData[0]['status'] == 1 ? 'checked' : 'nope';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            echo $isPresent;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        ?>>
+                                                                                <label for="radio1" class="form-check-label pl-2">Present</label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input type="radio" period='<?php echo $period['period'] ?>' classId='<?php echo $period['classId'] ?>' subjectCode=<?php echo $period['subjectCode'] ?> day='<?php echo $period['day'] ?>' studentId=<?php echo $student['user_id'] ?> staffId=<?php echo $user_id ?> class="form-check-input presenceCheckbox" name="bsradio<?php echo $r ?>" id="radio1" absent="" <?php
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        if (mysqli_num_rows($result) > 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            $isPresent = $radioCheckAttendanceData[0]['status'] == 0 ? 'checked' : 'nope';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            echo $isPresent;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        ?>>
+                                                                                <label for="radio1" class="form-check-label pl-2">Absent</label>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php
+                                                                    $r++;
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        <?php } ?>
+                                            <?php } ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                <?php
-                        $i++;
-                    }
-                } ?>
+                    <?php
+                            $i++;
+                        }
+                    } ?>
+                </div>
             </div>
         </div>
-    </div>
+    <?php } ?>
+</div>
 
-<?php } ?>
 <script>
     $(document).ready(function() {
-        $(".presenceCheckbox").click(function(e) {
-            var isPresent = $(this).attr('present') == 1 ? '1' : '0';
-            var classId = $(this).attr('classId');
-            var day = $(this).attr('day');
-            var staffId = $(this).attr('staffId');
-            var studentId = $(this).attr('studentId');
-            var subjectCode = $(this).attr('subjectCode');
-            var period = $(this).attr('period');
-            console.log(`ClassID: ${classId} day: ${day} staffId: ${staffId} studentId: ${studentId} subjectCode: ${subjectCode} present: ${isPresent}`);
+        function accordionClickListener() {
+            $(".presenceCheckbox").click(function(e) {
+                var isPresent = $(this).attr('present') == 1 ? '1' : '0';
+                var classId = $(this).attr('classId');
+                var day = $(this).attr('day');
+                var date = $("#date").val();
+                var staffId = $(this).attr('staffId');
+                var studentId = $(this).attr('studentId');
+                var subjectCode = $(this).attr('subjectCode');
+                var period = $(this).attr('period');
+                console.log(`ClassID: ${classId} day: ${day} staffId: ${staffId} studentId: ${studentId} subjectCode: ${subjectCode} present: ${isPresent}`);
+
+                $.ajax({
+                    url: '../functions.php',
+                    type: 'POST',
+                    data: {
+                        isPresent: isPresent,
+                        classId: classId,
+                        day: day,
+                        date: date,
+                        staffId: staffId,
+                        studentId: studentId,
+                        subjectCode: subjectCode,
+                        period: period,
+                        Function: "markAttendance",
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response == "OK") {
+                            $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
+                            // window.location.href = "home.php";
+                        } else {
+                            $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
+                        }
+                        // setTimeout(function() {
+                        //     $("#Result").html('');
+                        //     window.location.reload();
+                        // }, 1000);
+                    }
+                });
+            });
+        }
+        accordionClickListener();
+
+
+
+        $("#date").change(function(e) {
+            var date = $("#date").val();
+            var user_id = <?php echo $user_id ?>;
+            console.log(date);
 
             $.ajax({
                 url: '../functions.php',
                 type: 'POST',
                 data: {
-                    isPresent: isPresent,
-                    classId: classId,
-                    day: day,
-                    staffId: staffId,
-                    studentId: studentId,
-                    subjectCode: subjectCode,
-                    period: period,
-                    Function: "markAttendance",
+                    date: date,
+                    user_id: user_id,
+                    Function: "markAttendanceTableUponDateChange",
                 },
                 success: function(response) {
+                    response = response.split('|');
+                    var attendanceAccordionContent = response[0];
+                    var responseMsg = response[1];
                     console.log(response);
-                    if (response == "OK") {
-                        $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
+                    if (responseMsg == "OK") {
+                        console.log("done");
+                        $("#attendanceMainSection").html(attendanceAccordionContent);
+                        accordionClickListener();
+                        // $("#Result").html(`<div class="alert alert-success fade show" role="alert"> Successfully Created! </div>`);
                         // window.location.href = "home.php";
                     } else {
                         $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);

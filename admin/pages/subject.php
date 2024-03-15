@@ -2,7 +2,7 @@
 include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
-$sql = "SELECT * FROM `erp_login` WHERE role='faculty' and department='CSE'";
+$sql = "SELECT * FROM `erp_login` WHERE role='faculty'";
 $result = mysqli_query($conn, $sql);
 if ($result) {
     $faculties = array();

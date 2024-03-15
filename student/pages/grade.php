@@ -3,23 +3,28 @@ include($_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/Header.php');
 include('../includes/Menu.php');
 
 
+
+
+// Get last posted examName
+$sql = "SELECT examName FROM erp_grade WHERE studentId = $user_id AND date = (SELECT MAX(date) FROM erp_grade WHERE studentId = $user_id) ORDER BY examName ASC";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    $examNames = array();
+    while ($row = $result->fetch_assoc()) {
+        $examNames[] = $row['examName'];
+    }
+    $examNames = array_unique($examNames);
+    $latestExamName = $examNames[0];
+}
+
 // Get grades
-$sql = "SELECT * FROM erp_grade";
+$sql = "SELECT * FROM erp_grade WHERE studentId = $user_id AND examName = '$latestExamName' AND date = (SELECT MAX(date) FROM erp_grade WHERE studentId = $user_id);";
 $result = mysqli_query($conn, $sql);
 if ($result) {
     $grades = array();
     while ($row = $result->fetch_assoc()) {
+        $examName = $row['examName'];
         $grades[] = $row;
-    }
-}
-
-// Get classes
-$sql = "SELECT * FROM erp_class";
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    $classes = array();
-    while ($row = $result->fetch_assoc()) {
-        $classes[] = $row;
     }
 }
 
@@ -41,8 +46,8 @@ if ($result) {
             <div class="col-md-12">
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                     <div>
-                        <h1>Mark grades for your classes</h1>
-                        <p>Marks can be published for various exams for your classes here.</p>
+                        <h1>Check your current grades and grades history</h1>
+                        <p>Please contact your class advisor if your result is not published.</p>
                     </div>
                     <!-- Button on the header -->
                     <!-- <div>
@@ -82,8 +87,9 @@ if ($result) {
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M4.56517 3C3.70108 3 3 3.71286 3 4.5904V5.52644C3 6.17647 3.24719 6.80158 3.68936 7.27177L8.5351 12.4243L8.53723 12.4211C9.47271 13.3788 9.99905 14.6734 9.99905 16.0233V20.5952C9.99905 20.9007 10.3187 21.0957 10.584 20.9516L13.3436 19.4479C13.7602 19.2204 14.0201 18.7784 14.0201 18.2984V16.0114C14.0201 14.6691 14.539 13.3799 15.466 12.4243L20.3117 7.27177C20.7528 6.80158 21 6.17647 21 5.52644V4.5904C21 3.71286 20.3 3 19.4359 3H4.56517Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </i>
-            <span>Filter grades</span>
+            <span>Choose Exam</span>
         </a>
+        <h4>Showing results for <span id="gradeTitle"><?php echo $examName ?></span></h4>
         <p id="tableHeading" class='h5 mb-4'></p>
         <div class="table-responsive mt-4">
             <table id="basic-table" class="table table-striped mb-0" role="grid">
@@ -95,8 +101,6 @@ if ($result) {
                         <th>Student ID</th>
                         <th>Student Name</th>
                         <th>Mark</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -108,14 +112,6 @@ if ($result) {
                             <td><?php echo $grade['studentId'] ?></td>
                             <td><?php echo $grade['studentName'] ?></td>
                             <td><?php echo $grade['mark'] ?></td>
-                            <td>
-                                <button type='button' rowData="[<?php echo $grade['gradeId'] . ',' . $grade['studentName'] . ',' . $grade['mark'] ?>]" class='btn btn-primary editBtn' data-bs-toggle='modal' data-bs-target='#editModal'>
-                                    Edit
-                                </button>
-                            </td>
-                            <td>
-                                <button type="button" gradeId="<?php echo $grade['gradeId'] ?>" class="btn btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
-                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -134,35 +130,8 @@ if ($result) {
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label" for="selectedClassForGrade">Class: </label>
-                    <select id="selectedClassForGrade" name="type" class="selectpicker form-control" data-style="py-0">
-                        <option hidden disabled selected value>Choose class</option>
-                        <?php
-                        foreach ($classes as $class) {
-                        ?>
-                            <option value="<?php echo $class['classId'] . ',' . $class['startingYear'] . ',' . $class['endingYear'] ?>"><?php echo $class['startingYear'] . ' to  ' . $class['endingYear'] . ' batch,  ' . $class['department'] ?></option>
-                        <?php
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="selectedSemester">Semester: </label>
-                    <select id="selectedSemester" name="type" class="selectpicker form-control" data-style="py-0">
-                        <option hidden disabled selected value>Choose Semester</option>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option value='4'>4</option>
-                        <option value='5'>5</option>
-                        <option value='6'>6</option>
-                        <option value='7'>7</option>
-                        <option value='8'>8</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-label" for="selectedExamName">Exam: </label>
-                    <select id="selectedExamName" name="type" class="selectpicker form-control" data-style="py-0">
+                    <select id="selectedExamName" studentId=<?php echo $user_id ?> value="" name="type" class="selectpicker form-control" data-style="py-0">
                         <option hidden disabled selected value>Choose Exam</option>
                         <?php foreach ($exams as $exam) {
                         ?>
@@ -209,7 +178,6 @@ if ($result) {
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" id="editModalSaveBtn" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -226,7 +194,7 @@ if ($result) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
-                <button type="button" id="delConfirmBtn" data-bs-dismiss="modal" class="btn btn-danger">Yes</button>
+                <button type="button" id="delConfirmBtn" class="btn btn-danger">Yes</button>
             </div>
             <div id="DelResult"></div>
         </div>
@@ -235,82 +203,6 @@ if ($result) {
 
 <script>
     $(document).ready(function() {
-        function editBtnClick() {
-            $(".editBtn").click(function(e) {
-                // Converting rowData into array
-                var rowData = $(this).attr('rowData').replace(/\[|\]/g, '').split(',');
-                console.log(rowData[2]);
-                var gradeId = parseInt(rowData[0], 10);
-                var studentName = rowData[1];
-                var studentMark = rowData[2];
-                $('#studentNameEditField').val(studentName);
-                $('#markEditField').val(studentMark);
-
-                $('#editModalSaveBtn').unbind().click(function() {
-                    studentMark = $('#markEditField').val();
-                    $.ajax({
-                        url: '../functions.php',
-                        type: 'POST',
-                        data: {
-                            gradeId: gradeId,
-                            studentMark: studentMark,
-                            Function: "updateGrade",
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            if (response == "OK") {
-                                $("#editResult").html(`<div class="alert alert-success fade show" role="alert"> Mark successfully updated! </div>`);
-                                // window.location.href = "home.php";
-                            } else {
-                                $("#editResult").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
-                            }
-                            setTimeout(function() {
-                                $("#editResult").html('');
-                                // window.location.reload();
-                            $('#chooseClassBtn').click();
-                            }, 1000);
-                        }
-                    });
-                })
-            });
-        }
-        editBtnClick();
-
-        function deleteBtnClick(){
-            $(".deleteBtn").click(function(e) {
-                // Converting rowData into array
-                var gradeId = $(this).attr('gradeId');
-                console.log(gradeId);
-    
-                $('#delConfirmBtn').unbind().click(function() {
-                    $.ajax({
-                        url: '../functions.php',
-                        type: 'POST',
-                        data: {
-                            gradeId: gradeId,
-                            Function: "deleteGrade",
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            if (response == "OK") {
-                                $("#DelResult").html(`<div class="alert alert-success fade show" role="alert"> Successfully Deleted! </div>`);
-                                // window.location.href = "home.php";
-                            } else {
-                                $("#DelResult").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
-                            }
-                            setTimeout(function() {
-                                $("#DelResult").html('');
-                                // window.location.reload();
-                                $('#chooseClassBtn').click();
-                            }, 1000);
-                        }
-                    });
-                })
-            });
-        }
-
-        deleteBtnClick();
-
         $('#chooseClassBtn').click(function(e) {
             var isAnyFieldEmpty = 0;
             $('select').each(function(i, e) {
@@ -324,24 +216,17 @@ if ($result) {
                 }
             })
             if (isAnyFieldEmpty) return false;
-
-            var classData = $('#selectedClassForGrade').val();
-            var classData = classData.split(',');
-            var classId = classData[0];
-            var startingYear = classData[1];
-            var endingYear = classData[2];
-            var semester = $('#selectedSemester').val();
+            var studentId = $('#selectedExamName').attr('studentId');
             var examName = $('#selectedExamName').val();
-            console.log(examName);
+            // console.log(studentId);
 
             $.ajax({
                 url: '../functions.php',
                 type: 'POST',
                 data: {
-                    classId: classId,
-                    semester: semester,
+                    studentId: studentId,
                     examName: examName,
-                    Function: "filterManageClassPage"
+                    Function: "filterGradesPage"
                 },
                 success: function(responseMsg) {
                     responseMsg = responseMsg.split('|');
@@ -350,12 +235,9 @@ if ($result) {
                     console.log(response);
 
                     if (response == "OK") {
-                        $('#tableHeading').html(startingYear + " to " + endingYear + " batch, semester - " + semester + "<br />" + examName);
-                        $('#tableHeading').attr('classId', classId);
+                        $('#gradeTitle').html(examName);
+                        // $('#tableHeading').attr('classId', classId);
                         $('#tableBody').html(rows);
-                        editBtnClick();
-                        deleteBtnClick();
-
                         // window.location.href = "home.php";
                     } else {
                         $("#Result").html(`<div class="alert alert-danger fade show" role="alert"> ${response}</div>`);
@@ -365,7 +247,7 @@ if ($result) {
                     //     window.location.reload();
                     // }, 1000);
                 }
-            })
+            });
         })
     });
 </script>

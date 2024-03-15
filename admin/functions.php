@@ -1,5 +1,8 @@
 <?php
 session_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 include('../includes/conn.php');
 
 if (isset($_POST["Function"])) {
@@ -715,6 +718,27 @@ if (isset($_POST["Function"])) {
     }
 }
 
+// Delete grade
+
+
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "deleteGrade") {
+        $gradeId = $_POST["gradeId"];
+        function deleteGrade($gradeId)
+        {
+            global $conn;
+            $sql = "DELETE FROM erp_grade WHERE `erp_grade`.`gradeId` = $gradeId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+
+        echo deleteGrade($gradeId);
+    }
+}
+
 
 //  Profile update
 if (isset($_POST["Function"])) {
@@ -737,5 +761,81 @@ if (isset($_POST["Function"])) {
 
         echo updateProfile($fname, $lname, $email, $userId, $mobno);
     }
+}
+
+
+// Approve leave ID as admin
+
+if ($_POST["Function"] == "ApproveLeaveId") {
+    // execute SQL statement
+    $LeaveId = $_POST["LeaveId"];
+    $LeaveVal = $_POST["LeaveVal"];
+    $Approval = $_POST["Approval"];
+    $role = $_POST["role"];
+    $altStaffEmail = $_POST["altStaffEmail"];
+    $approverEmail = $_POST["approverEmail"];
+    $okayMsg = '';
+
+    if ($Approval == 'Approved') {
+        $sql = "UPDATE `erp_leave_alt` SET la_" . $role . "acpt = '$LeaveVal' WHERE `erp_leave_alt`.`lv_id` = $LeaveId;";
+        if (mysqli_query($conn, $sql)) { 
+            $okayMsg = 'OK';
+        } else {
+            $okayMsg .= "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+    } else if ($Approval == 'Denied') {
+        $sql = "DELETE FROM erp_leave_alt WHERE lv_id= $LeaveId";
+        if (mysqli_query($conn, $sql)) {
+            $okayMsg = 'OK';
+        } else {
+            $okayMsg .= "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+    }
+
+
+    // Email Snippet Starts
+
+    //Load Composer's autoloader
+    require '../vendor/autoload.php';
+    //Create an instance; passing `true` enables exceptions
+    $mail = new PHPMailer(true);
+    try {
+        //Server settings
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = 'cta102938@gmail.com';                     //SMTP username
+        $mail->Password   = 'btkovkokiqsiwyod';                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        //Recipients
+        $mail->setFrom('cta102938@gmail.com', 'CMS Leave Notification');
+        $mail->addAddress($altStaffEmail, 'Staff');     //Add a recipient
+        // $mail->addReplyTo('info@example.com', 'Information');
+        //Attachments
+        // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = '[CMS] Leave Request has been "' . $Approval . '".';
+        $mail->Body    = ' -';
+        $mail->AltBody = ' -';
+        $mail->send();
+        $emailResult = 'and a notification message has been sent';
+    } catch (Exception $e) {
+        $emailResult = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+
+    // Email snippet ends
+
+    $responseArray = [];
+    array_push($responseArray, $okayMsg);
+    array_push($responseArray, $emailResult);
+    $responseArray = json_encode($responseArray);
+
+    echo $responseArray;
+
+    // close database connection
+    mysqli_close($conn);
 }
 ?>
