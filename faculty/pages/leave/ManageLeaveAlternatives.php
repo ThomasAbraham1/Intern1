@@ -395,6 +395,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             $('#AlterationHour').on('change', function() {
                 var period = $("#AlterationHour").val();
                 var staffId = <?php echo $user_id ?>;
+                var date = $("#date").val();
                 console.log(staffId);
                 $.ajax({
                     url: '../../functions.php',
@@ -402,11 +403,12 @@ while ($row = mysqli_fetch_assoc($result)) {
                     data: {
                         period: period,
                         staffId: staffId,
+                        date: date,
                         Function: "AleternationHourDropdownChange"
                     },
                     success: function(response) {
-                        response = JSON.parse(response);
                         console.log(response);
+                        response = JSON.parse(response);
                         if (response[0] == "OK") {
                             console.log("Success");
                             $("#AlterationClass").append(response[1]);
@@ -435,7 +437,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                 var LeaveId = $("#LeaveId").val();
                 var date = $("#date").val();
 
-                console.log(AlterationHour + AlterationClass + AlerationStaff + LeaveId + '..'+ date);
+                console.log(AlterationHour + AlterationClass + AlerationStaff + LeaveId + '..' + date);
 
                 $.ajax({
                     url: '../../functions.php',

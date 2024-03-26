@@ -2,6 +2,20 @@
 include('../Includes/Header.php');
 include('includes/Menu.php');
 
+
+$sql = "SELECT * FROM erp_login";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    $students = array();
+    $staffs = array();
+    while ($row = $result->fetch_assoc()) {
+        if($row['role'] == 'student') $students[] = $row;
+        if($row['role'] == 'faculty') $staffs[] = $row;
+    }
+    $studentCount = count($students);
+    $staffCount = count($staffs);
+}
+
 ?>
 <div class="iq-navbar-header" style="height: 215px;">
     <div class="container-fluid iq-container">
@@ -41,9 +55,98 @@ include('includes/Menu.php');
     </div>
     <div class="card-header">
     </div>
-    <div class="card-body">
-        <div id="chart"></div>
+
+    <div class="row">
+        <div class="row m-1">
+            <div class="col">
+                <div class="card bg-soft-info">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="bg-soft-info rounded p-3">
+                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="text-end">
+                                <h2 class="counter"><?php echo $staffCount ?></h2>
+                                Staff Count
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-soft-warning">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="bg-soft-warning rounded p-3">
+                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="text-end">
+                                <h2 class="counter"><?php echo $studentCount ?></h2>
+                                Student Count
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class=" bg-soft-success rounded p-3">
+                                <svg class="icon-35" xmlns="http://www.w3.org/2000/svg" width="35px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h1 class="text-success counter">250M</h1>
+                                <p class="text-success mb-0">Students Fee Paid</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+
     </div>
+</div>
+
+
+<!-- <div class="card-body">
+        <div class="table-responsive mt-4">
+            <h3>Attendance</h3>
+            <table id="basic-table" class="table table-striped mb-0" role="grid">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Average %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <h6>Fix Platform Errors</h6>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center mb-2">
+                                <h6>100%</h6>
+                            </div>
+                            <div class="progress bg-soft-success shadow-none w-100" style="height: 6px">
+                                <div class="progress-bar bg-success" data-toggle="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div> -->
 </div>
 
 

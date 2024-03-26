@@ -97,9 +97,9 @@
                                  </div>
                                  <div class="col-lg-12">
                                  <div class="form-group">
-                                       <label for="password" class="form-label">Password</label>
-                                       <input type="password" class="form-control" name="password" id="password" data-parsley-trigger="change" aria-describedby="password" placeholder=" " required>
-                                    </div>
+                                                    <label for="password" class="form-label">Password</label>
+                                                    <input type="password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$" data-parsley-pattern-message="The password must include at least 1 upper case letter, 8 characters and a symbol" class="form-control" id="password" placeholder=" " required>
+                                                </div>
                                  </div>
                               </div>
                               <div class="d-flex justify-content-center">

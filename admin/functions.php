@@ -1,8 +1,10 @@
 <?php
 session_start();
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 include('../includes/conn.php');
 
 if (isset($_POST["Function"])) {
@@ -778,7 +780,7 @@ if ($_POST["Function"] == "ApproveLeaveId") {
 
     if ($Approval == 'Approved') {
         $sql = "UPDATE `erp_leave_alt` SET la_" . $role . "acpt = '$LeaveVal' WHERE `erp_leave_alt`.`lv_id` = $LeaveId;";
-        if (mysqli_query($conn, $sql)) { 
+        if (mysqli_query($conn, $sql)) {
             $okayMsg = 'OK';
         } else {
             $okayMsg .= "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -837,5 +839,34 @@ if ($_POST["Function"] == "ApproveLeaveId") {
 
     // close database connection
     mysqli_close($conn);
+}
+
+
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "updatePassword") {
+        $newPassword = $_POST["newPassword"];
+        $oldPassword = $_POST["oldPassword"];
+        $userId = $_POST["userId"];
+        function updatePassword($oldPassword, $newPassword, $userId)
+        {
+            global $conn;
+            $sql = "SELECT * FROM erp_login WHERE user_id='$userId'";
+            $result = mysqli_query($conn, $sql);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $hashedPassword = $row['log_pwd'];
+            }
+            if (!password_verify($oldPassword, $hashedPassword)) return "Invalid old password";
+            $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $sql = "UPDATE `erp_login` SET `log_pwd` = '$newPassword' WHERE `erp_login`.`user_id` = $userId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+
+        echo updatePassword($oldPassword, $newPassword, $userId);
+    }
 }
 ?>

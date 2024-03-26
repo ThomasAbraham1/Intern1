@@ -84,5 +84,5 @@ include('../includes/Menu.php');
     });
 </script>
 <?php
-include('/xampp/htdocs/Intern1/Includes/Footer.php');
+include($_SERVER['DOCUMENT_ROOT'] .'/Intern1/Includes/Footer.php');
 ?>

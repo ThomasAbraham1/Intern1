@@ -528,7 +528,9 @@ if (isset($_POST["Function"])) {
         // execute SQL statement
         $period = $_POST["period"];
         $staffId = $_POST["staffId"];
-        $day = strtolower(date('l'));
+        $date = $_POST["date"];
+        $timestamp = strtotime($date);
+        $day = date('l', $timestamp);
 
 
         $sql = "SELECT erp_subject.classId,department,course,semester FROM erp_subject INNER JOIN erp_timetable ON erp_subject.subjectCode = erp_timetable.subjectCode INNER JOIN erp_class ON erp_class.classId=erp_timetable.classId WHERE erp_subject.staffId = $staffId AND day='$day' AND period=$period;";
@@ -543,7 +545,7 @@ if (isset($_POST["Function"])) {
                 $TableRows[] = $classInfo;
             }
 
-            print_r(json_encode($TableRows));
+            echo (json_encode($TableRows));
 
             // close database connection
             mysqli_close($conn);
@@ -906,6 +908,35 @@ if (isset($_POST["Function"])) {
             return "|OK";
         }
         echo createLeaveAlterationForDifferentDates($date, $user_id, $LeaveId);
+    }
+}
+
+
+if (isset($_POST["Function"])) {
+    if ($_POST["Function"] == "updatePassword") {
+        $newPassword = $_POST["newPassword"];
+        $oldPassword = $_POST["oldPassword"];
+        $userId = $_POST["userId"];
+        function updatePassword($oldPassword, $newPassword, $userId)
+        {
+            global $conn;
+            $sql = "SELECT * FROM erp_login WHERE user_id='$userId'";
+            $result = mysqli_query($conn, $sql);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $hashedPassword = $row['log_pwd'];
+            }
+            if (!password_verify($oldPassword, $hashedPassword)) return "Invalid old password";
+            $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $sql = "UPDATE `erp_login` SET `log_pwd` = '$newPassword' WHERE `erp_login`.`user_id` = $userId";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) return "Error: " . $sql . "<br>" . $conn->error;
+            // close database connection
+            mysqli_close($conn);
+            return "OK";
+        }
+
+        echo updatePassword($oldPassword, $newPassword, $userId);
     }
 }
 
