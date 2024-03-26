@@ -251,6 +251,45 @@ if (isset($_SESSION['user_id'])) {
     </body>
 
     </html>
+
+    <!-- scripts -->
+
+
+    <!-- Library Bundle Script -->
+    <script src="/intern1/assets/js/core/libs.min.js"></script>
+
+    <!-- External Library Bundle Script -->
+    <script src="/intern1/assets/js/core/external.min.js"></script>
+
+    <!-- Widgetchart Script -->
+    <script src="/intern1/assets/js/charts/widgetcharts.js"></script>
+
+    <!-- mapchart Script -->
+    <script src="/intern1/assets/js/charts/vectore-chart.js"></script>
+    <script src="/intern1/assets/js/charts/apexchart.js"></script>
+    <script src="/intern1/assets/js/charts/dashboard.js"></script>
+
+    <!-- fslightbox Script -->
+    <script src="/intern1/assets/js/plugins/fslightbox.js"></script>
+
+    <!-- Settings Script -->
+    <script src="/intern1/assets/js/plugins/setting.js"></script>
+
+    <!-- Slider-tab Script -->
+    <script src="/intern1/assets/js/plugins/slider-tabs.js"></script>
+
+    <!-- Form Wizard Script -->
+    <script src="/intern1/assets/js/plugins/form-wizard.js"></script>
+
+    <!-- AOS Animation Plugin-->
+    <script src="/intern1/assets/vendor/aos/dist/aos.js"></script>
+
+    <!-- App Script -->
+    <script src="/intern1/assets/js/hope-ui.js" defer></script>
+
+    <!-- Parsley.js for form validation -->
+    <script src="/intern1/assets/js/parsley.js"></script>
+
 <?php
 } else {
     header("Location: /intern1/index.php");
