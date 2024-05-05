@@ -22,10 +22,12 @@ if (isset($_GET["leaveEndingDate"])) {
 // For the table
 
 $sql = "SELECT erp_leave_alt.f_id,erp_leave_alt.la_id, erp_leave_alt.la_date, erp_leave_alt.la_hour, la_principalacpt,la_hodacpt, la_staffacpt, erp_leave_alt.cls_id FROM `erp_leave_alt` JOIN erp_login on erp_leave_alt.f_id=erp_login.user_id WHERE erp_leave_alt.lv_id=" . $LeaveId . "";
+
+// The above qurey for ERP
+// SELECT erp_leave_alt.f_id,erp_leave_alt.la_id, erp_leave_alt.la_date, erp_leave_alt.la_hour, la_principalacpt,la_hodacpt, la_staffacpt, erp_leave_alt.cls_id FROM `erp_leave_alt` JOIN erp_faculty on erp_leave_alt.f_id=erp_faculty.f_id WHERE erp_leave_alt.lv_id=2
 $result = mysqli_query($conn, $sql);
 $alterationTableRows = array();
 while ($row = mysqli_fetch_assoc($result)) {
-
     array_push($alterationTableRows, $row);
 }
 
@@ -33,6 +35,8 @@ $timestamp = strtotime($leaveStartingDate);
 $day = date('l', $timestamp);
 // Select all classIds this person has periods in for the day
 $classIdsQuery = "SELECT erp_timetable.classId FROM erp_subject INNER JOIN erp_timetable ON erp_subject.subjectCode = erp_timetable.subjectCode INNER JOIN erp_class ON erp_class.classId=erp_timetable.classId WHERE erp_subject.staffId = $user_id AND day='$day'";
+// The above query for ERP
+// SELECT erp_timetable.cls_id FROM erp_subject INNER JOIN erp_timetable ON erp_subject.tt_subcode = erp_timetable.tt_subcode INNER JOIN erp_class ON erp_class.cls_id=erp_timetable.cls_id INNER JOIN erp_schedule ON erp_schedule.sc_id = erp_timetable.sc_id WHERE erp_subject.f_id = 'GCOE056' AND tt_day='Tuesday' AND (CURRENT_DATE BETWEEN erp_schedule.sc_frdate AND erp_schedule.sc_todate)
 $result = mysqli_query($conn, $classIdsQuery);
 $todayClassesToGoTo = array();
 while ($row = mysqli_fetch_assoc($result)) {
@@ -40,6 +44,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 // See all the periods that he has obligations to
 $periodsQuery = "SELECT period FROM erp_subject INNER JOIN erp_timetable ON erp_subject.subjectCode = erp_timetable.subjectCode INNER JOIN erp_class ON erp_class.classId=erp_timetable.classId WHERE erp_subject.staffId = $user_id AND day='$day'";
+// The above query for ERP
+// SELECT tt_period FROM erp_subject INNER JOIN erp_timetable ON erp_subject.tt_subcode = erp_timetable.tt_subcode INNER JOIN erp_class ON erp_class.cls_id=erp_timetable.cls_id INNER JOIN erp_schedule ON erp_schedule.sc_id = erp_timetable.sc_id WHERE erp_subject.f_id = 'GCOE056' AND tt_day='Tuesday' AND (CURRENT_DATE BETWEEN erp_schedule.sc_frdate AND erp_schedule.sc_todate)
 $result = mysqli_query($conn, $periodsQuery);
 $todayPeriodsToBeTaken = array();
 while ($row = mysqli_fetch_assoc($result)) {
@@ -47,13 +53,15 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 
-// Find the alternative subjects
+// Find the alternative staffs
 $sql = "SELECT * FROM erp_timetable INNER JOIN erp_subject ON erp_subject.subjectCode = erp_timetable.subjectCode INNER JOIN erp_login ON erp_login.user_id = erp_subject.staffId WHERE erp_timetable.classId IN ($classIdsQuery) AND period NOT IN ($periodsQuery) AND day='$day';";
 $result = mysqli_query($conn, $sql);
 $alterationStaffs = array();
 while ($row = mysqli_fetch_assoc($result)) {
     array_push($alterationStaffs, $row);
 }
+// The above query for ERp
+// SELECT * FROM erp_timetable INNER JOIN erp_subject ON erp_subject.tt_subcode = erp_timetable.tt_subcode INNER JOIN erp_faculty ON erp_faculty.f_id = erp_subject.f_id INNER JOIN erp_schedule ON erp_schedule.sc_id = erp_timetable.sc_id  WHERE erp_timetable.cls_id IN (SELECT erp_timetable.cls_id FROM erp_subject INNER JOIN erp_timetable ON erp_subject.tt_subcode = erp_timetable.tt_subcode INNER JOIN erp_class ON erp_class.cls_id=erp_timetable.cls_id INNER JOIN erp_schedule ON erp_schedule.sc_id = erp_timetable.sc_id WHERE erp_subject.f_id = 'GCOE056' AND tt_day='Tuesday' AND (CURRENT_DATE BETWEEN erp_schedule.sc_frdate AND erp_schedule.sc_todate)) AND tt_period NOT IN (SELECT tt_period FROM erp_subject INNER JOIN erp_timetable ON erp_subject.tt_subcode = erp_timetable.tt_subcode INNER JOIN erp_class ON erp_class.cls_id=erp_timetable.cls_id INNER JOIN erp_schedule ON erp_schedule.sc_id = erp_timetable.sc_id WHERE erp_subject.f_id = 'GCOE056' AND tt_day='Tuesday' AND (CURRENT_DATE BETWEEN erp_schedule.sc_frdate AND erp_schedule.sc_todate)) AND tt_day='Tuesday' AND (CURRENT_DATE BETWEEN erp_schedule.sc_frdate AND erp_schedule.sc_todate);
 
 
 // All users ( for getting all faculty )
@@ -63,6 +71,8 @@ $EventRows = array();
 while ($row = mysqli_fetch_assoc($result)) {
     array_push($EventRows, $row);
 }
+// The above query for ERP
+// SELECT * FROM erp_faculty
 
 
 

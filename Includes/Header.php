@@ -92,7 +92,7 @@ if (isset($_SESSION['user_id'])) {
 
   </head>
 
-  <body class="  ">
+  <body class="light theme-color-red">
     <!-- loader Start -->
     <!-- <div id="loading">
       <div class="loader simple-loader">

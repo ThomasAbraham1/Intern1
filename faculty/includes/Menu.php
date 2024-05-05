@@ -5,7 +5,7 @@ if (isset($_GET["Menu"])) {
   $Menu = "";
 }
 ?>
-<aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all ">
+<aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all sidebar-color sidebar-boxed">
   <div class="sidebar-header d-flex align-items-center justify-content-start">
     <a href="/intern1/faculty/home.php" class="navbar-brand">
       <!--Logo start-->
@@ -114,7 +114,7 @@ if (isset($_GET["Menu"])) {
           </a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/Intern1/faculty/pages/attendance.php">
+          <a class="nav-link <?php echo $Menu == "attendance" ? "active" : "" ?>" aria-current="page" href="/Intern1/faculty/pages/attendance.php?Menu=attendance">
             <i class="icon">
               <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M21.9964 8.37513H17.7618C15.7911 8.37859 14.1947 9.93514 14.1911 11.8566C14.1884 13.7823 15.7867 15.3458 17.7618 15.3484H22V15.6543C22 19.0136 19.9636 21 16.5173 21H7.48356C4.03644 21 2 19.0136 2 15.6543V8.33786C2 4.97862 4.03644 3 7.48356 3H16.5138C19.96 3 21.9964 4.97862 21.9964 8.33786V8.37513ZM6.73956 8.36733H12.3796H12.3831H12.3902C12.8124 8.36559 13.1538 8.03019 13.152 7.61765C13.1502 7.20598 12.8053 6.87318 12.3831 6.87491H6.73956C6.32 6.87664 5.97956 7.20858 5.97778 7.61852C5.976 8.03019 6.31733 8.36559 6.73956 8.36733Z" fill="currentColor"></path>
@@ -129,7 +129,7 @@ if (isset($_GET["Menu"])) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/Intern1/faculty/pages/markGrade.php">
+          <a class="nav-link <?php echo $Menu == "markGrade" ? "active" : "" ?>" aria-current="page" href="/Intern1/faculty/pages/markGrade.php?Menu=markGrade">
             <i class="icon">
               <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M21.9964 8.37513H17.7618C15.7911 8.37859 14.1947 9.93514 14.1911 11.8566C14.1884 13.7823 15.7867 15.3458 17.7618 15.3484H22V15.6543C22 19.0136 19.9636 21 16.5173 21H7.48356C4.03644 21 2 19.0136 2 15.6543V8.33786C2 4.97862 4.03644 3 7.48356 3H16.5138C19.96 3 21.9964 4.97862 21.9964 8.33786V8.37513ZM6.73956 8.36733H12.3796H12.3831H12.3902C12.8124 8.36559 13.1538 8.03019 13.152 7.61765C13.1502 7.20598 12.8053 6.87318 12.3831 6.87491H6.73956C6.32 6.87664 5.97956 7.20858 5.97778 7.61852C5.976 8.03019 6.31733 8.36559 6.73956 8.36733Z" fill="currentColor"></path>
@@ -144,7 +144,7 @@ if (isset($_GET["Menu"])) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/Intern1/faculty/pages/leave/ApplyLeave.php">
+          <a class="nav-link <?php echo $Menu == "ApplyLeave" ? "active" : "" ?>" aria-current="page" href="/Intern1/faculty/pages/leave/ApplyLeave.php?Menu=ApplyLeave">
             <i class="icon">
               <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M21.9964 8.37513H17.7618C15.7911 8.37859 14.1947 9.93514 14.1911 11.8566C14.1884 13.7823 15.7867 15.3458 17.7618 15.3484H22V15.6543C22 19.0136 19.9636 21 16.5173 21H7.48356C4.03644 21 2 19.0136 2 15.6543V8.33786C2 4.97862 4.03644 3 7.48356 3H16.5138C19.96 3 21.9964 4.97862 21.9964 8.33786V8.37513ZM6.73956 8.36733H12.3796H12.3831H12.3902C12.8124 8.36559 13.1538 8.03019 13.152 7.61765C13.1502 7.20598 12.8053 6.87318 12.3831 6.87491H6.73956C6.32 6.87664 5.97956 7.20858 5.97778 7.61852C5.976 8.03019 6.31733 8.36559 6.73956 8.36733Z" fill="currentColor"></path>
@@ -159,7 +159,7 @@ if (isset($_GET["Menu"])) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/Intern1/faculty/pages/leave/ManageLeave.php">
+          <a class="nav-link <?php echo $Menu == "ManageLeave" ? "active" : "" ?>" aria-current="page" href="/Intern1/faculty/pages/leave/ManageLeave.php?Menu=ManageLeave">
             <i class="icon">
               <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M21.9964 8.37513H17.7618C15.7911 8.37859 14.1947 9.93514 14.1911 11.8566C14.1884 13.7823 15.7867 15.3458 17.7618 15.3484H22V15.6543C22 19.0136 19.9636 21 16.5173 21H7.48356C4.03644 21 2 19.0136 2 15.6543V8.33786C2 4.97862 4.03644 3 7.48356 3H16.5138C19.96 3 21.9964 4.97862 21.9964 8.33786V8.37513ZM6.73956 8.36733H12.3796H12.3831H12.3902C12.8124 8.36559 13.1538 8.03019 13.152 7.61765C13.1502 7.20598 12.8053 6.87318 12.3831 6.87491H6.73956C6.32 6.87664 5.97956 7.20858 5.97778 7.61852C5.976 8.03019 6.31733 8.36559 6.73956 8.36733Z" fill="currentColor"></path>
@@ -174,7 +174,7 @@ if (isset($_GET["Menu"])) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/Intern1/faculty/pages/leave/ManageLeaveRequests.php">
+          <a class="nav-link <?php echo $Menu == "ManageLeaveRequests" ? "active" : "" ?>" aria-current="page" href="/Intern1/faculty/pages/leave/ManageLeaveRequests.php?Menu=ManageLeaveRequests">
             <i class="icon">
               <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M21.9964 8.37513H17.7618C15.7911 8.37859 14.1947 9.93514 14.1911 11.8566C14.1884 13.7823 15.7867 15.3458 17.7618 15.3484H22V15.6543C22 19.0136 19.9636 21 16.5173 21H7.48356C4.03644 21 2 19.0136 2 15.6543V8.33786C2 4.97862 4.03644 3 7.48356 3H16.5138C19.96 3 21.9964 4.97862 21.9964 8.33786V8.37513ZM6.73956 8.36733H12.3796H12.3831H12.3902C12.8124 8.36559 13.1538 8.03019 13.152 7.61765C13.1502 7.20598 12.8053 6.87318 12.3831 6.87491H6.73956C6.32 6.87664 5.97956 7.20858 5.97778 7.61852C5.976 8.03019 6.31733 8.36559 6.73956 8.36733Z" fill="currentColor"></path>
@@ -786,7 +786,7 @@ if (isset($_GET["Menu"])) {
 <main class="main-content">
   <div class="position-relative iq-banner">
     <!--Nav Start-->
-    <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar">
+    <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar nav-glass">
       <div class="container-fluid navbar-inner">
         <a href="dashboard/index.html" class="navbar-brand">
           <!--Logo start-->
