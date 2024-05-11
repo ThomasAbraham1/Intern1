@@ -182,7 +182,7 @@
             </div>
         </section>
 
-        <?php include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/indexHeader.php');?>
+        <?php include( $_SERVER['DOCUMENT_ROOT'] . '/Intern1/Includes/indexFooter.php');?>
 
     </div>
 

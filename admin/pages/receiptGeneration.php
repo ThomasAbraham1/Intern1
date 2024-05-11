@@ -50,8 +50,8 @@ if ($result) {
             <div class="col-md-12">
                 <div class="flex-wrap d-flex justify-content-between align-items-center">
                     <div>
-                        <h1>Manage Fees</h1>
-                        <p>Fees can be managed here, edited or deleted.</p>
+                        <h1>Receipt Generation</h1>
+                        <p>Receipts for fee payments can be generated here.</p>
                     </div>
                     <!-- Button on the header -->
                     <!-- <div>

@@ -5,7 +5,7 @@ if (isset($_GET["Menu"])) {
   $Menu = "";
 }
 ?>
-<aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all sidebar-color sidebar-boxed">
+<aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all sidebar-color">
   <div class="sidebar-header d-flex align-items-center justify-content-start">
     <a href="/intern1/admin/home.php" class="navbar-brand">
       <!--Logo start-->
